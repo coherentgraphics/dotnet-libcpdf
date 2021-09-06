@@ -14,9 +14,12 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
         [DllImport("libcpdf.so")] static extern void cpdf_clearError();
         [DllImport("libcpdf.so")] static extern void cpdf_onExit();
-
+        /* CHAPTER 1. Basics */
+        [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
+        [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
         static void Main(string[] args)
         {
+            /* CHAPTER 0. Preliminaries */
             IntPtr[] camlargs = {};
             cpdf_startup(camlargs);
             Console.WriteLine(Marshal.PtrToStringAuto(cpdf_version()));
@@ -25,6 +28,11 @@ namespace dotnet_libcpdf
             //Console.WriteLine("lastError = %i\n", cpdf_lastError());
             //Console.WriteLine("lastErrorString = %s\n", Marshal.PtrToStringAuto(cpdf_lastErrorString()));
             cpdf_onExit();
+            /* CHAPTER 1. Basics */
+            int pdf = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            int cpdf_false = 0;
+            int cpdf_true = 1;
+            cpdf_toFile(pdf, "testoutputs/out.pdf", cpdf_false, cpdf_true);
         }
     }
 }
