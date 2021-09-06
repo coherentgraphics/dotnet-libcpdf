@@ -20,6 +20,19 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
+        [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_replacePdf(int pdf, int pdf2);
+        [DllImport("libcpdf.so")] static extern int cpdf_startEnumeratePDFs();
+        [DllImport("libcpdf.so")] static extern int cpdf_enumeratePDFsKey(int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_enumeratePDFsInfo(int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_endEnumeratePDFs();
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfCm(double i);
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfMm(double i);
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfIn(double i);
+        [DllImport("libcpdf.so")] static extern double cpdf_cmOfPt(double i);
+        [DllImport("libcpdf.so")] static extern double cpdf_mmOfPt(double i);
+        [DllImport("libcpdf.so")] static extern double cpdf_inOfPt(double i);
+
         static void Main(string[] args)
         {
             int cpdf_false = 0;
@@ -61,6 +74,21 @@ namespace dotnet_libcpdf
             cpdf_toFile(pdf3, "testoutputs/blank.pdf", cpdf_false, cpdf_true);
             cpdf_toFile(pdf4, "testoutputs/blankpaper.pdf", cpdf_false, cpdf_true);
             cpdf_toFile(pdf, "testoutputs/out.pdf", cpdf_false, cpdf_true);
+            cpdf_deletePdf(pdf);
+            cpdf_replacePdf(pdf3, pdf4);
+            int n = cpdf_startEnumeratePDFs();
+            for (int x = 0; x < n; x++)
+            {
+               int key = cpdf_enumeratePDFsKey(x);
+               string info = Marshal.PtrToStringAuto(cpdf_enumeratePDFsInfo(x));
+            }
+            cpdf_endEnumeratePDFs();
+            Console.WriteLine("{0:N}", cpdf_ptOfCm(1.0));
+            Console.WriteLine("{0:N}", cpdf_ptOfMm(1.0));
+            Console.WriteLine("{0:N}", cpdf_ptOfIn(1.0));
+            Console.WriteLine("{0:N}", cpdf_cmOfPt(1.0));
+            Console.WriteLine("{0:N}", cpdf_mmOfPt(1.0));
+            Console.WriteLine("{0:N}", cpdf_inOfPt(1.0));
         }
     }
 }
