@@ -32,6 +32,25 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern double cpdf_cmOfPt(double i);
         [DllImport("libcpdf.so")] static extern double cpdf_mmOfPt(double i);
         [DllImport("libcpdf.so")] static extern double cpdf_inOfPt(double i);
+        [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
+        [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_range(int f, int t);
+        [DllImport("libcpdf.so")] static extern int cpdf_all(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_even(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_odd(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeUnion(int a, int b);
+        [DllImport("libcpdf.so")] static extern int cpdf_difference(int a, int b);
+        [DllImport("libcpdf.so")] static extern int cpdf_removeDuplicates(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeLength(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int page);
+        [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
+        [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
+        /* CHAPTER 2. Merging and Splitting */
 
         static void Main(string[] args)
         {
@@ -89,6 +108,21 @@ namespace dotnet_libcpdf
             Console.WriteLine("{0:N}", cpdf_cmOfPt(1.0));
             Console.WriteLine("{0:N}", cpdf_mmOfPt(1.0));
             Console.WriteLine("{0:N}", cpdf_inOfPt(1.0));
+            int r = cpdf_parsePagespec(pdf3, "1-2,5-end");
+            int valid = cpdf_validatePagespec("1-2");
+            Console.WriteLine(Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf3, r)));
+            int b = cpdf_blankRange();
+            cpdf_deleteRange(b);
+            int range = cpdf_range(1, 10);
+            int all = cpdf_all(pdf3);
+            int even = cpdf_even(all);
+            int odd = cpdf_odd(all);
+            int union = cpdf_rangeUnion(even, odd);
+            int diff = cpdf_difference(even, odd);
+            int revdup = cpdf_removeDuplicates(even);
+            int length = cpdf_rangeLength(even);
+            int rangeget = cpdf_rangeGet(even, 1);
+            int isin = cpdf_isInRange(even, 2);
         }
     }
 }
