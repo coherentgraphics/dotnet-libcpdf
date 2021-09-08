@@ -14,10 +14,12 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
         [DllImport("libcpdf.so")] static extern void cpdf_clearError();
         [DllImport("libcpdf.so")] static extern void cpdf_onExit();
+
         /* CHAPTER 1. Basics */
         [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
         [DllImport("libcpdf.so")] static extern int cpdf_fromFileLazy(string filename, string userpw);
-        [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
+        //FIXME fromMemory
+        //FIXME fromMemoryLazy
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
         [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
@@ -50,6 +52,20 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
         [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
         [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
+        [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
+        [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
+        //FIXME toMemory
+        [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_decryptPdf(int pdf, string userpw);
+        [DllImport("libcpdf.so")] static extern void cpdf_decryptPdfOwner(int pdf, string ownerpw);
+        //FIXME [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int *permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
+        //FIXME [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int *permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
+        [DllImport("libcpdf.so")] static extern void cpdf_hasPermission(int pdf, int permission);
+        [DllImport("libcpdf.so")] static extern int cpdf_encryptionKind(int pdf);
+
+
+        
+
         /* CHAPTER 2. Merging and Splitting */
 
         static void Main(string[] args)
@@ -73,6 +89,24 @@ namespace dotnet_libcpdf
             int cpdf_usletterlandscape = 13;
             int cpdf_uslegalportrait = 14;
             int cpdf_uslegallandscape = 15;
+
+            int cpdf_noEdit = 0;
+            int cpdf_noPrint = 1;
+            int cpdf_noCopy = 2;
+            int cpdf_noAnnot = 3;
+            int cpdf_noForms = 4;
+            int cpdf_noExtract = 5;
+            int cpdf_noAssemble = 6;
+            int cpdf_noHqPrint = 7;
+
+            int cpdf_pdf40bit = 0;
+            int cpdf_pdf128bit = 1;
+            int cpdf_aes128bitfalse = 2;
+            int cpdf_aes128bittrue = 3;
+            int cpdf_aes256bitfalse = 4;
+            int cpdf_aes256bittrue = 5;
+            int cpdf_aes256bitisofalse = 6;
+            int cpdf_aes256bitisotrue = 7;
 
             /* CHAPTER 0. Preliminaries */
             IntPtr[] camlargs = {};
