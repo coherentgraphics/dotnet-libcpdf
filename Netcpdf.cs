@@ -60,13 +60,56 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdfOwner(int pdf, string ownerpw);
         //FIXME [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int *permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
         //FIXME [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int *permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
-        [DllImport("libcpdf.so")] static extern void cpdf_hasPermission(int pdf, int permission);
+        [DllImport("libcpdf.so")] static extern int cpdf_hasPermission(int pdf, int permission);
         [DllImport("libcpdf.so")] static extern int cpdf_encryptionKind(int pdf);
 
-
-        
-
         /* CHAPTER 2. Merging and Splitting */
+        //FIXME mergeSimple
+        //FIXME merge
+        //FIXME mergeSame
+        [DllImport("libcpdf.so")] static extern int cpdf_selectPages(int pdf, int r);
+
+        /* CHAPTER 3. Pages */
+        [DllImport("libcpdf.so")] static extern void cpdf_scalePages(int pdf, int range, double sx, double sy);
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleToFit(int pdf, int range, double sx, double sy, double scale);
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleToFitPaper(int pdf, int range, int pagesize, double scale);
+        //FIXME scaleContents (position)
+        [DllImport("libcpdf.so")] static extern void cpdf_shiftContents(int pdf, int range, double dx, double dy);
+        [DllImport("libcpdf.so")] static extern void cpdf_rotate(int pdf, int range, int rotation);
+        [DllImport("libcpdf.so")] static extern void cpdf_rotateBy(int pdf, int range, int rotation);
+        [DllImport("libcpdf.so")] static extern void cpdf_rotateContents(int pdf, int range, double angle);
+        [DllImport("libcpdf.so")] static extern void cpdf_upright(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_hFlip(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_vFlip(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_crop(int pdf, int range, double x, double y, double w, double h);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeCrop(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeTrim(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeArt(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeBleed(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_trimMarks(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_showBoxes(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_hardBox(int pdf, int range, string boxname);
+        
+        /* CHAPTER 4. Encryption */
+
+        /* Encryption covered under Chapter 1 in cpdflib. */
+
+
+        /* CHAPTER 5. Compression */
+        [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_uncompress(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_squeezeInMemory(int pdf);
+
+        /* CHAPTER 6. Bookmarks */
+        [DllImport("libcpdf.so")] static extern void cpdf_startGetBookmarkInfo(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_numberBookmarks();
+        [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkLevel(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkPage(int pdf, int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetBookmarkInfo();
+
+
 
         static void Main(string[] args)
         {
@@ -108,6 +151,20 @@ namespace dotnet_libcpdf
             int cpdf_aes256bitisofalse = 6;
             int cpdf_aes256bitisotrue = 7;
 
+            int cpdf_posCentre = 0;
+            int cpdf_posLeft = 1;
+            int cpdf_posRight = 2;
+            int cpdf_top = 3;
+            int cpdf_topLeft = 4;
+            int cpdf_topRight = 5;
+            int cpdf_left = 6;
+            int cpdf_bottomLeft = 7;
+            int cpdf_bottom = 8;
+            int cpdf_bottomRight = 9;
+            int cpdf_right = 10;
+            int cpdf_diagonal = 11;
+            int cpdf_reverseDiagonal = 12;
+
             /* CHAPTER 0. Preliminaries */
             IntPtr[] camlargs = {};
             cpdf_startup(camlargs);
@@ -117,6 +174,7 @@ namespace dotnet_libcpdf
             //Console.WriteLine("lastError = %i\n", cpdf_lastError());
             //Console.WriteLine("lastErrorString = %s\n", Marshal.PtrToStringAuto(cpdf_lastErrorString()));
             cpdf_onExit();
+
             /* CHAPTER 1. Basics */
             int pdf = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
             int pdf2 = cpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
@@ -157,6 +215,23 @@ namespace dotnet_libcpdf
             int length = cpdf_rangeLength(even);
             int rangeget = cpdf_rangeGet(even, 1);
             int isin = cpdf_isInRange(even, 2);
+            int pdf10 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            int pages = cpdf_pages(pdf10);
+            int pagesfast = cpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
+            cpdf_toFile(pdf10, "testoutputs/even.pdf", cpdf_false, cpdf_true);
+            cpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", cpdf_false, cpdf_true, cpdf_true, cpdf_true, cpdf_true);
+            int isenc = cpdf_isEncrypted(pdf10);
+            cpdf_decryptPdf(pdf10, "");
+            cpdf_decryptPdfOwner(pdf10, "");
+            int hasnoedit = cpdf_hasPermission(pdf10, cpdf_noEdit);
+            int enckind = cpdf_encryptionKind(pdf10);
+
+            /* CHAPTER 2. Merging and Splitting */
+            int pdf11 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            int pdf12 = cpdf_selectPages(pdf11, even);
+            cpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", cpdf_false, cpdf_true);
+
+            /* CHAPTER 3. Pages */
         }
     }
 }
