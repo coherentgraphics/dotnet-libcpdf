@@ -91,9 +91,7 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern void cpdf_hardBox(int pdf, int range, string boxname);
         
         /* CHAPTER 4. Encryption */
-
         /* Encryption covered under Chapter 1 in cpdflib. */
-
 
         /* CHAPTER 5. Compression */
         [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
@@ -108,9 +106,108 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
         [DllImport("libcpdf.so")] static extern void cpdf_endGetBookmarkInfo();
+        [DllImport("libcpdf.so")] static extern void cpdf_startSetBookmarkInfo(int nummarks);
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkLevel(int n, int level);
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkPage(int pdf, int n, int targetpage);
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkOpenStatus(int n, int status);
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkText(int n, string text);
+        [DllImport("libcpdf.so")] static extern void cpdf_endSetBookmarkInfo(int pdf);
+
+        /* CHAPTER 7. Presentations */
+        /* Not included in the library version. */
+
+        /* CHAPTER 8. Logos, Watermarks and Stamps */
+        [DllImport("libcpdf.so")] static extern void cpdf_stampOn(int stamp_pdf, int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_stampUnder(int stamp_pdf, int pdf, int range);
+        //FIXME cpdf_stampExtended needs position struct
+        [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
+        //FIXME addtext position
+        //FIXME addtextSimple position
+        [DllImport("libcpdf.so")] static extern int cpdf_removeText(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
+        [DllImport("libcpdf.so")] static extern int cpdf_addContent(string content, int before, int range, int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_stampAsXObject(int pdf, int range, int stamp_pdf);
+
+        /* CHAPTER 9. Multipage facilities */
+        [DllImport("libcpdf.so")] static extern void cpdf_twoUp(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_twoUpStack(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_padBefore(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_padAfter(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_padEvery(int pdf, int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_padMultiple(int pdf, int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_padMultipleBefore(int pdf, int n);
+
+        /* CHAPTER 10. Annotations */
+        /* Not in the library version */
+
+        /* CHAPTER 11. Document Information and Metadata */
+        [DllImport("libcpdf.so")] static extern int cpdf_isLinearized(string filename);
+        [DllImport("libcpdf.so")] static extern int cpdf_getVersion(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_getMajorVersion(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitle(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthor(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywords(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreator(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducer(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDate(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDate(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitleXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthorXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubjectXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywordsXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreatorXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducerXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDateXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDateXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_setTitle(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setAuthor(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setSubject(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setKeywords(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setCreator(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setProducer(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setCreationDate(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setModificationDate(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setTitleXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setAuthorXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setSubjectXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setKeywordsXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setCreatorXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setProducerXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setCreationDateXMP(int pdf, string s);
+        [DllImport("libcpdf.so")] static extern void cpdf_setModificationDateXMP(int pdf, string s);
+        //FIXME getDateComponents
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec);
+        [DllImport("libcpdf.so")] static extern int cpdf_getPageRotation(int pdf, int pagenumber);
+        [DllImport("libcpdf.so")] static extern int cpdf_hasBox(int pdf, int pagenumber, string boxname);
+        //FIXME getMediaBox etc. pass by ref
+        [DllImport("libcpdf.so")] static extern void cpdf_setMediaBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
+        [DllImport("libcpdf.so")] static extern void cpdf_setCropBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
+        [DllImport("libcpdf.so")] static extern void cpdf_setTrimBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
+        [DllImport("libcpdf.so")] static extern void cpdf_setArtBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
+        [DllImport("libcpdf.so")] static extern void cpdf_setBleedBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
+        [DllImport("libcpdf.so")] static extern void cpdf_markTrapped(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_marUntrapped(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_markTrappedXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_markUntrappedXMP(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
+        [DllImport("libcpdf.so")] static extern void cpdf_setPageMode(int pdf, int mode);
+        [DllImport("libcpdf.so")] static extern void cpdf_hideToolbar(int pdf, int flag);
+        [DllImport("libcpdf.so")] static extern void cpdf_hideMenubar(int pdf, int flag);
+        [DllImport("libcpdf.so")] static extern void cpdf_hideWindowUi(int pdf, int flag);
+        [DllImport("libcpdf.so")] static extern void cpdf_fitWindow(int pdf, int flag);
+        [DllImport("libcpdf.so")] static extern void cpdf_centerWindow(int pdf, int flag);
+        [DllImport("libcpdf.so")] static extern void cpdf_displayDocTitle(int pdf, int flag);
+        [DllImport("libcpdf.so")] static extern void cpdf_openAtPage(int pdf, int fit, int pagenumber);
+        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromFile(int pdf, string filename);
+        //FIXME setMetadataFromByteArray
+        //FIXME getMetadata
+        [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_createMetadata(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
 
 
-
+ 
         static void Main(string[] args)
         {
             int cpdf_false = 0;
@@ -164,6 +261,42 @@ namespace dotnet_libcpdf
             int cpdf_right = 10;
             int cpdf_diagonal = 11;
             int cpdf_reverseDiagonal = 12;
+
+            int cpdf_timesRoman = 0;
+            int cpdf_timesBold = 1;
+            int cpdf_timesItalic = 2;
+            int cpdf_timesBoldItalic = 3;
+            int cpdf_helvetica = 4;
+            int cpdf_helveticaBold = 5;
+            int cpdf_helveticaOblique = 6;
+            int cpdf_helveticaBoldOblique = 7;
+            int cpdf_courier = 8;
+            int cpdf_courierBold = 9;
+            int cpdf_courierOblique = 10;
+            int cpdf_courierBoldOblique = 11;
+
+            int cpdf_leftJustify = 0;
+            int cpdf_CentreJustify = 1;
+            int cpdf_RightJustify = 2;
+
+            int cpdf_singlePage = 0;
+            int cpdf_oneColumn = 1;
+            int cpdf_twoColumnLeft = 2;
+            int cpdf_twoColumnRight = 3;
+            int cpdf_twoPageLeft = 4;
+            int cpdf_twoPageRight = 5;
+
+            int cpdf_useNone = 0;
+            int cpdf_useOutlines = 1;
+            int cpdf_useThumbs = 2;
+            int cpdf_useOC = 3;
+            int cpdf_useAttachments = 4;
+
+            int cpdf_decimalArabic = 0;
+            int cpdf_uppercaseRoman = 1;
+            int cpdf_lowercaseRoman = 2;
+            int cpdf_uppercaseLetters = 4;
+            int cpdf_lowercaseLetters = 5;
 
             /* CHAPTER 0. Preliminaries */
             IntPtr[] camlargs = {};
