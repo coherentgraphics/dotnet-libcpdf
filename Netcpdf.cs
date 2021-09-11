@@ -254,7 +254,29 @@ namespace dotnet_libcpdf
 
 
         /* CHAPTER 16. Optional Content Groups */
+        [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList();
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetOCGList();
+        [DllImport("libcpdf.so")] static extern void cpdf_OCGRename(int pdf, string name_from, string name_to);
+        [DllImport("libcpdf.so")] static extern void cpdf_OCGOrderAll(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_OCGCoalesce(int pdf);
+
  
+        /* CHAPTER 17. Miscellaneous */
+        [DllImport("libcpdf.so")] static extern void cpdf_draft(int pdf, int range, int boxes);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeAllText(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_blackText(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_blackLines(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_blackFills(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_thinLines(int pdf, int range, double min_thickness);
+        [DllImport("libcpdf.so")] static extern void cpdf_copyId(int pdf_from, int pdf_to);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeId(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_setVersion(int pdf, int version);
+        [DllImport("libcpdf.so")] static extern void cpdf_setFullVersion(int pdf, int major, int minor);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntry(int pdf, string key);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
+
+
         static void Main(string[] args)
         {
             int cpdf_false = 0;
