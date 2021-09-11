@@ -205,8 +205,55 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
         [DllImport("libcpdf.so")] static extern void cpdf_createMetadata(int pdf);
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
+        [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int range, int progress);
+        [DllImport("libcpdf.so")] static extern void cpdf_removePageLabels(int pdf);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPaegLabelStringForPage(int pdf, int pagenumber);
+        [DllImport("libcpdf.so")] static extern void cpdf_startGetPageLabels(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelStyle(int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelPrefix(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelOffset(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelRange(int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetpageLabels();
+
+        /* CHAPTER 12. File Attachments */
+        [DllImport("libcpdf.so")] static extern void cpdf_attachFile(string filename, int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPage(string filename, int pdf, int pagenumber);
+        //FIXME cpdf_attachFileFromMemory / cpdf_attachFileToPageFromMemory
+        [DllImport("libcpdf.so")] static extern void cpdf_removeAttachedFiles(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_startGetAttachments(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_numberGetAttachments();
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentName(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getAttachmentPage(int n);
+        //FIXME cpdf_getAttachmentData
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetAttachments();
+
+        /* CHAPTER 13. Images. */
+        [DllImport("libcpdf.so")] static extern int cpdf_startGetImageResolution(int pdf, double min_required_resolution);
+        [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionPageNumber(int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getImageResolutionImageName(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionXPixels(int n);
+        [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionYPixels(int n);
+        [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionXRes(int n);
+        [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionYRes(int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetImageResolution();
+
+        /* CHAPTER 14. Fonts. */
+        [DllImport("libcpdf.so")] static extern void cpdf_startGetFontInfo(int pdf);
+        [DllImport("libcpdf.so")] static extern int cpdf_numberFonts();
+        [DllImport("libcpdf.so")] static extern int cpdf_getFontPage(int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
+        [DllImport("libcpdf.so")] static extern void cpdf_removeFonts(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_copyFonts(int docfrom, int docto, int range, int pagenumber, string fontname);
 
 
+        /* CHAPTER 15. PDF and JSON */
+        [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf);
+
+
+        /* CHAPTER 16. Optional Content Groups */
  
         static void Main(string[] args)
         {
