@@ -123,9 +123,9 @@ namespace dotnet_libcpdf
         [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
         //FIXME addtext position
         //FIXME addtextSimple position
-        [DllImport("libcpdf.so")] static extern int cpdf_removeText(int pdf, int range);
+        [DllImport("libcpdf.so")] static extern void cpdf_removeText(int pdf, int range);
         [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
-        [DllImport("libcpdf.so")] static extern int cpdf_addContent(string content, int before, int range, int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_addContent(string content, int before, int range, int pdf);
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_stampAsXObject(int pdf, int range, int stamp_pdf);
 
         /* CHAPTER 9. Multipage facilities */
@@ -484,6 +484,27 @@ namespace dotnet_libcpdf
             cpdf_setBookmarkText(0, "The text");
             cpdf_endSetBookmarkInfo(pdf17);
         
+        
+            /* CHAPTER 8. Logos, Watermarks and Stamps */
+            int pdf20 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            int pdf21 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_stampOn(pdf20, pdf21, cpdf_all(pdf20));
+            cpdf_stampUnder(pdf20, pdf21, cpdf_all(pdf20));
+            cpdf_combinePages(pdf20, pdf21);
+            cpdf_removeText(pdf20, cpdf_all(pdf20));
+            int w = cpdf_textWidth(cpdf_timesBoldItalic, "foo");
+            string name = Marshal.PtrToStringAuto(cpdf_stampAsXObject(pdf20, cpdf_all(pdf20), pdf20));
+        
+            /* CHAPTER 9. Multipage facilities */
+            int pdf19 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_twoUp(pdf19);
+            cpdf_twoUpStack(pdf19);
+            cpdf_padBefore(pdf19, cpdf_all(pdf19));
+            cpdf_padAfter(pdf19, cpdf_all(pdf19));
+            cpdf_padEvery(pdf19, 6);
+            cpdf_padMultiple(pdf19, 6);
+            cpdf_padMultipleBefore(pdf19, 7);
+
             /* CHAPTER 15. PDF and JSON */
             int pdf14 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
             cpdf_outputJSON("testoutputs/foo.json", cpdf_false, cpdf_true, pdf14);
@@ -500,8 +521,21 @@ namespace dotnet_libcpdf
             cpdf_OCGRename(pdf13, "From", "To");
             cpdf_OCGOrderAll(pdf13);
             cpdf_OCGCoalesce(pdf13);
-
-
+        
+            /* CHAPTER 17. Miscellaneous */
+            int pdf22 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_draft(pdf22, cpdf_all(pdf22), cpdf_false);
+            cpdf_removeAllText(pdf22, cpdf_all(pdf22));
+            cpdf_blackText(pdf22, cpdf_all(pdf22));
+            cpdf_blackLines(pdf22, cpdf_all(pdf22));
+            cpdf_blackFills(pdf22, cpdf_all(pdf22));
+            cpdf_thinLines(pdf22, cpdf_all(pdf22), 1.0);
+            cpdf_copyId(pdf22, pdf22);
+            cpdf_removeId(pdf22);
+            cpdf_setVersion(pdf22, 2);
+            cpdf_setFullVersion(pdf22, 2, 0);
+            cpdf_removeDictEntry(pdf22, "/Foo");
+            cpdf_removeClipping(pdf22, cpdf_all(pdf22));
         }
     }
 }
