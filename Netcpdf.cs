@@ -95,7 +95,7 @@ namespace dotnet_libcpdf
 
         /* CHAPTER 5. Compression */
         [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
-        [DllImport("libcpdf.so")] static extern void cpdf_uncompress(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_decompress(int pdf);
         [DllImport("libcpdf.so")] static extern void cpdf_squeezeInMemory(int pdf);
 
         /* CHAPTER 6. Bookmarks */
@@ -254,7 +254,7 @@ namespace dotnet_libcpdf
 
 
         /* CHAPTER 16. Optional Content Groups */
-        [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList();
+        [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList(int pdf);
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
         [DllImport("libcpdf.so")] static extern void cpdf_endGetOCGList();
         [DllImport("libcpdf.so")] static extern void cpdf_OCGRename(int pdf, string name_from, string name_to);
@@ -434,6 +434,74 @@ namespace dotnet_libcpdf
             cpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", cpdf_false, cpdf_true);
 
             /* CHAPTER 3. Pages */
+            int pdf15 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_scalePages(pdf15, cpdf_all(pdf15), 1.3, 1.5);
+            cpdf_scaleToFit(pdf15, cpdf_all(pdf15), 200.0, 300.0, 0.9);
+            cpdf_scaleToFitPaper(pdf15, cpdf_all(pdf15), cpdf_a4landscape, 0.9);
+            cpdf_shiftContents(pdf15, cpdf_all(pdf15), 1.5, 0.9);
+            cpdf_rotate(pdf15, cpdf_all(pdf15), 90);
+            cpdf_rotateBy(pdf15, cpdf_all(pdf15), 90);
+            cpdf_rotateContents(pdf15, cpdf_all(pdf15), 45.0);
+            cpdf_upright(pdf15, cpdf_all(pdf15));
+            cpdf_hFlip(pdf15, cpdf_all(pdf15));
+            cpdf_vFlip(pdf15, cpdf_all(pdf15));
+            cpdf_crop(pdf15, cpdf_all(pdf15), 100.0, 100.0, 200.0, 200.0);
+            cpdf_removeCrop(pdf15, cpdf_all(pdf15));
+            cpdf_removeTrim(pdf15, cpdf_all(pdf15));
+            cpdf_removeArt(pdf15, cpdf_all(pdf15));
+            cpdf_removeBleed(pdf15, cpdf_all(pdf15));
+            cpdf_trimMarks(pdf15, cpdf_all(pdf15));
+            cpdf_showBoxes(pdf15, cpdf_all(pdf15));
+            cpdf_hardBox(pdf15, cpdf_all(pdf15), "/MediaBox");
+
+            /* CHAPTER 4. Encryption */
+            /* Encryption covered under Chapter 1 in cpdflib. */
+
+            /* CHAPTER 5. Compression */
+            int pdf16 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_compress(pdf16);
+            cpdf_decompress(pdf16);
+            cpdf_squeezeInMemory(pdf16);
+            
+            /* CHAPTER 6. Bookmarks */
+            int pdf17 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_startGetBookmarkInfo(pdf17);
+            int nb = cpdf_numberBookmarks();
+            for (int b2 = 0; b2 < nb; b2++)
+            {
+              int level = cpdf_getBookmarkLevel(b2);
+              int page = cpdf_getBookmarkPage(pdf17, b2);
+              string text = Marshal.PtrToStringAuto(cpdf_getBookmarkText(b2));
+              int open = cpdf_getBookmarkOpenStatus(b2);
+              Console.WriteLine($"{level} {page} {text} {open}", level, page, text, open);
+            }
+            cpdf_endGetBookmarkInfo();
+
+            cpdf_startSetBookmarkInfo(1);
+            cpdf_setBookmarkLevel(0, 0);
+            cpdf_setBookmarkPage(pdf17, 0, 1);
+            cpdf_setBookmarkOpenStatus(0, 0);
+            cpdf_setBookmarkText(0, "The text");
+            cpdf_endSetBookmarkInfo(pdf17);
+        
+            /* CHAPTER 15. PDF and JSON */
+            int pdf14 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            cpdf_outputJSON("testoutputs/foo.json", cpdf_false, cpdf_true, pdf14);
+
+
+            /* CHAPTER 16. Optional Content Groups */
+            int pdf13 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+            int n2 = cpdf_startGetOCGList(pdf13);
+            for(int x = 0; x < n2; x++)
+            {
+              Console.WriteLine(Marshal.PtrToStringAuto(cpdf_OCGListEntry(x)));
+            }
+            cpdf_endGetOCGList();
+            cpdf_OCGRename(pdf13, "From", "To");
+            cpdf_OCGOrderAll(pdf13);
+            cpdf_OCGCoalesce(pdf13);
+
+
         }
     }
 }
