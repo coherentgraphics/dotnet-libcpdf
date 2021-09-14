@@ -246,7 +246,7 @@ class Program
     [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
     [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
     [DllImport("libcpdf.so")] static extern void cpdf_removeFonts(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_copyFonts(int docfrom, int docto, int range, int pagenumber, string fontname);
+    [DllImport("libcpdf.so")] static extern void cpdf_copyFont(int docfrom, int docto, int range, int pagenumber, string fontname);
 
 
     /* CHAPTER 15. PDF and JSON */
@@ -582,6 +582,46 @@ class Program
           int lab_range = cpdf_getPageLabelRange(plsc);
         }
         cpdf_endGetPageLabels();
+
+        /* CHAPTER 12. File Attachments */
+        cpdf_attachFile("testinputs/cpdflibmanual.pdf", pdf30);
+        cpdf_attachFileToPage("testinputs/cpdflibmanual.pdf", pdf30, 1);
+        cpdf_removeAttachedFiles(pdf30);
+        cpdf_startGetAttachments(pdf30);
+        int n_a = cpdf_numberGetAttachments();
+        for (int aa = 0; aa < n_a; aa++)
+        {
+          string a_n = Marshal.PtrToStringAuto(cpdf_getAttachmentName(aa));
+          int a_page = cpdf_getAttachmentPage(aa);
+        }
+        cpdf_endGetAttachments();
+
+        /* CHAPTER 13. Images. */
+        int im_n = cpdf_startGetImageResolution(pdf30, 2.0);
+        for (int im = 0; im < im_n; im++)
+        {
+          int im_p = cpdf_getImageResolutionPageNumber(im);
+          string im_name = Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(im));
+          int im_xp = cpdf_getImageResolutionXPixels(im);
+          int im_yp = cpdf_getImageResolutionYPixels(im);
+          double im_xres = cpdf_getImageResolutionXRes(im);
+          double im_yres = cpdf_getImageResolutionYRes(im);
+        }
+        cpdf_endGetImageResolution();
+
+        /* CHAPTER 14. Fonts. */
+        cpdf_startGetFontInfo(pdf30);
+        int fonts = cpdf_numberFonts();
+        for (int ff = 0; ff < fonts; ff++)
+        {
+          int page = cpdf_getFontPage(ff);
+          string f_name = Marshal.PtrToStringAuto(cpdf_getFontName(ff));
+          string type = Marshal.PtrToStringAuto(cpdf_getFontType(ff));
+          string encoding = Marshal.PtrToStringAuto(cpdf_getFontEncoding(ff));
+        }
+        cpdf_endGetFontInfo();
+        cpdf_removeFonts(pdf30);
+        cpdf_copyFont(pdf30, pdf30, cpdf_all(pdf30), 1, "/Font");
 
         /* CHAPTER 15. PDF and JSON */
         int pdf14 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
