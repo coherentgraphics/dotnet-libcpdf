@@ -3,3 +3,4 @@ rm -rf bin
 rm -rf obj
 rm -f foo foo2
 rm -rf testoutputs/*.pdf testoutputs/*.json testoutputs/*.txt
+rm -f *.orig
