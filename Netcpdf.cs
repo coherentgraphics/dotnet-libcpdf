@@ -5,15 +5,61 @@ namespace dotnet_libcpdf
 {
 class Program
 {
+    /* Our imports. We must wrap them up for string conversions, error handling
+     * and conversions between ranges and lists */
+
     /* CHAPTER 0. Preliminaries */
-    [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] ptr);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
-    [DllImport("libcpdf.so")] static extern void cpdf_setFast();
-    [DllImport("libcpdf.so")] static extern void cpdf_setSlow();
-    [DllImport("libcpdf.so")] static extern int cpdf_lastError();
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
-    [DllImport("libcpdf.so")] static extern void cpdf_clearError();
-    [DllImport("libcpdf.so")] static extern void cpdf_onExit();
+
+    public static void netcpdf_startup(string[] argv)
+    {
+      //FIXME Actually convert and pass the args
+      [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] ptr);
+      IntPtr[] args = {};
+      cpdf_startup(args);
+    }
+
+    public static string netcpdf_version()
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
+      return Marshal.PtrToStringAuto(cpdf_version());
+    }
+
+    public static void netcpdf_setFast()
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setFast();
+      cpdf_setFast();
+    }
+
+    public static void netcpdf_setSlow()
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setSlow();
+      cpdf_setSlow();
+    }
+
+    public static int netcpdf_lastError()
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_lastError();
+      return cpdf_lastError();
+    }
+
+    public static string netcpdf_lastErrorString()
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
+      return Marshal.PtrToStringAuto(cpdf_lastErrorString());
+    }
+
+    public static void netcpdf_clearError()
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_clearError();
+      cpdf_clearError();
+    }
+
+    public static void netcpdf_onExit()
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_onExit();
+      cpdf_onExit();
+    }
+
 
     /* CHAPTER 1. Basics */
     [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
@@ -368,14 +414,14 @@ class Program
         int cpdf_lowercaseLetters = 5;
 
         /* CHAPTER 0. Preliminaries */
-        IntPtr[] camlargs = {};
-        cpdf_startup(camlargs);
-        Console.WriteLine(Marshal.PtrToStringAuto(cpdf_version()));
-        cpdf_setSlow();
-        cpdf_setFast();
+        string[] argv = new string[] { };
+        netcpdf_startup(argv); //FIXME real argv
+        netcpdf_version();
+        netcpdf_setSlow();
+        netcpdf_setFast();
         //Console.WriteLine("lastError = %i\n", cpdf_lastError());
         //Console.WriteLine("lastErrorString = %s\n", Marshal.PtrToStringAuto(cpdf_lastErrorString()));
-        cpdf_onExit();
+        netcpdf_onExit();
 
         /* CHAPTER 1. Basics */
         int pdf = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
