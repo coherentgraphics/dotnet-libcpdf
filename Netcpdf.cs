@@ -334,43 +334,178 @@ class Program
     }
 
     /* CHAPTER 6. Bookmarks */
-    [DllImport("libcpdf.so")] static extern void cpdf_startGetBookmarkInfo(int pdf);
-    [DllImport("libcpdf.so")] static extern int cpdf_numberBookmarks();
-    [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkLevel(int n);
-    [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkPage(int pdf, int n);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
-    [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_endGetBookmarkInfo();
-    [DllImport("libcpdf.so")] static extern void cpdf_startSetBookmarkInfo(int nummarks);
-    [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkLevel(int n, int level);
-    [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkPage(int pdf, int n, int targetpage);
-    [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkOpenStatus(int n, int status);
-    [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkText(int n, string text);
-    [DllImport("libcpdf.so")] static extern void cpdf_endSetBookmarkInfo(int pdf);
+    public static void netcpdf_startGetBookmarkInfo(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_startGetBookmarkInfo(int pdf);
+        cpdf_startGetBookmarkInfo(pdf);
+    }
+
+    public static int netcpdf_numberBookmarks()
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_numberBookmarks();
+        return cpdf_numberBookmarks();
+    }
+
+    public static int netcpdf_getBookmarkLevel(int n)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkLevel(int n);
+        return cpdf_getBookmarkLevel(n);
+    }
+
+    public static int netcpdf_getBookmarkPage(int pdf, int n)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkPage(int pdf, int n);
+        return cpdf_getBookmarkPage(pdf, n);
+    }
+
+    public static string netcpdf_getBookmarkText(int n)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
+        return Marshal.PtrToStringAuto(cpdf_getBookmarkText(n));
+    }
+
+    public static int netcpdf_getBookmarkOpenStatus(int n)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
+        return cpdf_getBookmarkOpenStatus(n);
+    }
+
+    public static void netcpdf_endGetBookmarkInfo()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetBookmarkInfo();
+        cpdf_endGetBookmarkInfo();
+    }
+
+    public static void netcpdf_startSetBookmarkInfo(int nummarks)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_startSetBookmarkInfo(int nummarks);
+        cpdf_startSetBookmarkInfo(nummarks);
+    }
+
+    public static void netcpdf_setBookmarkLevel(int n, int level)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkLevel(int n, int level);
+        cpdf_setBookmarkLevel(n, level);
+    }
+
+    public static void netcpdf_setBookmarkPage(int pdf, int n, int targetpage)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkPage(int pdf, int n, int targetpage);
+        cpdf_setBookmarkPage(pdf, n, targetpage);
+    }
+
+    public static void netcpdf_setBookmarkOpenStatus(int n, int status)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkOpenStatus(int n, int status);
+        cpdf_setBookmarkOpenStatus(n, status);
+    }
+
+    public static void netcpdf_setBookmarkText(int n, string text)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkText(int n, string text);
+        cpdf_setBookmarkText(n, text);
+    }
+
+    public static void netcpdf_endSetBookmarkInfo(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_endSetBookmarkInfo(int pdf);
+        cpdf_endSetBookmarkInfo(pdf);
+    }
 
     /* CHAPTER 7. Presentations */
     /* Not included in the library version. */
 
     /* CHAPTER 8. Logos, Watermarks and Stamps */
-    [DllImport("libcpdf.so")] static extern void cpdf_stampOn(int stamp_pdf, int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_stampUnder(int stamp_pdf, int pdf, int range);
+
+    public static void netcpdf_stampOn(int stamp_pdf, int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_stampOn(int stamp_pdf, int pdf, int range);
+        cpdf_stampOn(stamp_pdf, pdf, range);
+    }
+
+    public static void netcpdf_stampUnder(int stamp_pdf, int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_stampUnder(int stamp_pdf, int pdf, int range);
+        cpdf_stampUnder(stamp_pdf, pdf, range);
+    }
+
     //FIXME cpdf_stampExtended needs position struct
-    [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
+
+    public static void netcpdf_combinePages(int under, int over)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
+        cpdf_combinePages(under, over);
+    }
+
     //FIXME addtext position
     //FIXME addtextSimple position
-    [DllImport("libcpdf.so")] static extern void cpdf_removeText(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
-    [DllImport("libcpdf.so")] static extern void cpdf_addContent(string content, int before, int range, int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_stampAsXObject(int pdf, int range, int stamp_pdf);
+
+    public static void netcpdf_removeText(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeText(int pdf, int range);
+        cpdf_removeText(pdf, range);
+    }
+
+    public static int netcpdf_textWidth(int font, string text)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
+        return cpdf_textWidth(font, text);
+    }
+
+    public static void netcpdf_addContent(string content, int before, int range, int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_addContent(string content, int before, int range, int pdf);
+        cpdf_addContent(content, before, range, pdf);
+    }
+
+    public static string netcpdf_stampAsXObject(int pdf, int range, int stamp_pdf)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_stampAsXObject(int pdf, int range, int stamp_pdf);
+        return Marshal.PtrToStringAuto(cpdf_stampAsXObject(pdf, range, stamp_pdf));
+    }
 
     /* CHAPTER 9. Multipage facilities */
-    [DllImport("libcpdf.so")] static extern void cpdf_twoUp(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_twoUpStack(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_padBefore(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_padAfter(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_padEvery(int pdf, int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_padMultiple(int pdf, int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_padMultipleBefore(int pdf, int n);
+    static public void netcpdf_twoUp(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_twoUp(int pdf);
+        cpdf_twoUp(pdf);
+    }
+
+    static public void netcpdf_twoUpStack(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_twoUpStack(int pdf);
+        cpdf_twoUpStack(pdf);
+    }
+
+    static public void netcpdf_padBefore(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_padBefore(int pdf, int range);
+        cpdf_padBefore(pdf, range);
+    }
+
+    static public void netcpdf_padAfter(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_padAfter(int pdf, int range);
+        cpdf_padAfter(pdf, range);
+    }
+
+    static public void netcpdf_padEvery(int pdf, int n)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_padEvery(int pdf, int n);
+        cpdf_padEvery(pdf, n);
+    }
+
+    static public void netcpdf_padMultiple(int pdf, int n)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_padMultiple(int pdf, int n);
+        cpdf_padMultiple(pdf, n);
+    }
+
+    static public void netcpdf_padMultipleBefore(int pdf, int n)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_padMultipleBefore(int pdf, int n);
+        cpdf_padMultipleBefore(pdf, n);
+    }
 
     /* CHAPTER 10. Annotations */
     /* Not in the library version */
@@ -493,27 +628,115 @@ class Program
 
 
     /* CHAPTER 16. Optional Content Groups */
-    [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_endGetOCGList();
-    [DllImport("libcpdf.so")] static extern void cpdf_OCGRename(int pdf, string name_from, string name_to);
-    [DllImport("libcpdf.so")] static extern void cpdf_OCGOrderAll(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_OCGCoalesce(int pdf);
+    public static int netcpdf_startGetOCGList(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList(int pdf);
+        return cpdf_startGetOCGList(pdf);
+    }
+
+    public static string netcpdf_OCGListEntry(int n)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
+        return Marshal.PtrToStringAuto(cpdf_OCGListEntry(n));
+    }
+
+    public static void netcpdf_endGetOCGList()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_endGetOCGList();
+        cpdf_endGetOCGList();
+    }
+
+    public static void netcpdf_OCGRename(int pdf, string name_from, string name_to)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_OCGRename(int pdf, string name_from, string name_to);
+        cpdf_OCGRename(pdf, name_from, name_to);
+    }
+
+    public static void netcpdf_OCGOrderAll(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_OCGOrderAll(int pdf);
+        cpdf_OCGOrderAll(pdf);
+    }
+
+    public static void netcpdf_OCGCoalesce(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_OCGCoalesce(int pdf);
+        cpdf_OCGCoalesce(pdf);
+    }
 
 
     /* CHAPTER 17. Miscellaneous */
-    [DllImport("libcpdf.so")] static extern void cpdf_draft(int pdf, int range, int boxes);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeAllText(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_blackText(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_blackLines(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_blackFills(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_thinLines(int pdf, int range, double min_thickness);
-    [DllImport("libcpdf.so")] static extern void cpdf_copyId(int pdf_from, int pdf_to);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeId(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_setVersion(int pdf, int version);
-    [DllImport("libcpdf.so")] static extern void cpdf_setFullVersion(int pdf, int major, int minor);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntry(int pdf, string key);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
+    public static void netcpdf_draft(int pdf, int range, int boxes)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_draft(int pdf, int range, int boxes);
+        cpdf_draft(pdf, range, boxes);
+    }
+
+    public static void netcpdf_removeAllText(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeAllText(int pdf, int range);
+        cpdf_removeAllText(pdf, range);
+    }
+
+    public static void netcpdf_blackText(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_blackText(int pdf, int range);
+        cpdf_blackText(pdf, range);
+    }
+
+    public static void netcpdf_blackLines(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_blackLines(int pdf, int range);
+        cpdf_blackLines(pdf, range);
+    }
+
+    public static void netcpdf_blackFills(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_blackFills(int pdf, int range);
+        cpdf_blackFills(pdf, range);
+    }
+
+    public static void netcpdf_thinLines(int pdf, int range, double min_thickness)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_thinLines(int pdf, int range, double min_thickness);
+        cpdf_thinLines(pdf, range, min_thickness);
+    }
+
+    public static void netcpdf_copyId(int pdf_from, int pdf_to)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_copyId(int pdf_from, int pdf_to);
+        cpdf_copyId(pdf_from, pdf_to);
+    }
+
+    public static void netcpdf_removeId(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeId(int pdf);
+        cpdf_removeId(pdf);
+    }
+
+    public static void netcpdf_setVersion(int pdf, int version)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setVersion(int pdf, int version);
+        cpdf_setVersion(pdf, version);
+    }
+
+    public static void netcpdf_setFullVersion(int pdf, int major, int minor)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setFullVersion(int pdf, int major, int minor);
+        cpdf_setFullVersion(pdf, major, minor);
+    }
+
+    public static void netcpdf_removeDictEntry(int pdf, string key)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntry(int pdf, string key);
+        cpdf_removeDictEntry(pdf, key);
+    }
+
+    public static void netcpdf_removeClipping(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
+        cpdf_removeClipping(pdf, range);
+    }
 
     static void Main(string[] args)
     {
@@ -616,24 +839,24 @@ class Program
 
         /* CHAPTER 6. Bookmarks */
         int pdf17 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_startGetBookmarkInfo(pdf17);
-        int nb = cpdf_numberBookmarks();
+        netcpdf_startGetBookmarkInfo(pdf17);
+        int nb = netcpdf_numberBookmarks();
         for (int b2 = 0; b2 < nb; b2++)
         {
-            int level = cpdf_getBookmarkLevel(b2);
-            int page = cpdf_getBookmarkPage(pdf17, b2);
-            string text = Marshal.PtrToStringAuto(cpdf_getBookmarkText(b2));
-            int open = cpdf_getBookmarkOpenStatus(b2);
+            int level = netcpdf_getBookmarkLevel(b2);
+            int page = netcpdf_getBookmarkPage(pdf17, b2);
+            string text = netcpdf_getBookmarkText(b2);
+            int open = netcpdf_getBookmarkOpenStatus(b2);
             Console.WriteLine($"{level} {page} {text} {open}", level, page, text, open);
         }
-        cpdf_endGetBookmarkInfo();
+        netcpdf_endGetBookmarkInfo();
 
-        cpdf_startSetBookmarkInfo(1);
-        cpdf_setBookmarkLevel(0, 0);
-        cpdf_setBookmarkPage(pdf17, 0, 1);
-        cpdf_setBookmarkOpenStatus(0, 0);
-        cpdf_setBookmarkText(0, "The text");
-        cpdf_endSetBookmarkInfo(pdf17);
+        netcpdf_startSetBookmarkInfo(1);
+        netcpdf_setBookmarkLevel(0, 0);
+        netcpdf_setBookmarkPage(pdf17, 0, 1);
+        netcpdf_setBookmarkOpenStatus(0, 0);
+        netcpdf_setBookmarkText(0, "The text");
+        netcpdf_endSetBookmarkInfo(pdf17);
 
         /* CHAPTER 7. Presentations */
         /* Not included in the library version. */
@@ -641,22 +864,22 @@ class Program
         /* CHAPTER 8. Logos, Watermarks and Stamps */
         int pdf20 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf21 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_stampOn(pdf20, pdf21, cpdf_all(pdf20));
-        cpdf_stampUnder(pdf20, pdf21, cpdf_all(pdf20));
-        cpdf_combinePages(pdf20, pdf21);
-        cpdf_removeText(pdf20, cpdf_all(pdf20));
-        int w = cpdf_textWidth(netcpdf_timesBoldItalic, "foo");
-        string name = Marshal.PtrToStringAuto(cpdf_stampAsXObject(pdf20, cpdf_all(pdf20), pdf20));
+        netcpdf_stampOn(pdf20, pdf21, cpdf_all(pdf20));
+        netcpdf_stampUnder(pdf20, pdf21, cpdf_all(pdf20));
+        netcpdf_combinePages(pdf20, pdf21);
+        netcpdf_removeText(pdf20, cpdf_all(pdf20));
+        int w = netcpdf_textWidth(netcpdf_timesBoldItalic, "foo");
+        string name = netcpdf_stampAsXObject(pdf20, cpdf_all(pdf20), pdf20);
 
         /* CHAPTER 9. Multipage facilities */
         int pdf19 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_twoUp(pdf19);
-        cpdf_twoUpStack(pdf19);
-        cpdf_padBefore(pdf19, cpdf_all(pdf19));
-        cpdf_padAfter(pdf19, cpdf_all(pdf19));
-        cpdf_padEvery(pdf19, 6);
-        cpdf_padMultiple(pdf19, 6);
-        cpdf_padMultipleBefore(pdf19, 7);
+        netcpdf_twoUp(pdf19);
+        netcpdf_twoUpStack(pdf19);
+        netcpdf_padBefore(pdf19, cpdf_all(pdf19));
+        netcpdf_padAfter(pdf19, cpdf_all(pdf19));
+        netcpdf_padEvery(pdf19, 6);
+        netcpdf_padMultiple(pdf19, 6);
+        netcpdf_padMultipleBefore(pdf19, 7);
 
         /* CHAPTER 10. Annotations */
         /* Not in the library version */
@@ -783,30 +1006,30 @@ class Program
 
         /* CHAPTER 16. Optional Content Groups */
         int pdf13 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int n2 = cpdf_startGetOCGList(pdf13);
+        int n2 = netcpdf_startGetOCGList(pdf13);
         for(int x = 0; x < n2; x++)
         {
-            Console.WriteLine(Marshal.PtrToStringAuto(cpdf_OCGListEntry(x)));
+            Console.WriteLine(netcpdf_OCGListEntry(x));
         }
-        cpdf_endGetOCGList();
-        cpdf_OCGRename(pdf13, "From", "To");
-        cpdf_OCGOrderAll(pdf13);
-        cpdf_OCGCoalesce(pdf13);
+        netcpdf_endGetOCGList();
+        netcpdf_OCGRename(pdf13, "From", "To");
+        netcpdf_OCGOrderAll(pdf13);
+        netcpdf_OCGCoalesce(pdf13);
 
         /* CHAPTER 17. Miscellaneous */
         int pdf22 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_draft(pdf22, cpdf_all(pdf22), netcpdf_false);
-        cpdf_removeAllText(pdf22, cpdf_all(pdf22));
-        cpdf_blackText(pdf22, cpdf_all(pdf22));
-        cpdf_blackLines(pdf22, cpdf_all(pdf22));
-        cpdf_blackFills(pdf22, cpdf_all(pdf22));
-        cpdf_thinLines(pdf22, cpdf_all(pdf22), 1.0);
-        cpdf_copyId(pdf22, pdf22);
-        cpdf_removeId(pdf22);
-        cpdf_setVersion(pdf22, 2);
-        cpdf_setFullVersion(pdf22, 2, 0);
-        cpdf_removeDictEntry(pdf22, "/Foo");
-        cpdf_removeClipping(pdf22, cpdf_all(pdf22));
+        netcpdf_draft(pdf22, cpdf_all(pdf22), netcpdf_false);
+        netcpdf_removeAllText(pdf22, cpdf_all(pdf22));
+        netcpdf_blackText(pdf22, cpdf_all(pdf22));
+        netcpdf_blackLines(pdf22, cpdf_all(pdf22));
+        netcpdf_blackFills(pdf22, cpdf_all(pdf22));
+        netcpdf_thinLines(pdf22, cpdf_all(pdf22), 1.0);
+        netcpdf_copyId(pdf22, pdf22);
+        netcpdf_removeId(pdf22);
+        netcpdf_setVersion(pdf22, 2);
+        netcpdf_setFullVersion(pdf22, 2, 0);
+        netcpdf_removeDictEntry(pdf22, "/Foo");
+        netcpdf_removeClipping(pdf22, cpdf_all(pdf22));
     }
 }
 }
