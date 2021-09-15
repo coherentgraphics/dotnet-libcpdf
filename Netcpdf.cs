@@ -291,25 +291,115 @@ class Program
     }
 
     /* CHAPTER 3. Pages */
-    [DllImport("libcpdf.so")] static extern void cpdf_scalePages(int pdf, int range, double sx, double sy);
-    [DllImport("libcpdf.so")] static extern void cpdf_scaleToFit(int pdf, int range, double sx, double sy, double scale);
-    [DllImport("libcpdf.so")] static extern void cpdf_scaleToFitPaper(int pdf, int range, int pagesize, double scale);
+    public static void netcpdf_scalePages(int pdf, int range, double sx, double sy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_scalePages(int pdf, int range, double sx, double sy);
+        cpdf_scalePages(pdf, range, sx, sy);
+    }
+
+    public static void netcpdf_scaleToFit(int pdf, int range, double sx, double sy, double scale)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleToFit(int pdf, int range, double sx, double sy, double scale);
+        cpdf_scaleToFit(pdf, range, sx, sy, scale);
+    }
+
+    public static void netcpdf_scaleToFitPaper(int pdf, int range, int pagesize, double scale)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleToFitPaper(int pdf, int range, int pagesize, double scale);
+        cpdf_scaleToFitPaper(pdf, range, pagesize, scale);
+    }
+
     //FIXME scaleContents (position)
-    [DllImport("libcpdf.so")] static extern void cpdf_shiftContents(int pdf, int range, double dx, double dy);
-    [DllImport("libcpdf.so")] static extern void cpdf_rotate(int pdf, int range, int rotation);
-    [DllImport("libcpdf.so")] static extern void cpdf_rotateBy(int pdf, int range, int rotation);
-    [DllImport("libcpdf.so")] static extern void cpdf_rotateContents(int pdf, int range, double angle);
-    [DllImport("libcpdf.so")] static extern void cpdf_upright(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_hFlip(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_vFlip(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_crop(int pdf, int range, double x, double y, double w, double h);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeCrop(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeTrim(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeArt(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_removeBleed(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_trimMarks(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_showBoxes(int pdf, int range);
-    [DllImport("libcpdf.so")] static extern void cpdf_hardBox(int pdf, int range, string boxname);
+
+    public static void netcpdf_shiftContents(int pdf, int range, double dx, double dy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_shiftContents(int pdf, int range, double dx, double dy);
+        cpdf_shiftContents(pdf, range, dx, dy);
+    }
+
+    public static void netcpdf_rotate(int pdf, int range, int rotation)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_rotate(int pdf, int range, int rotation);
+        cpdf_rotate(pdf, range, rotation);
+    }
+
+    public static void netcpdf_rotateBy(int pdf, int range, int rotation)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_rotateBy(int pdf, int range, int rotation);
+        cpdf_rotateBy(pdf, range, rotation);
+    }
+
+    public static void netcpdf_rotateContents(int pdf, int range, double angle)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_rotateContents(int pdf, int range, double angle);
+        cpdf_rotateContents(pdf, range, angle);
+    }
+
+    public static void netcpdf_upright(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_upright(int pdf, int range);
+        cpdf_upright(pdf, range);
+    }
+
+    public static void netcpdf_hFlip(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_hFlip(int pdf, int range);
+        cpdf_hFlip(pdf, range);
+    }
+
+    public static void netcpdf_vFlip(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_vFlip(int pdf, int range);
+        cpdf_vFlip(pdf, range);
+    }
+
+    public static void netcpdf_crop(int pdf, int range, double x, double y, double w, double h)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_crop(int pdf, int range, double x, double y, double w, double h);
+        cpdf_crop(pdf, range, x, y, w, h);
+    }
+
+    public static void netcpdf_removeCrop(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeCrop(int pdf, int range);
+        cpdf_removeCrop(pdf, range);
+    }
+
+    public static void netcpdf_removeTrim(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeTrim(int pdf, int range);
+        cpdf_removeTrim(pdf, range);
+    }
+
+    public static void netcpdf_removeArt(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeArt(int pdf, int range);
+        cpdf_removeArt(pdf, range);
+    }
+
+    public static void netcpdf_removeBleed(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeBleed(int pdf, int range);
+        cpdf_removeBleed(pdf, range);
+    }
+
+    public static void netcpdf_trimMarks(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_trimMarks(int pdf, int range);
+        cpdf_trimMarks(pdf, range);
+    }
+
+    public static void netcpdf_showBoxes(int pdf, int range)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_showBoxes(int pdf, int range);
+        cpdf_showBoxes(pdf, range);
+    }
+
+    public static void netcpdf_hardBox(int pdf, int range, string boxname)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_hardBox(int pdf, int range, string boxname);
+        cpdf_hardBox(pdf, range, boxname);
+    }
 
     /* CHAPTER 4. Encryption */
     /* Encryption covered under Chapter 1 in cpdflib. */
@@ -809,24 +899,24 @@ class Program
 
         /* CHAPTER 3. Pages */
         int pdf15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_scalePages(pdf15, cpdf_all(pdf15), 1.3, 1.5);
-        cpdf_scaleToFit(pdf15, cpdf_all(pdf15), 200.0, 300.0, 0.9);
-        cpdf_scaleToFitPaper(pdf15, cpdf_all(pdf15), netcpdf_a4landscape, 0.9);
-        cpdf_shiftContents(pdf15, cpdf_all(pdf15), 1.5, 0.9);
-        cpdf_rotate(pdf15, cpdf_all(pdf15), 90);
-        cpdf_rotateBy(pdf15, cpdf_all(pdf15), 90);
-        cpdf_rotateContents(pdf15, cpdf_all(pdf15), 45.0);
-        cpdf_upright(pdf15, cpdf_all(pdf15));
-        cpdf_hFlip(pdf15, cpdf_all(pdf15));
-        cpdf_vFlip(pdf15, cpdf_all(pdf15));
-        cpdf_crop(pdf15, cpdf_all(pdf15), 100.0, 100.0, 200.0, 200.0);
-        cpdf_removeCrop(pdf15, cpdf_all(pdf15));
-        cpdf_removeTrim(pdf15, cpdf_all(pdf15));
-        cpdf_removeArt(pdf15, cpdf_all(pdf15));
-        cpdf_removeBleed(pdf15, cpdf_all(pdf15));
-        cpdf_trimMarks(pdf15, cpdf_all(pdf15));
-        cpdf_showBoxes(pdf15, cpdf_all(pdf15));
-        cpdf_hardBox(pdf15, cpdf_all(pdf15), "/MediaBox");
+        netcpdf_scalePages(pdf15, cpdf_all(pdf15), 1.3, 1.5);
+        netcpdf_scaleToFit(pdf15, cpdf_all(pdf15), 200.0, 300.0, 0.9);
+        netcpdf_scaleToFitPaper(pdf15, cpdf_all(pdf15), netcpdf_a4landscape, 0.9);
+        netcpdf_shiftContents(pdf15, cpdf_all(pdf15), 1.5, 0.9);
+        netcpdf_rotate(pdf15, cpdf_all(pdf15), 90);
+        netcpdf_rotateBy(pdf15, cpdf_all(pdf15), 90);
+        netcpdf_rotateContents(pdf15, cpdf_all(pdf15), 45.0);
+        netcpdf_upright(pdf15, cpdf_all(pdf15));
+        netcpdf_hFlip(pdf15, cpdf_all(pdf15));
+        netcpdf_vFlip(pdf15, cpdf_all(pdf15));
+        netcpdf_crop(pdf15, cpdf_all(pdf15), 100.0, 100.0, 200.0, 200.0);
+        netcpdf_removeCrop(pdf15, cpdf_all(pdf15));
+        netcpdf_removeTrim(pdf15, cpdf_all(pdf15));
+        netcpdf_removeArt(pdf15, cpdf_all(pdf15));
+        netcpdf_removeBleed(pdf15, cpdf_all(pdf15));
+        netcpdf_trimMarks(pdf15, cpdf_all(pdf15));
+        netcpdf_showBoxes(pdf15, cpdf_all(pdf15));
+        netcpdf_hardBox(pdf15, cpdf_all(pdf15), "/MediaBox");
 
         /* CHAPTER 4. Encryption */
         /* Encryption covered under Chapter 1 in cpdflib. */
