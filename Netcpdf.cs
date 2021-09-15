@@ -5,84 +5,252 @@ namespace dotnet_libcpdf
 {
 class Program
 {
-    /* Our imports. We must wrap them up for string conversions, error handling
-     * and conversions between ranges and lists */
+    static int netcpdf_false = 0;
+    static int netcpdf_true = 1;
+
+    static int netcpdf_a0portrait = 0;
+    static int netcpdf_a1portrait = 1;
+    static int netcpdf_a2portrait = 2;
+    static int netcpdf_a3portrait = 3;
+    static int netcpdf_a4portrait = 4;
+    static int netcpdf_a5portrait = 5;
+    static int netcpdf_a0landscape = 6;
+    static int netcpdf_a1landscape = 7;
+    static int netcpdf_a2landscape = 8;
+    static int netcpdf_a3landscape = 9;
+    static int netcpdf_a4landscape = 10;
+    static int netcpdf_a5landscape = 11;
+    static int netcpdf_usletterportrait = 12;
+    static int netcpdf_usletterlandscape = 13;
+    static int netcpdf_uslegalportrait = 14;
+    static int netcpdf_uslegallandscape = 15;
+
+    static int netcpdf_noEdit = 0;
+    static int netcpdf_noPrint = 1;
+    static int netcpdf_noCopy = 2;
+    static int netcpdf_noAnnot = 3;
+    static int netcpdf_noForms = 4;
+    static int netcpdf_noExtract = 5;
+    static int netcpdf_noAssemble = 6;
+    static int netcpdf_noHqPrint = 7;
+
+    static int netcpdf_pdf40bit = 0;
+    static int netcpdf_pdf128bit = 1;
+    static int netcpdf_aes128bitfalse = 2;
+    static int netcpdf_aes128bittrue = 3;
+    static int netcpdf_aes256bitfalse = 4;
+    static int netcpdf_aes256bittrue = 5;
+    static int netcpdf_aes256bitisofalse = 6;
+    static int netcpdf_aes256bitisotrue = 7;
+
+    static int netcpdf_posCentre = 0;
+    static int netcpdf_posLeft = 1;
+    static int netcpdf_posRight = 2;
+    static int netcpdf_top = 3;
+    static int netcpdf_topLeft = 4;
+    static int netcpdf_topRight = 5;
+    static int netcpdf_left = 6;
+    static int netcpdf_bottomLeft = 7;
+    static int netcpdf_bottom = 8;
+    static int netcpdf_bottomRight = 9;
+    static int netcpdf_right = 10;
+    static int netcpdf_diagonal = 11;
+    static int netcpdf_reverseDiagonal = 12;
+
+    static int netcpdf_timesRoman = 0;
+    static int netcpdf_timesBold = 1;
+    static int netcpdf_timesItalic = 2;
+    static int netcpdf_timesBoldItalic = 3;
+    static int netcpdf_helvetica = 4;
+    static int netcpdf_helveticaBold = 5;
+    static int netcpdf_helveticaOblique = 6;
+    static int netcpdf_helveticaBoldOblique = 7;
+    static int netcpdf_courier = 8;
+    static int netcpdf_courierBold = 9;
+    static int netcpdf_courierOblique = 10;
+    static int netcpdf_courierBoldOblique = 11;
+
+    static int netcpdf_leftJustify = 0;
+    static int netcpdf_CentreJustify = 1;
+    static int netcpdf_RightJustify = 2;
+
+    static int netcpdf_singlePage = 0;
+    static int netcpdf_oneColumn = 1;
+    static int netcpdf_twoColumnLeft = 2;
+    static int netcpdf_twoColumnRight = 3;
+    static int netcpdf_twoPageLeft = 4;
+    static int netcpdf_twoPageRight = 5;
+
+    static int netcpdf_useNone = 0;
+    static int netcpdf_useOutlines = 1;
+    static int netcpdf_useThumbs = 2;
+    static int netcpdf_useOC = 3;
+    static int netcpdf_useAttachments = 4;
+
+    static int netcpdf_decimalArabic = 0;
+    static int netcpdf_uppercaseRoman = 1;
+    static int netcpdf_lowercaseRoman = 2;
+    static int netcpdf_uppercaseLetters = 4;
+    static int netcpdf_lowercaseLetters = 5;
 
     /* CHAPTER 0. Preliminaries */
 
     public static void netcpdf_startup(string[] argv)
     {
-      //FIXME Actually convert and pass the args
-      [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] ptr);
-      IntPtr[] args = {};
-      cpdf_startup(args);
+        //FIXME Actually convert and pass the args
+        [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] ptr);
+        IntPtr[] args = {};
+        cpdf_startup(args);
     }
 
     public static string netcpdf_version()
     {
-      [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
-      return Marshal.PtrToStringAuto(cpdf_version());
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
+        return Marshal.PtrToStringAuto(cpdf_version());
     }
 
     public static void netcpdf_setFast()
     {
-      [DllImport("libcpdf.so")] static extern void cpdf_setFast();
-      cpdf_setFast();
+        [DllImport("libcpdf.so")] static extern void cpdf_setFast();
+        cpdf_setFast();
     }
 
     public static void netcpdf_setSlow()
     {
-      [DllImport("libcpdf.so")] static extern void cpdf_setSlow();
-      cpdf_setSlow();
+        [DllImport("libcpdf.so")] static extern void cpdf_setSlow();
+        cpdf_setSlow();
     }
 
     public static int netcpdf_lastError()
     {
-      [DllImport("libcpdf.so")] static extern int cpdf_lastError();
-      return cpdf_lastError();
+        [DllImport("libcpdf.so")] static extern int cpdf_lastError();
+        return cpdf_lastError();
     }
 
     public static string netcpdf_lastErrorString()
     {
-      [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
-      return Marshal.PtrToStringAuto(cpdf_lastErrorString());
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
+        return Marshal.PtrToStringAuto(cpdf_lastErrorString());
     }
 
     public static void netcpdf_clearError()
     {
-      [DllImport("libcpdf.so")] static extern void cpdf_clearError();
-      cpdf_clearError();
+        [DllImport("libcpdf.so")] static extern void cpdf_clearError();
+        cpdf_clearError();
     }
 
     public static void netcpdf_onExit()
     {
-      [DllImport("libcpdf.so")] static extern void cpdf_onExit();
-      cpdf_onExit();
+        [DllImport("libcpdf.so")] static extern void cpdf_onExit();
+        cpdf_onExit();
     }
 
 
     /* CHAPTER 1. Basics */
-    [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
-    [DllImport("libcpdf.so")] static extern int cpdf_fromFileLazy(string filename, string userpw);
+
+    public static int netcpdf_fromFile(string filename, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
+        return cpdf_fromFile(filename, userpw);
+    }
+
+    public static int netcpdf_fromFileLazy(string filename, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromFileLazy(string filename, string userpw);
+        return cpdf_fromFileLazy(filename, userpw);
+    }
+
     //FIXME fromMemory
     //FIXME fromMemoryLazy
-    [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
-    [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
-    [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_replacePdf(int pdf, int pdf2);
-    [DllImport("libcpdf.so")] static extern int cpdf_startEnumeratePDFs();
-    [DllImport("libcpdf.so")] static extern int cpdf_enumeratePDFsKey(int n);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_enumeratePDFsInfo(int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_endEnumeratePDFs();
-    [DllImport("libcpdf.so")] static extern double cpdf_ptOfCm(double i);
-    [DllImport("libcpdf.so")] static extern double cpdf_ptOfMm(double i);
-    [DllImport("libcpdf.so")] static extern double cpdf_ptOfIn(double i);
-    [DllImport("libcpdf.so")] static extern double cpdf_cmOfPt(double i);
-    [DllImport("libcpdf.so")] static extern double cpdf_mmOfPt(double i);
-    [DllImport("libcpdf.so")] static extern double cpdf_inOfPt(double i);
+
+    public static int netcpdf_blankDocument(double w, double h, int pages)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
+        return cpdf_blankDocument(w, h, pages);
+    }
+
+    public static int netcpdf_blankDocumentPaper(int papersize, int pages)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
+        return cpdf_blankDocumentPaper(papersize, pages);
+    }
+
+    public static void netcpdf_deletePdf(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
+        cpdf_deletePdf(pdf);
+    }
+
+    public static void netcpdf_replacePdf(int pdf, int pdf2)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_replacePdf(int pdf, int pdf2);
+        cpdf_replacePdf(pdf, pdf2);
+    }
+
+    public static int netcpdf_startEnumeratePDFs()
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_startEnumeratePDFs();
+        return cpdf_startEnumeratePDFs();
+    }
+
+    public static int netcpdf_enumeratePDFsKey(int n)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_enumeratePDFsKey(int n);
+        return cpdf_enumeratePDFsKey(n);
+    }
+
+    public static string netcpdf_enumeratePDFsInfo(int n)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_enumeratePDFsInfo(int n);
+        return Marshal.PtrToStringAuto(cpdf_enumeratePDFsInfo(n));
+    }
+
+    public static void netcpdf_endEnumeratePDFs()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_endEnumeratePDFs();
+        cpdf_endEnumeratePDFs();
+    }
+
+    public static double netcpdf_ptOfCm(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfCm(double i);
+        return cpdf_ptOfCm(i);
+    }
+
+    public static double netcpdf_ptOfMm(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfMm(double i);
+        return cpdf_ptOfMm(i);
+    }
+
+    public static double netcpdf_ptOfIn(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfIn(double i);
+        return cpdf_ptOfIn(i);
+    }
+
+    public static double netcpdf_cmOfPt(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_cmOfPt(double i);
+        return cpdf_cmOfPt(i);
+    }
+
+    public static double netcpdf_mmOfPt(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_mmOfPt(double i);
+        return cpdf_mmOfPt(i);
+    }
+
+    public static double netcpdf_inOfPt(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_inOfPt(double i);
+        return cpdf_inOfPt(i);
+    }
+
     [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
     [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
     [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
+
     [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
     [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
     [DllImport("libcpdf.so")] static extern int cpdf_range(int f, int t);
@@ -96,11 +264,14 @@ class Program
     [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
     [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int page);
     [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
+
     [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
     [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
+
     [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
     [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
     //FIXME toMemory
+
     [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
     [DllImport("libcpdf.so")] static extern void cpdf_decryptPdf(int pdf, string userpw);
     [DllImport("libcpdf.so")] static extern void cpdf_decryptPdfOwner(int pdf, string ownerpw);
@@ -113,7 +284,11 @@ class Program
     //FIXME mergeSimple
     //FIXME merge
     //FIXME mergeSame
-    [DllImport("libcpdf.so")] static extern int cpdf_selectPages(int pdf, int r);
+    public static int netcpdf_selectPages(int pdf, int r)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_selectPages(int pdf, int r);
+        return cpdf_selectPages(pdf, r);
+    }
 
     /* CHAPTER 3. Pages */
     [DllImport("libcpdf.so")] static extern void cpdf_scalePages(int pdf, int range, double sx, double sy);
@@ -140,9 +315,23 @@ class Program
     /* Encryption covered under Chapter 1 in cpdflib. */
 
     /* CHAPTER 5. Compression */
-    [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_decompress(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_squeezeInMemory(int pdf);
+    public static void netcpdf_compress(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
+        cpdf_compress(pdf);
+    }
+
+    public static void netcpdf_decompress(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_decompress(int pdf);
+        cpdf_decompress(pdf);
+    }
+
+    public static void netcpdf_squeezeInMemory(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_squeezeInMemory(int pdf);
+        cpdf_squeezeInMemory(pdf);
+    }
 
     /* CHAPTER 6. Bookmarks */
     [DllImport("libcpdf.so")] static extern void cpdf_startGetBookmarkInfo(int pdf);
@@ -296,7 +485,11 @@ class Program
 
 
     /* CHAPTER 15. PDF and JSON */
-    [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf);
+    public static void netcpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf);
+        cpdf_outputJSON(filename, parse_content, no_stream_data, pdf);
+    }
 
 
     /* CHAPTER 16. Optional Content Groups */
@@ -322,96 +515,8 @@ class Program
     [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntry(int pdf, string key);
     [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
 
-
     static void Main(string[] args)
     {
-        int cpdf_false = 0;
-        int cpdf_true = 1;
-
-        int cpdf_a0portrait = 0;
-        int cpdf_a1portrait = 1;
-        int cpdf_a2portrait = 2;
-        int cpdf_a3portrait = 3;
-        int cpdf_a4portrait = 4;
-        int cpdf_a5portrait = 5;
-        int cpdf_a0landscape = 6;
-        int cpdf_a1landscape = 7;
-        int cpdf_a2landscape = 8;
-        int cpdf_a3landscape = 9;
-        int cpdf_a4landscape = 10;
-        int cpdf_a5landscape = 11;
-        int cpdf_usletterportrait = 12;
-        int cpdf_usletterlandscape = 13;
-        int cpdf_uslegalportrait = 14;
-        int cpdf_uslegallandscape = 15;
-
-        int cpdf_noEdit = 0;
-        int cpdf_noPrint = 1;
-        int cpdf_noCopy = 2;
-        int cpdf_noAnnot = 3;
-        int cpdf_noForms = 4;
-        int cpdf_noExtract = 5;
-        int cpdf_noAssemble = 6;
-        int cpdf_noHqPrint = 7;
-
-        int cpdf_pdf40bit = 0;
-        int cpdf_pdf128bit = 1;
-        int cpdf_aes128bitfalse = 2;
-        int cpdf_aes128bittrue = 3;
-        int cpdf_aes256bitfalse = 4;
-        int cpdf_aes256bittrue = 5;
-        int cpdf_aes256bitisofalse = 6;
-        int cpdf_aes256bitisotrue = 7;
-
-        int cpdf_posCentre = 0;
-        int cpdf_posLeft = 1;
-        int cpdf_posRight = 2;
-        int cpdf_top = 3;
-        int cpdf_topLeft = 4;
-        int cpdf_topRight = 5;
-        int cpdf_left = 6;
-        int cpdf_bottomLeft = 7;
-        int cpdf_bottom = 8;
-        int cpdf_bottomRight = 9;
-        int cpdf_right = 10;
-        int cpdf_diagonal = 11;
-        int cpdf_reverseDiagonal = 12;
-
-        int cpdf_timesRoman = 0;
-        int cpdf_timesBold = 1;
-        int cpdf_timesItalic = 2;
-        int cpdf_timesBoldItalic = 3;
-        int cpdf_helvetica = 4;
-        int cpdf_helveticaBold = 5;
-        int cpdf_helveticaOblique = 6;
-        int cpdf_helveticaBoldOblique = 7;
-        int cpdf_courier = 8;
-        int cpdf_courierBold = 9;
-        int cpdf_courierOblique = 10;
-        int cpdf_courierBoldOblique = 11;
-
-        int cpdf_leftJustify = 0;
-        int cpdf_CentreJustify = 1;
-        int cpdf_RightJustify = 2;
-
-        int cpdf_singlePage = 0;
-        int cpdf_oneColumn = 1;
-        int cpdf_twoColumnLeft = 2;
-        int cpdf_twoColumnRight = 3;
-        int cpdf_twoPageLeft = 4;
-        int cpdf_twoPageRight = 5;
-
-        int cpdf_useNone = 0;
-        int cpdf_useOutlines = 1;
-        int cpdf_useThumbs = 2;
-        int cpdf_useOC = 3;
-        int cpdf_useAttachments = 4;
-
-        int cpdf_decimalArabic = 0;
-        int cpdf_uppercaseRoman = 1;
-        int cpdf_lowercaseRoman = 2;
-        int cpdf_uppercaseLetters = 4;
-        int cpdf_lowercaseLetters = 5;
 
         /* CHAPTER 0. Preliminaries */
         string[] argv = new string[] { };
@@ -424,30 +529,30 @@ class Program
         netcpdf_onExit();
 
         /* CHAPTER 1. Basics */
-        int pdf = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pdf2 = cpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
+        int pdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
         //FIXME fromMemory
         //FIXME fromMemoryLazy
-        int pdf3 = cpdf_blankDocument(153.5, 234.2, 50);
-        int pdf4 = cpdf_blankDocumentPaper(cpdf_a4landscape, 50);
-        cpdf_toFile(pdf3, "testoutputs/blank.pdf", cpdf_false, cpdf_true);
-        cpdf_toFile(pdf4, "testoutputs/blankpaper.pdf", cpdf_false, cpdf_true);
-        cpdf_toFile(pdf, "testoutputs/out.pdf", cpdf_false, cpdf_true);
-        cpdf_deletePdf(pdf);
-        cpdf_replacePdf(pdf3, pdf4);
-        int n = cpdf_startEnumeratePDFs();
+        int pdf3 = netcpdf_blankDocument(153.5, 234.2, 50);
+        int pdf4 = netcpdf_blankDocumentPaper(netcpdf_a4landscape, 50);
+        cpdf_toFile(pdf3, "testoutputs/blank.pdf", netcpdf_false, netcpdf_true);
+        cpdf_toFile(pdf4, "testoutputs/blankpaper.pdf", netcpdf_false, netcpdf_true);
+        cpdf_toFile(pdf, "testoutputs/out.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_deletePdf(pdf);
+        netcpdf_replacePdf(pdf3, pdf4);
+        int n = netcpdf_startEnumeratePDFs();
         for (int x = 0; x < n; x++)
         {
-            int key = cpdf_enumeratePDFsKey(x);
-            string info = Marshal.PtrToStringAuto(cpdf_enumeratePDFsInfo(x));
+            int key = netcpdf_enumeratePDFsKey(x);
+            string info = netcpdf_enumeratePDFsInfo(x);
         }
-        cpdf_endEnumeratePDFs();
-        Console.WriteLine("{0:N}", cpdf_ptOfCm(1.0));
-        Console.WriteLine("{0:N}", cpdf_ptOfMm(1.0));
-        Console.WriteLine("{0:N}", cpdf_ptOfIn(1.0));
-        Console.WriteLine("{0:N}", cpdf_cmOfPt(1.0));
-        Console.WriteLine("{0:N}", cpdf_mmOfPt(1.0));
-        Console.WriteLine("{0:N}", cpdf_inOfPt(1.0));
+        netcpdf_endEnumeratePDFs();
+        Console.WriteLine("{0:N}", netcpdf_ptOfCm(1.0));
+        Console.WriteLine("{0:N}", netcpdf_ptOfMm(1.0));
+        Console.WriteLine("{0:N}", netcpdf_ptOfIn(1.0));
+        Console.WriteLine("{0:N}", netcpdf_cmOfPt(1.0));
+        Console.WriteLine("{0:N}", netcpdf_mmOfPt(1.0));
+        Console.WriteLine("{0:N}", netcpdf_inOfPt(1.0));
         int r = cpdf_parsePagespec(pdf3, "1-2,5-end");
         int valid = cpdf_validatePagespec("1-2");
         Console.WriteLine(Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf3, r)));
@@ -463,27 +568,27 @@ class Program
         int length = cpdf_rangeLength(even);
         int rangeget = cpdf_rangeGet(even, 1);
         int isin = cpdf_isInRange(even, 2);
-        int pdf10 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pages = cpdf_pages(pdf10);
         int pagesfast = cpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
-        cpdf_toFile(pdf10, "testoutputs/even.pdf", cpdf_false, cpdf_true);
-        cpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", cpdf_false, cpdf_true, cpdf_true, cpdf_true, cpdf_true);
+        cpdf_toFile(pdf10, "testoutputs/even.pdf", netcpdf_false, netcpdf_true);
+        cpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
         int isenc = cpdf_isEncrypted(pdf10);
         cpdf_decryptPdf(pdf10, "");
         cpdf_decryptPdfOwner(pdf10, "");
-        int hasnoedit = cpdf_hasPermission(pdf10, cpdf_noEdit);
+        int hasnoedit = cpdf_hasPermission(pdf10, netcpdf_noEdit);
         int enckind = cpdf_encryptionKind(pdf10);
 
         /* CHAPTER 2. Merging and Splitting */
-        int pdf11 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pdf12 = cpdf_selectPages(pdf11, even);
-        cpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", cpdf_false, cpdf_true);
+        int pdf11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf12 = netcpdf_selectPages(pdf11, even);
+        cpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", netcpdf_false, netcpdf_true);
 
         /* CHAPTER 3. Pages */
-        int pdf15 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         cpdf_scalePages(pdf15, cpdf_all(pdf15), 1.3, 1.5);
         cpdf_scaleToFit(pdf15, cpdf_all(pdf15), 200.0, 300.0, 0.9);
-        cpdf_scaleToFitPaper(pdf15, cpdf_all(pdf15), cpdf_a4landscape, 0.9);
+        cpdf_scaleToFitPaper(pdf15, cpdf_all(pdf15), netcpdf_a4landscape, 0.9);
         cpdf_shiftContents(pdf15, cpdf_all(pdf15), 1.5, 0.9);
         cpdf_rotate(pdf15, cpdf_all(pdf15), 90);
         cpdf_rotateBy(pdf15, cpdf_all(pdf15), 90);
@@ -504,13 +609,13 @@ class Program
         /* Encryption covered under Chapter 1 in cpdflib. */
 
         /* CHAPTER 5. Compression */
-        int pdf16 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_compress(pdf16);
-        cpdf_decompress(pdf16);
-        cpdf_squeezeInMemory(pdf16);
+        int pdf16 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        netcpdf_compress(pdf16);
+        netcpdf_decompress(pdf16);
+        netcpdf_squeezeInMemory(pdf16);
 
         /* CHAPTER 6. Bookmarks */
-        int pdf17 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf17 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         cpdf_startGetBookmarkInfo(pdf17);
         int nb = cpdf_numberBookmarks();
         for (int b2 = 0; b2 < nb; b2++)
@@ -530,19 +635,21 @@ class Program
         cpdf_setBookmarkText(0, "The text");
         cpdf_endSetBookmarkInfo(pdf17);
 
+        /* CHAPTER 7. Presentations */
+        /* Not included in the library version. */
 
         /* CHAPTER 8. Logos, Watermarks and Stamps */
-        int pdf20 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pdf21 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf20 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf21 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         cpdf_stampOn(pdf20, pdf21, cpdf_all(pdf20));
         cpdf_stampUnder(pdf20, pdf21, cpdf_all(pdf20));
         cpdf_combinePages(pdf20, pdf21);
         cpdf_removeText(pdf20, cpdf_all(pdf20));
-        int w = cpdf_textWidth(cpdf_timesBoldItalic, "foo");
+        int w = cpdf_textWidth(netcpdf_timesBoldItalic, "foo");
         string name = Marshal.PtrToStringAuto(cpdf_stampAsXObject(pdf20, cpdf_all(pdf20), pdf20));
 
         /* CHAPTER 9. Multipage facilities */
-        int pdf19 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf19 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         cpdf_twoUp(pdf19);
         cpdf_twoUpStack(pdf19);
         cpdf_padBefore(pdf19, cpdf_all(pdf19));
@@ -555,7 +662,7 @@ class Program
         /* Not in the library version */
 
         /* CHAPTER 11. Document Information and Metadata */
-        int pdf30 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf30 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int lin = cpdf_isLinearized("testinputs/cpdfmanual.pdf");
         int v = cpdf_getVersion(pdf30);
         int v2 = cpdf_getMajorVersion(pdf30);
@@ -603,29 +710,29 @@ class Program
         cpdf_markUntrapped(pdf30);
         cpdf_markTrappedXMP(pdf30);
         cpdf_markUntrappedXMP(pdf30);
-        cpdf_setPageLayout(pdf30, cpdf_singlePage);
-        cpdf_setPageMode(pdf30, cpdf_useNone);
-        cpdf_hideToolbar(pdf30, cpdf_true);
-        cpdf_hideMenubar(pdf30, cpdf_true);
-        cpdf_hideWindowUi(pdf30, cpdf_true);
-        cpdf_fitWindow(pdf30, cpdf_true);
-        cpdf_centerWindow(pdf30, cpdf_true);
-        cpdf_displayDocTitle(pdf30, cpdf_true);
-        cpdf_openAtPage(pdf30, cpdf_true, 1);
+        cpdf_setPageLayout(pdf30, netcpdf_singlePage);
+        cpdf_setPageMode(pdf30, netcpdf_useNone);
+        cpdf_hideToolbar(pdf30, netcpdf_true);
+        cpdf_hideMenubar(pdf30, netcpdf_true);
+        cpdf_hideWindowUi(pdf30, netcpdf_true);
+        cpdf_fitWindow(pdf30, netcpdf_true);
+        cpdf_centerWindow(pdf30, netcpdf_true);
+        cpdf_displayDocTitle(pdf30, netcpdf_true);
+        cpdf_openAtPage(pdf30, netcpdf_true, 1);
         cpdf_setMetadataFromFile(pdf30, "testinputs/cpdflibmanual.pdf");
         cpdf_removeMetadata(pdf30);
         cpdf_createMetadata(pdf30);
         cpdf_setMetadataDate(pdf30, "2000");
-        cpdf_addPageLabels(pdf30, cpdf_decimalArabic, "PRE-", cpdf_all(pdf), cpdf_false);
+        cpdf_addPageLabels(pdf30, netcpdf_decimalArabic, "PRE-", cpdf_all(pdf), netcpdf_false);
         cpdf_removePageLabels(pdf30);
         string pl = Marshal.PtrToStringAuto(cpdf_getPageLabelStringForPage(pdf30, 1));
         int pls = cpdf_startGetPageLabels(pdf30);
         for (int plsc = 0; plsc < pls; plsc++)
         {
-          int style = cpdf_getPageLabelStyle(plsc);
-          string prefix = Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(plsc));
-          int offset = cpdf_getPageLabelOffset(plsc);
-          int lab_range = cpdf_getPageLabelRange(plsc);
+            int style = cpdf_getPageLabelStyle(plsc);
+            string prefix = Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(plsc));
+            int offset = cpdf_getPageLabelOffset(plsc);
+            int lab_range = cpdf_getPageLabelRange(plsc);
         }
         cpdf_endGetPageLabels();
 
@@ -637,8 +744,8 @@ class Program
         int n_a = cpdf_numberGetAttachments();
         for (int aa = 0; aa < n_a; aa++)
         {
-          string a_n = Marshal.PtrToStringAuto(cpdf_getAttachmentName(aa));
-          int a_page = cpdf_getAttachmentPage(aa);
+            string a_n = Marshal.PtrToStringAuto(cpdf_getAttachmentName(aa));
+            int a_page = cpdf_getAttachmentPage(aa);
         }
         cpdf_endGetAttachments();
 
@@ -646,12 +753,12 @@ class Program
         int im_n = cpdf_startGetImageResolution(pdf30, 2.0);
         for (int im = 0; im < im_n; im++)
         {
-          int im_p = cpdf_getImageResolutionPageNumber(im);
-          string im_name = Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(im));
-          int im_xp = cpdf_getImageResolutionXPixels(im);
-          int im_yp = cpdf_getImageResolutionYPixels(im);
-          double im_xres = cpdf_getImageResolutionXRes(im);
-          double im_yres = cpdf_getImageResolutionYRes(im);
+            int im_p = cpdf_getImageResolutionPageNumber(im);
+            string im_name = Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(im));
+            int im_xp = cpdf_getImageResolutionXPixels(im);
+            int im_yp = cpdf_getImageResolutionYPixels(im);
+            double im_xres = cpdf_getImageResolutionXRes(im);
+            double im_yres = cpdf_getImageResolutionYRes(im);
         }
         cpdf_endGetImageResolution();
 
@@ -660,22 +767,22 @@ class Program
         int fonts = cpdf_numberFonts();
         for (int ff = 0; ff < fonts; ff++)
         {
-          int page = cpdf_getFontPage(ff);
-          string f_name = Marshal.PtrToStringAuto(cpdf_getFontName(ff));
-          string type = Marshal.PtrToStringAuto(cpdf_getFontType(ff));
-          string encoding = Marshal.PtrToStringAuto(cpdf_getFontEncoding(ff));
+            int page = cpdf_getFontPage(ff);
+            string f_name = Marshal.PtrToStringAuto(cpdf_getFontName(ff));
+            string type = Marshal.PtrToStringAuto(cpdf_getFontType(ff));
+            string encoding = Marshal.PtrToStringAuto(cpdf_getFontEncoding(ff));
         }
         cpdf_endGetFontInfo();
         cpdf_removeFonts(pdf30);
         cpdf_copyFont(pdf30, pdf30, cpdf_all(pdf30), 1, "/Font");
 
         /* CHAPTER 15. PDF and JSON */
-        int pdf14 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_outputJSON("testoutputs/foo.json", cpdf_false, cpdf_true, pdf14);
+        int pdf14 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        netcpdf_outputJSON("testoutputs/foo.json", netcpdf_false, netcpdf_true, pdf14);
 
 
         /* CHAPTER 16. Optional Content Groups */
-        int pdf13 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf13 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int n2 = cpdf_startGetOCGList(pdf13);
         for(int x = 0; x < n2; x++)
         {
@@ -687,8 +794,8 @@ class Program
         cpdf_OCGCoalesce(pdf13);
 
         /* CHAPTER 17. Miscellaneous */
-        int pdf22 = cpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        cpdf_draft(pdf22, cpdf_all(pdf22), cpdf_false);
+        int pdf22 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        cpdf_draft(pdf22, cpdf_all(pdf22), netcpdf_false);
         cpdf_removeAllText(pdf22, cpdf_all(pdf22));
         cpdf_blackText(pdf22, cpdf_all(pdf22));
         cpdf_blackLines(pdf22, cpdf_all(pdf22));
