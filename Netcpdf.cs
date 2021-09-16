@@ -726,38 +726,199 @@ class Program
     [DllImport("libcpdf.so")] static extern int cpdf_isLinearized(string filename);
     [DllImport("libcpdf.so")] static extern int cpdf_getVersion(int pdf);
     [DllImport("libcpdf.so")] static extern int cpdf_getMajorVersion(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitle(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthor(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywords(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreator(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducer(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDate(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDate(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitleXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthorXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubjectXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywordsXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreatorXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducerXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDateXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDateXMP(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_setTitle(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setAuthor(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setSubject(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setKeywords(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setCreator(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setProducer(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setCreationDate(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setModificationDate(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setTitleXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setAuthorXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setSubjectXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setKeywordsXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setCreatorXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setProducerXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setCreationDateXMP(int pdf, string s);
-    [DllImport("libcpdf.so")] static extern void cpdf_setModificationDateXMP(int pdf, string s);
+
+    public static string netcpdf_getTitle(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitle(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getTitle(pdf));
+    }
+
+    public static string netcpdf_getAuthor(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthor(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getAuthor(pdf));
+    }
+
+    public static string netcpdf_getSubject (int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getSubject(pdf));
+    }
+
+    public static string netcpdf_getKeywords(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywords(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getKeywords(pdf));
+    }
+
+    public static string netcpdf_getCreator(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreator(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getCreator(pdf));
+    }
+
+    public static string netcpdf_getProducer(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducer(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getProducer(pdf));
+    }
+
+    public static string netcpdf_getCreationDate(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDate(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getCreationDate(pdf));
+    }
+
+    public static string netcpdf_getModificationDate(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDate(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getModificationDate(pdf));
+    }
+
+    public static string netcpdf_getTitleXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitleXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getTitleXMP(pdf));
+    }
+
+    public static string netcpdf_getAuthorXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthorXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getAuthorXMP(pdf));
+    }
+
+    public static string netcpdf_getSubjectXMP (int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubjectXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getSubjectXMP(pdf));
+    }
+
+    public static string netcpdf_getKeywordsXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywordsXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getKeywordsXMP(pdf));
+    }
+
+    public static string netcpdf_getCreatorXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreatorXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getCreatorXMP(pdf));
+    }
+
+    public static string netcpdf_getProducerXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducerXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getProducerXMP(pdf));
+    }
+
+    public static string netcpdf_getCreationDateXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDateXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getCreationDateXMP(pdf));
+    }
+
+    public static string netcpdf_getModificationDateXMP(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDateXMP(int pdf);
+      return Marshal.PtrToStringAuto(cpdf_getModificationDateXMP(pdf));
+    }
+
+    public static void netcpdf_setTitle(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setTitle(int pdf, string s);
+      cpdf_setTitle(pdf, s);
+    }
+
+    public static void netcpdf_setAuthor(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setAuthor(int pdf, string s);
+      cpdf_setAuthor(pdf, s);
+    }
+
+    public static void netcpdf_setSubject(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setSubject(int pdf, string s);
+      cpdf_setSubject(pdf, s);
+    }
+
+    public static void netcpdf_setKeywords(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setKeywords(int pdf, string s);
+      cpdf_setKeywords(pdf, s);
+    }
+
+    public static void netcpdf_setCreator(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setCreator(int pdf, string s);
+      cpdf_setCreator(pdf, s);
+    }
+
+    public static void netcpdf_setProducer(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setProducer(int pdf, string s);
+      cpdf_setProducer(pdf, s);
+    }
+
+    public static void netcpdf_setCreationDate(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setCreationDate(int pdf, string s);
+      cpdf_setCreationDate(pdf, s);
+    }
+
+    public static void netcpdf_setModificationDate(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setModificationDate(int pdf, string s);
+      cpdf_setModificationDate(pdf, s);
+    }
+
+    public static void netcpdf_setTitleXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setTitleXMP(int pdf, string s);
+      cpdf_setTitleXMP(pdf, s);
+    }
+
+    public static void netcpdf_setAuthorXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setAuthorXMP(int pdf, string s);
+      cpdf_setAuthorXMP(pdf, s);
+    }
+
+    public static void netcpdf_setSubjectXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setSubjectXMP(int pdf, string s);
+      cpdf_setSubjectXMP(pdf, s);
+    }
+
+    public static void netcpdf_setKeywordsXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setKeywordsXMP(int pdf, string s);
+      cpdf_setKeywordsXMP(pdf, s);
+    }
+
+    public static void netcpdf_setCreatorXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setCreatorXMP(int pdf, string s);
+      cpdf_setCreatorXMP(pdf, s);
+    }
+
+    public static void netcpdf_setProducerXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setProducerXMP(int pdf, string s);
+      cpdf_setProducerXMP(pdf, s);
+    }
+
+    public static void netcpdf_setCreationDateXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setCreationDateXMP(int pdf, string s);
+      cpdf_setCreationDateXMP(pdf, s);
+    }
+
+    public static void netcpdf_setModificationDateXMP(int pdf, string s)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_setModificationDateXMP(int pdf, string s);
+      cpdf_setModificationDateXMP(pdf, s);
+    }
+
     //FIXME getDateComponents
     [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec);
     [DllImport("libcpdf.so")] static extern int cpdf_getPageRotation(int pdf, int pagenumber);
@@ -1227,38 +1388,38 @@ class Program
         int lin = cpdf_isLinearized("testinputs/cpdfmanual.pdf");
         int v = cpdf_getVersion(pdf30);
         int v2 = cpdf_getMajorVersion(pdf30);
-        string title = Marshal.PtrToStringAuto(cpdf_getTitle(pdf30));
-        string author = Marshal.PtrToStringAuto(cpdf_getAuthor(pdf30));
-        string subject = Marshal.PtrToStringAuto(cpdf_getSubject(pdf30));
-        string keywords = Marshal.PtrToStringAuto(cpdf_getKeywords(pdf30));
-        string creator = Marshal.PtrToStringAuto(cpdf_getCreator(pdf30));
-        string producer = Marshal.PtrToStringAuto(cpdf_getProducer(pdf30));
-        string creationdate = Marshal.PtrToStringAuto(cpdf_getCreationDate(pdf30));
-        string modificationdate = Marshal.PtrToStringAuto(cpdf_getModificationDate(pdf30));
-        string titlexmp = Marshal.PtrToStringAuto(cpdf_getTitleXMP(pdf30));
-        string authorxmp = Marshal.PtrToStringAuto(cpdf_getAuthorXMP(pdf30));
-        string subjectxmp = Marshal.PtrToStringAuto(cpdf_getSubjectXMP(pdf30));
-        string keywordsxmp = Marshal.PtrToStringAuto(cpdf_getKeywordsXMP(pdf30));
-        string creatorxmp = Marshal.PtrToStringAuto(cpdf_getCreatorXMP(pdf30));
-        string producerxmp = Marshal.PtrToStringAuto(cpdf_getProducerXMP(pdf30));
-        string creationdatexmp = Marshal.PtrToStringAuto(cpdf_getCreationDateXMP(pdf30));
-        string modificationdatexmp = Marshal.PtrToStringAuto(cpdf_getModificationDateXMP(pdf30));
-        cpdf_setTitle(pdf30, "title");
-        cpdf_setAuthor(pdf30, "title");
-        cpdf_setSubject(pdf30, "title");
-        cpdf_setKeywords(pdf30, "title");
-        cpdf_setCreator(pdf30, "title");
-        cpdf_setProducer(pdf30, "title");
-        cpdf_setCreationDate(pdf30, "title");
-        cpdf_setModificationDate(pdf30, "title");
-        cpdf_setTitleXMP(pdf30, "title");
-        cpdf_setAuthorXMP(pdf30, "title");
-        cpdf_setSubjectXMP(pdf30, "title");
-        cpdf_setKeywordsXMP(pdf30, "title");
-        cpdf_setCreatorXMP(pdf30, "title");
-        cpdf_setProducerXMP(pdf30, "title");
-        cpdf_setCreationDateXMP(pdf30, "title");
-        cpdf_setModificationDateXMP(pdf30, "title");
+        string title = netcpdf_getTitle(pdf30);
+        string author = netcpdf_getAuthor(pdf30);
+        string subject = netcpdf_getSubject(pdf30);
+        string keywords = netcpdf_getKeywords(pdf30);
+        string creator = netcpdf_getCreator(pdf30);
+        string producer = netcpdf_getProducer(pdf30);
+        string creationdate = netcpdf_getCreationDate(pdf30);
+        string modificationdate = netcpdf_getModificationDate(pdf30);
+        string titlexmp = netcpdf_getTitleXMP(pdf30);
+        string authorxmp = netcpdf_getAuthorXMP(pdf30);
+        string subjectxmp = netcpdf_getSubjectXMP(pdf30);
+        string keywordsxmp = netcpdf_getKeywordsXMP(pdf30);
+        string creatorxmp = netcpdf_getCreatorXMP(pdf30);
+        string producerxmp = netcpdf_getProducerXMP(pdf30);
+        string creationdatexmp = netcpdf_getCreationDateXMP(pdf30);
+        string modificationdatexmp = netcpdf_getModificationDateXMP(pdf30);
+        netcpdf_setTitle(pdf30, "title");
+        netcpdf_setAuthor(pdf30, "title");
+        netcpdf_setSubject(pdf30, "title");
+        netcpdf_setKeywords(pdf30, "title");
+        netcpdf_setCreator(pdf30, "title");
+        netcpdf_setProducer(pdf30, "title");
+        netcpdf_setCreationDate(pdf30, "title");
+        netcpdf_setModificationDate(pdf30, "title");
+        netcpdf_setTitleXMP(pdf30, "title");
+        netcpdf_setAuthorXMP(pdf30, "title");
+        netcpdf_setSubjectXMP(pdf30, "title");
+        netcpdf_setKeywordsXMP(pdf30, "title");
+        netcpdf_setCreatorXMP(pdf30, "title");
+        netcpdf_setProducerXMP(pdf30, "title");
+        netcpdf_setCreationDateXMP(pdf30, "title");
+        netcpdf_setModificationDateXMP(pdf30, "title");
         string datestr = Marshal.PtrToStringAuto(cpdf_dateStringOfComponents(1, 2, 3, 4, 5, 6));
         int rot = cpdf_getPageRotation(pdf30, 1);
         int hasbox = cpdf_hasBox(pdf30, 1, "/CropBox");
