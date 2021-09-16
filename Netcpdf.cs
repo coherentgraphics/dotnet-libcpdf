@@ -688,26 +688,110 @@ class Program
     [DllImport("libcpdf.so")] static extern void cpdf_endGetAttachments();
 
     /* CHAPTER 13. Images. */
-    [DllImport("libcpdf.so")] static extern int cpdf_startGetImageResolution(int pdf, double min_required_resolution);
-    [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionPageNumber(int n);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getImageResolutionImageName(int n);
-    [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionXPixels(int n);
-    [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionYPixels(int n);
-    [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionXRes(int n);
-    [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionYRes(int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_endGetImageResolution();
+
+    public static int netcpdf_startGetImageResolution(int pdf, double min_required_resolution)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_startGetImageResolution(int pdf, double min_required_resolution);
+      return cpdf_startGetImageResolution(pdf, min_required_resolution);
+    }
+
+    public static int netcpdf_getImageResolutionPageNumber(int n)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionPageNumber(int n);
+      return cpdf_getImageResolutionPageNumber(n);
+    }
+
+    public static string netcpdf_getImageResolutionImageName(int n)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getImageResolutionImageName(int n);
+      return Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(n));
+    }
+
+    public static int netcpdf_getImageResolutionXPixels(int n)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionXPixels(int n);
+      return cpdf_getImageResolutionXPixels(n);
+    }
+
+    public static int netcpdf_getImageResolutionYPixels(int n)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionYPixels(int n);
+      return cpdf_getImageResolutionYPixels(n);
+    }
+
+    public static double netcpdf_getImageResolutionXRes(int n)
+    {
+      [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionXRes(int n);
+      return cpdf_getImageResolutionXRes(n);
+    }
+
+    public static double netcpdf_getImageResolutionYRes(int n)
+    {
+      [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionYRes(int n);
+      return cpdf_getImageResolutionYRes(n);
+    }
+
+    public static void netcpdf_endGetImageResolution()
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_endGetImageResolution();
+      cpdf_endGetImageResolution();
+    }
 
     /* CHAPTER 14. Fonts. */
-    [DllImport("libcpdf.so")] static extern void cpdf_startGetFontInfo(int pdf);
-    [DllImport("libcpdf.so")] static extern int cpdf_numberFonts();
-    [DllImport("libcpdf.so")] static extern int cpdf_getFontPage(int n);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
-    [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
-    [DllImport("libcpdf.so")] static extern void cpdf_removeFonts(int pdf);
-    [DllImport("libcpdf.so")] static extern void cpdf_copyFont(int docfrom, int docto, int range, int pagenumber, string fontname);
 
+    public static void netcpdf_startGetFontInfo(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_startGetFontInfo(int pdf);
+      cpdf_startGetFontInfo(pdf);
+    }
+
+    public static int netcpdf_numberFonts()
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_numberFonts();
+      return cpdf_numberFonts();
+    }
+
+    public static int netcpdf_getFontPage(int n)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_getFontPage(int n);
+      return cpdf_getFontPage(n);
+    }
+
+    public static string netcpdf_getFontName(int n)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
+      return Marshal.PtrToStringAuto(cpdf_getFontName(n));
+    }
+
+    public static string netcpdf_getFontType(int n)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
+      return Marshal.PtrToStringAuto(cpdf_getFontType(n));
+    }
+
+    public static string netcpdf_getFontEncoding(int n)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
+      return Marshal.PtrToStringAuto(cpdf_getFontEncoding(n));
+    }
+
+    public static void netcpdf_endGetFontInfo()
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
+      cpdf_endGetFontInfo();
+    }
+    
+    public static void netcpdf_removeFonts(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_removeFonts(int pdf);
+      cpdf_removeFonts(pdf);
+    }
+
+    public static void netcpdf_copyFont(int docfrom, int docto, int range, int pagenumber, string fontname)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_copyFont(int docfrom, int docto, int range, int pagenumber, string fontname);
+      cpdf_copyFont(docfrom, docto, range, pagenumber, fontname);
+    }
 
     /* CHAPTER 15. PDF and JSON */
     public static void netcpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf)
@@ -1063,31 +1147,31 @@ class Program
         cpdf_endGetAttachments();
 
         /* CHAPTER 13. Images. */
-        int im_n = cpdf_startGetImageResolution(pdf30, 2.0);
+        int im_n = netcpdf_startGetImageResolution(pdf30, 2.0);
         for (int im = 0; im < im_n; im++)
         {
-            int im_p = cpdf_getImageResolutionPageNumber(im);
-            string im_name = Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(im));
-            int im_xp = cpdf_getImageResolutionXPixels(im);
-            int im_yp = cpdf_getImageResolutionYPixels(im);
-            double im_xres = cpdf_getImageResolutionXRes(im);
-            double im_yres = cpdf_getImageResolutionYRes(im);
+            int im_p = netcpdf_getImageResolutionPageNumber(im);
+            string im_name = netcpdf_getImageResolutionImageName(im);
+            int im_xp = netcpdf_getImageResolutionXPixels(im);
+            int im_yp = netcpdf_getImageResolutionYPixels(im);
+            double im_xres = netcpdf_getImageResolutionXRes(im);
+            double im_yres = netcpdf_getImageResolutionYRes(im);
         }
-        cpdf_endGetImageResolution();
+        netcpdf_endGetImageResolution();
 
         /* CHAPTER 14. Fonts. */
-        cpdf_startGetFontInfo(pdf30);
-        int fonts = cpdf_numberFonts();
+        netcpdf_startGetFontInfo(pdf30);
+        int fonts = netcpdf_numberFonts();
         for (int ff = 0; ff < fonts; ff++)
         {
-            int page = cpdf_getFontPage(ff);
-            string f_name = Marshal.PtrToStringAuto(cpdf_getFontName(ff));
-            string type = Marshal.PtrToStringAuto(cpdf_getFontType(ff));
-            string encoding = Marshal.PtrToStringAuto(cpdf_getFontEncoding(ff));
+            int page = netcpdf_getFontPage(ff);
+            string f_name = netcpdf_getFontName(ff);
+            string type = netcpdf_getFontType(ff);
+            string encoding = netcpdf_getFontEncoding(ff);
         }
-        cpdf_endGetFontInfo();
-        cpdf_removeFonts(pdf30);
-        cpdf_copyFont(pdf30, pdf30, cpdf_all(pdf30), 1, "/Font");
+        netcpdf_endGetFontInfo();
+        netcpdf_removeFonts(pdf30);
+        netcpdf_copyFont(pdf30, pdf30, cpdf_all(pdf30), 1, "/Font");
 
         /* CHAPTER 15. PDF and JSON */
         int pdf14 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
