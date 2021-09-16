@@ -291,8 +291,18 @@ class Program
       return cpdf_pagesFast(password, filename);
     }
 
-    [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
-    [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
+    public static void netcpdf_toFile(int pdf, string filename, int linearize, int make_id)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
+      cpdf_toFile(pdf, filename, linearize, make_id);
+    }
+
+    public static void netcpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
+      cpdf_toFileExt(pdf, filename, linearize, make_id, preserve_objstm, generate_objstm, compress_objstm);
+    }
+
     //FIXME toMemory
 
     [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
@@ -997,9 +1007,9 @@ class Program
         //FIXME fromMemoryLazy
         int pdf3 = netcpdf_blankDocument(153.5, 234.2, 50);
         int pdf4 = netcpdf_blankDocumentPaper(netcpdf_a4landscape, 50);
-        cpdf_toFile(pdf3, "testoutputs/blank.pdf", netcpdf_false, netcpdf_true);
-        cpdf_toFile(pdf4, "testoutputs/blankpaper.pdf", netcpdf_false, netcpdf_true);
-        cpdf_toFile(pdf, "testoutputs/out.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFile(pdf3, "testoutputs/blank.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFile(pdf4, "testoutputs/blankpaper.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFile(pdf, "testoutputs/out.pdf", netcpdf_false, netcpdf_true);
         netcpdf_deletePdf(pdf);
         netcpdf_replacePdf(pdf3, pdf4);
         int n = netcpdf_startEnumeratePDFs();
@@ -1033,8 +1043,8 @@ class Program
         int pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pages = netcpdf_pages(pdf10);
         int pagesfast = netcpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
-        cpdf_toFile(pdf10, "testoutputs/even.pdf", netcpdf_false, netcpdf_true);
-        cpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
+        netcpdf_toFile(pdf10, "testoutputs/even.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
         int isenc = cpdf_isEncrypted(pdf10);
         cpdf_decryptPdf(pdf10, "");
         cpdf_decryptPdfOwner(pdf10, "");
@@ -1044,7 +1054,7 @@ class Program
         /* CHAPTER 2. Merging and Splitting */
         int pdf11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf12 = netcpdf_selectPages(pdf11, even);
-        cpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", netcpdf_false, netcpdf_true);
 
         /* CHAPTER 3. Pages */
         int pdf15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
