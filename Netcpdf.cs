@@ -247,9 +247,23 @@ class Program
         return cpdf_inOfPt(i);
     }
 
-    [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
-    [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
-    [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
+    public static int netcpdf_parsePagespec(int pdf, string pagespec)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
+      return cpdf_parsePagespec(pdf, pagespec);
+    }
+
+    public static int netcpdf_validatePagespec(string pagespec)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
+      return cpdf_validatePagespec(pagespec);
+    }
+
+    public static string netcpdf_stringOfPagespec(int pdf, int r)
+    {
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
+      return Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf, r));
+    }
 
     [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
     [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
@@ -265,8 +279,17 @@ class Program
     [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int page);
     [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
 
-    [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
-    [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
+    public static int netcpdf_pages(int pdf)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
+      return cpdf_pages(pdf);
+    }
+
+    public static int netcpdf_pagesFast(string password, string filename)
+    {
+      [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
+      return cpdf_pagesFast(password, filename);
+    }
 
     [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
     [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
@@ -992,9 +1015,9 @@ class Program
         Console.WriteLine("{0:N}", netcpdf_cmOfPt(1.0));
         Console.WriteLine("{0:N}", netcpdf_mmOfPt(1.0));
         Console.WriteLine("{0:N}", netcpdf_inOfPt(1.0));
-        int r = cpdf_parsePagespec(pdf3, "1-2,5-end");
-        int valid = cpdf_validatePagespec("1-2");
-        Console.WriteLine(Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf3, r)));
+        int r = netcpdf_parsePagespec(pdf3, "1-2,5-end");
+        int valid = netcpdf_validatePagespec("1-2");
+        Console.WriteLine(netcpdf_stringOfPagespec(pdf3, r));
         int b = cpdf_blankRange();
         cpdf_deleteRange(b);
         int range = cpdf_range(1, 10);
@@ -1008,8 +1031,8 @@ class Program
         int rangeget = cpdf_rangeGet(even, 1);
         int isin = cpdf_isInRange(even, 2);
         int pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pages = cpdf_pages(pdf10);
-        int pagesfast = cpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
+        int pages = netcpdf_pages(pdf10);
+        int pagesfast = netcpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
         cpdf_toFile(pdf10, "testoutputs/even.pdf", netcpdf_false, netcpdf_true);
         cpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
         int isenc = cpdf_isEncrypted(pdf10);
