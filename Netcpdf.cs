@@ -5,6 +5,8 @@ namespace dotnet_libcpdf
 {
 class Program
 {
+#pragma warning disable 414
+
     static int netcpdf_false = 0;
     static int netcpdf_true = 1;
 
@@ -92,6 +94,8 @@ class Program
     static int netcpdf_lowercaseRoman = 2;
     static int netcpdf_uppercaseLetters = 4;
     static int netcpdf_lowercaseLetters = 5;
+
+#pragma warning restore 414
 
     /* CHAPTER 0. Preliminaries */
 
