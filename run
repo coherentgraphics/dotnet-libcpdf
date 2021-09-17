@@ -1,1 +1,1 @@
-dotnet bin/Debug/net5.0/dotnet-libcpdf.dll
+CAMLPDF_REPRODUCIBLE_IDS=true CPDF_REPRODUCIBLE_DATES=true dotnet bin/Debug/net5.0/dotnet-libcpdf.dll

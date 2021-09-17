@@ -934,7 +934,12 @@ class Program
         cpdf_setModificationDateXMP(pdf, s);
     }
 
-    //FIXME getDateComponents
+    public static void netcpdf_getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset);
+        cpdf_getDateComponents(datestring, ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
+    }
+
     public static string netcpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec);
@@ -953,7 +958,35 @@ class Program
         return cpdf_hasBox(pdf, pagenumber, boxname);
     }
 
-    //FIXME getMediaBox etc. pass by ref
+    public static void netcpdf_getMediaBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_getMediaBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
+        cpdf_getMediaBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+    }
+
+    public static void netcpdf_getCropBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_getCropBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
+        cpdf_getCropBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+    }
+
+    public static void netcpdf_getTrimBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_getTrimBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
+        cpdf_getTrimBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+    }
+
+    public static void netcpdf_getArtBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_getArtBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
+        cpdf_getArtBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+    }
+
+    public static void netcpdf_getBleedBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_getBleedBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
+        cpdf_getBleedBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+    }
 
     public static void netcpdf_setMediabox(int pdf, int r, double minx, double maxx, double miny, double maxy)
     {
@@ -1606,9 +1639,43 @@ class Program
         netcpdf_setProducerXMP(pdf30, "title");
         netcpdf_setCreationDateXMP(pdf30, "title");
         netcpdf_setModificationDateXMP(pdf30, "title");
+        int year = 0;
+        int month = 0;
+        int day = 0;
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        int hour_offset = 0;
+        int minute_offset = 0;
+        netcpdf_getDateComponents("2000211213", ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
         string datestr = netcpdf_dateStringOfComponents(1, 2, 3, 4, 5, 6);
         int rot = netcpdf_getPageRotation(pdf30, 1);
         int hasbox = netcpdf_hasBox(pdf30, 1, "/CropBox");
+        double mb_minx = 0.0;
+        double mb_maxx = 0.0;
+        double mb_miny = 0.0;
+        double mb_maxy = 0.0;
+        double cb_minx = 0.0;
+        double cb_maxx = 0.0;
+        double cb_miny = 0.0;
+        double cb_maxy = 0.0;
+        double tb_minx = 0.0;
+        double tb_maxx = 0.0;
+        double tb_miny = 0.0;
+        double tb_maxy = 0.0;
+        double ab_minx = 0.0;
+        double ab_maxx = 0.0;
+        double ab_miny = 0.0;
+        double ab_maxy = 0.0;
+        double bb_minx = 0.0;
+        double bb_maxx = 0.0;
+        double bb_miny = 0.0;
+        double bb_maxy = 0.0;
+        netcpdf_getMediaBox(pdf30, 1, ref mb_minx, ref mb_maxx, ref mb_miny, ref mb_maxy);
+        netcpdf_getCropBox(pdf30, 1, ref cb_minx, ref cb_maxx, ref cb_miny, ref cb_maxy);
+        netcpdf_getTrimBox(pdf30, 1, ref tb_minx, ref tb_maxx, ref tb_miny, ref tb_maxy);
+        netcpdf_getArtBox(pdf30, 1, ref ab_minx, ref ab_maxx, ref ab_miny, ref ab_maxy);
+        netcpdf_getBleedBox(pdf30, 1, ref bb_minx, ref bb_maxx, ref bb_miny, ref bb_maxy);
         netcpdf_setMediabox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
         netcpdf_setCropBox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
         netcpdf_setTrimBox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
