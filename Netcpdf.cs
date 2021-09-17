@@ -700,8 +700,17 @@ class Program
         cpdf_combinePages(under, over);
     }
 
-    //FIXME addtext position
-    //FIXME addtextSimple position
+    public static void netcpdf_addText(int metrics, int pdf, int range, string text, netcpdf_position position, double linespacing, int bates, int font, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_addText(int metrics, int pdf, int range, string text, netcpdf_position position, double linespacing, int bates, int font, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts);
+        cpdf_addText(metrics, pdf, range, text, position, linespacing, bates, font, r, g, b, underneath, relative_to_cropbox, outline, opacity, justification, midline, topline, filename, linewidth, embed_fonts);
+    }
+
+    public static void netcpdf_addTextSimple(int pdf, int range, string text, netcpdf_position position, int font, double fontsize)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_addTextSimple(int pdf, int range, string text, netcpdf_position position, int font, double fontsize);
+        cpdf_addTextSimple(pdf, range, text, position, font, fontsize);
+    }
 
     public static void netcpdf_removeText(int pdf, int range)
     {
@@ -1652,6 +1661,8 @@ class Program
         netcpdf_position pos = new netcpdf_position (netcpdf_topRight, 1.0, 2.0);
         netcpdf_stampExtended(pdf20, pdf21, netcpdf_all(pdf20), netcpdf_true, netcpdf_true, pos, netcpdf_true);
         netcpdf_combinePages(pdf20, pdf21);
+        netcpdf_addTextSimple(pdf21, netcpdf_all(pdf21), "text", pos, netcpdf_timesBoldItalic, 40.0);
+        netcpdf_addText(netcpdf_false, pdf21, netcpdf_all(pdf21), "text", pos, 1.5, 1, netcpdf_timesBoldItalic, 0.0, 0.5, 0.5, netcpdf_false, netcpdf_true, netcpdf_false, 0.5, netcpdf_RightJustify, netcpdf_false, netcpdf_false, "filename", 5.4, netcpdf_false);
         netcpdf_removeText(pdf20, netcpdf_all(pdf20));
         int w = netcpdf_textWidth(netcpdf_timesBoldItalic, "foo");
         string name = netcpdf_stampAsXObject(pdf20, netcpdf_all(pdf20), pdf20);
