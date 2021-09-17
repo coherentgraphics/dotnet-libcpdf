@@ -1011,62 +1011,62 @@ class Program
 
     public static void netcpdf_setPageLayout(int pdf, int layout)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
-        cpdf_setPageLayout(pdf, layout);
+      [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
+      cpdf_setPageLayout(pdf, layout);
     }
 
     public static void netcpdf_setPageMode(int pdf, int mode)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_setPageMode(int pdf, int mode);
-        cpdf_setPageMode(pdf, mode);
+      [DllImport("libcpdf.so")] static extern void cpdf_setPageMode(int pdf, int mode);
+      cpdf_setPageMode(pdf, mode);
     }
 
     public static void netcpdf_hideToolbar(int pdf, int flag)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_hideToolbar(int pdf, int flag);
-        cpdf_hideToolbar(pdf, flag);
+      [DllImport("libcpdf.so")] static extern void cpdf_hideToolbar(int pdf, int flag);
+      cpdf_hideToolbar(pdf, flag);
     }
 
     public static void netcpdf_hideMenubar(int pdf, int flag)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_hideMenubar(int pdf, int flag);
-        cpdf_hideMenubar(pdf, flag);
+      [DllImport("libcpdf.so")] static extern void cpdf_hideMenubar(int pdf, int flag);
+      cpdf_hideMenubar(pdf, flag);
     }
 
     public static void netcpdf_hideWindowUi(int pdf, int flag)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_hideWindowUi(int pdf, int flag);
-        cpdf_hideWindowUi(pdf, flag);
+      [DllImport("libcpdf.so")] static extern void cpdf_hideWindowUi(int pdf, int flag);
+      cpdf_hideWindowUi(pdf, flag);
     }
 
     public static void netcpdf_fitWindow(int pdf, int flag)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_fitWindow(int pdf, int flag);
-        cpdf_fitWindow(pdf, flag);
+      [DllImport("libcpdf.so")] static extern void cpdf_fitWindow(int pdf, int flag);
+      cpdf_fitWindow(pdf, flag);
     }
 
     public static void netcpdf_centerWindow(int pdf, int flag)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_centerWindow(int pdf, int flag);
-        cpdf_centerWindow(pdf, flag);
+      [DllImport("libcpdf.so")] static extern void cpdf_centerWindow(int pdf, int flag);
+      cpdf_centerWindow(pdf, flag);
     }
 
     public static void netcpdf_displayDocTitle(int pdf, int flag)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_displayDocTitle(int pdf, int flag);
-        cpdf_displayDocTitle(pdf, flag);
+      [DllImport("libcpdf.so")] static extern void cpdf_displayDocTitle(int pdf, int flag);
+      cpdf_displayDocTitle(pdf, flag);
     }
 
     public static void netcpdf_openAtPage(int pdf, int fit, int pagenumber)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_openAtPage(int pdf, int fit, int pagenumber);
-        cpdf_openAtPage(pdf, fit, pagenumber);
+      [DllImport("libcpdf.so")] static extern void cpdf_openAtPage(int pdf, int fit, int pagenumber);
+      cpdf_openAtPage(pdf, fit, pagenumber);
     }
 
     public static void netcpdf_setMetadataFromFile(int pdf, string filename)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromFile(int pdf, string filename);
-        cpdf_setMetadataFromFile(pdf, filename);
+      [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromFile(int pdf, string filename);
+      cpdf_setMetadataFromFile(pdf, filename);
     }
 
     //FIXME setMetadataFromByteArray
@@ -1074,74 +1074,74 @@ class Program
 
     public static void netcpdf_removeMetadata(int pdf)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
-        cpdf_removeMetadata(pdf);
+      [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
+      cpdf_removeMetadata(pdf);
     }
 
     public static void netcpdf_createMetadata(int pdf)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_createMetadata(int pdf);
-        cpdf_createMetadata(pdf);
+      [DllImport("libcpdf.so")] static extern void cpdf_createMetadata(int pdf);
+      cpdf_createMetadata(pdf);
     }
 
     public static void netcpdf_setMetadataDate(int pdf, string date)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
-        cpdf_setMetadataDate(pdf, date);
+      [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
+      cpdf_setMetadataDate(pdf, date);
     }
 
     public static void netcpdf_addPageLabels(int pdf, int style, string prefix, int range, int progress)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int range, int progress);
-        cpdf_addPageLabels(pdf, style, prefix, range, progress);
+    [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int range, int progress);
+    cpdf_addPageLabels(pdf, style, prefix, range, progress);
     }
 
     public static void netcpdf_removePageLabels(int pdf)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_removePageLabels(int pdf);
-        cpdf_removePageLabels(pdf);
+      [DllImport("libcpdf.so")] static extern void cpdf_removePageLabels(int pdf);
+      cpdf_removePageLabels(pdf);
     }
 
     public static string netcpdf_getPageLabelStringForPage(int pdf, int pagenumber)
     {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelStringForPage(int pdf, int pagenumber);
-        return Marshal.PtrToStringAuto(cpdf_getPageLabelStringForPage(pdf, pagenumber));
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelStringForPage(int pdf, int pagenumber);
+      return Marshal.PtrToStringAuto(cpdf_getPageLabelStringForPage(pdf, pagenumber));
     }
 
     public static int netcpdf_startGetPageLabels(int pdf)
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_startGetPageLabels(int pdf);
-        return cpdf_startGetPageLabels(pdf);
+      [DllImport("libcpdf.so")] static extern int cpdf_startGetPageLabels(int pdf);
+      return cpdf_startGetPageLabels(pdf);
     }
 
     public static int netcpdf_getPageLabelStyle(int n)
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelStyle(int n);
-        return cpdf_getPageLabelStyle(n);
+      [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelStyle(int n);
+      return cpdf_getPageLabelStyle(n);
     }
 
     public static string netcpdf_getPageLabelPrefix(int n)
     {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelPrefix(int n);
-        return Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(n));
+      [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelPrefix(int n);
+      return Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(n));
     }
 
     public static int netcpdf_getPageLabelOffset(int n)
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelOffset(int n);
-        return cpdf_getPageLabelOffset(n);
+      [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelOffset(int n);
+      return cpdf_getPageLabelOffset(n);
     }
 
     public static int netcpdf_getPageLabelRange(int n)
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelRange(int n);
-        return cpdf_getPageLabelRange(n);
+      [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelRange(int n);
+      return cpdf_getPageLabelRange(n);
     }
 
     public static void netcpdf_endGetPageLabels()
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_endGetPageLabels();
-        cpdf_endGetPageLabels();
+      [DllImport("libcpdf.so")] static extern void cpdf_endGetPageLabels();
+      cpdf_endGetPageLabels();
     }
 
     /* CHAPTER 12. File Attachments */
