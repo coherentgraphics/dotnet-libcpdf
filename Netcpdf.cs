@@ -59,6 +59,20 @@ class Program
     static int netcpdf_diagonal = 11;
     static int netcpdf_reverseDiagonal = 12;
 
+    public struct netcpdf_position
+    {
+        public int netcpdf_anchor;
+        public double netcpdf_coord1;
+        public double netcpdf_coord2;
+
+        public netcpdf_position(int netcpdf_anchor, double netcpdf_coord1, double netcpdf_coord2)
+        {
+            this.netcpdf_anchor = netcpdf_anchor;
+            this.netcpdf_coord1 = netcpdf_coord1;
+            this.netcpdf_coord2 = netcpdf_coord2;
+        }
+    }
+
     static int netcpdf_timesRoman = 0;
     static int netcpdf_timesBold = 1;
     static int netcpdf_timesItalic = 2;
@@ -460,7 +474,11 @@ class Program
         cpdf_scaleToFitPaper(pdf, range, pagesize, scale);
     }
 
-    //FIXME scaleContents (position)
+    public static void netcpdf_scaleContents(int pdf, int range, netcpdf_position position, double scale)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleContents(int pdf, int range, netcpdf_position position, double scale);
+        cpdf_scaleContents(pdf, range, position, scale);
+    }
 
     public static void netcpdf_shiftContents(int pdf, int range, double dx, double dy)
     {
@@ -670,7 +688,11 @@ class Program
         cpdf_stampUnder(stamp_pdf, pdf, range);
     }
 
-    //FIXME cpdf_stampExtended needs position struct
+    public static void netcpdf_stampExtended(int pdf, int pdf2, int range, int isover, int scale_stamp_to_fit, netcpdf_position position, int relative_to_cropbox)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_stampExtended(int pdf, int pdf2, int scale_stamp_to_fit, netcpdf_position position, int relative_to_cropbox);
+        cpdf_stampExtended(pdf, pdf2, scale_stamp_to_fit, position, relative_to_cropbox);
+    }
 
     public static void netcpdf_combinePages(int under, int over)
     {
@@ -1571,6 +1593,8 @@ class Program
         netcpdf_scalePages(pdf15, netcpdf_all(pdf15), 1.3, 1.5);
         netcpdf_scaleToFit(pdf15, netcpdf_all(pdf15), 200.0, 300.0, 0.9);
         netcpdf_scaleToFitPaper(pdf15, netcpdf_all(pdf15), netcpdf_a4landscape, 0.9);
+        netcpdf_position position = new netcpdf_position (netcpdf_topRight, 1.0, 2.0);
+        netcpdf_scaleContents(pdf15, netcpdf_all(pdf15), position, 0.9);
         netcpdf_shiftContents(pdf15, netcpdf_all(pdf15), 1.5, 0.9);
         netcpdf_rotate(pdf15, netcpdf_all(pdf15), 90);
         netcpdf_rotateBy(pdf15, netcpdf_all(pdf15), 90);
@@ -1625,6 +1649,8 @@ class Program
         int pdf21 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_stampOn(pdf20, pdf21, netcpdf_all(pdf20));
         netcpdf_stampUnder(pdf20, pdf21, netcpdf_all(pdf20));
+        netcpdf_position pos = new netcpdf_position (netcpdf_topRight, 1.0, 2.0);
+        netcpdf_stampExtended(pdf20, pdf21, netcpdf_all(pdf20), netcpdf_true, netcpdf_true, pos, netcpdf_true);
         netcpdf_combinePages(pdf20, pdf21);
         netcpdf_removeText(pdf20, netcpdf_all(pdf20));
         int w = netcpdf_textWidth(netcpdf_timesBoldItalic, "foo");
