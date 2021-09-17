@@ -391,8 +391,17 @@ class Program
         cpdf_decryptPdfOwner(pdf, ownerpw);
     }
 
-    //FIXME [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int *permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
-    //FIXME [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int *permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
+    public static void netcpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
+        cpdf_toFileEncrypted(pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize, makeid, filename);
+    }
+
+    public static void netcpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
+        cpdf_toFileEncryptedExt(pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize, makeid, preserve_objstm, generate_objstm, compress_objstm, filename);
+    }
 
     public static int netcpdf_hasPermission(int pdf, int permission)
     {
@@ -407,9 +416,25 @@ class Program
     }
 
     /* CHAPTER 2. Merging and Splitting */
-    //FIXME mergeSimple
-    //FIXME merge
-    //FIXME mergeSame
+
+    public static int netcpdf_mergeSimple(int[] pdfs, int length)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_mergeSimple(int[] pdfs, int length);
+        return cpdf_mergeSimple(pdfs, length);
+    }
+
+    public static int netcpdf_merge(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_merge(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts);
+        return cpdf_merge(pdfs, length, retain_numbering, remove_duplicate_fonts);
+    }
+
+    public static int netcpdf_mergeSame(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts, int[] ranges)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_mergeSame(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts, int[] ranges);
+        return cpdf_mergeSame(pdfs, length, retain_numbering, remove_duplicate_fonts, ranges);
+    }
+
     public static int netcpdf_selectPages(int pdf, int r)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_selectPages(int pdf, int r);
@@ -1521,6 +1546,11 @@ class Program
         int isenc = netcpdf_isEncrypted(pdf10);
         netcpdf_decryptPdf(pdf10, "");
         netcpdf_decryptPdfOwner(pdf10, "");
+        int pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int[] permissions = new [] {netcpdf_noHqPrint};
+        netcpdf_toFileEncrypted(pdf400, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, "testoutputs/tofileenc.pdf");
+        netcpdf_toFileEncryptedExt(pdf401, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_false, "testoutputs/tofileencext.pdf");
         int hasnoedit = netcpdf_hasPermission(pdf10, netcpdf_noEdit);
         int enckind = netcpdf_encryptionKind(pdf10);
 
@@ -1528,6 +1558,13 @@ class Program
         int pdf11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf12 = netcpdf_selectPages(pdf11, even);
         netcpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", netcpdf_false, netcpdf_true);
+        int[] arr = new [] {pdf12, pdf12, pdf12};
+        Console.WriteLine($"length = {arr.Length}");
+        int merged = netcpdf_mergeSimple(arr, arr.Length);
+        netcpdf_toFile(merged, "testoutputs/merged3.pdf", netcpdf_false, netcpdf_true);
+        int merged2 = netcpdf_merge(arr, arr.Length, netcpdf_false, netcpdf_false);
+        int[] ranges = new [] {netcpdf_all(pdf12), netcpdf_all(pdf12), netcpdf_all(pdf12)};
+        int merged3 = netcpdf_mergeSame(arr, arr.Length, netcpdf_false, netcpdf_false, ranges);
 
         /* CHAPTER 3. Pages */
         int pdf15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
