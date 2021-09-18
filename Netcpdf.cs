@@ -116,7 +116,7 @@ class Program
     public static void netcpdf_startup(string[] argv)
     {
         //FIXME Actually convert and pass the args
-        [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] ptr);
+        [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] argv);
         IntPtr[] args = {};
         cpdf_startup(args);
     }
@@ -178,8 +178,27 @@ class Program
         return cpdf_fromFileLazy(filename, userpw);
     }
 
-    //FIXME fromMemory
-    //FIXME fromMemoryLazy
+    public static int netcpdf_fromMemory(byte[] data, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(IntPtr data, int length, string userpw);
+        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        int pdf = cpdf_fromMemory(ptr, data.Length, userpw);
+        Marshal.FreeHGlobal(ptr);
+        return pdf;
+    }
+
+    public static int netcpdf_fromMemoryPtr(IntPtr data, int length, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(IntPtr data, int length, string userpw);
+        return cpdf_fromMemory(data, length, userpw);
+    }
+
+    public static int netcpdf_fromMemoryPtrLazy(IntPtr data, int length, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromMemoryLazy(IntPtr data, int length, string userpw);
+        return cpdf_fromMemoryLazy(data, length, userpw);
+    }
 
     public static int netcpdf_blankDocument(double w, double h, int pages)
     {
@@ -385,7 +404,16 @@ class Program
         cpdf_toFileExt(pdf, filename, linearize, make_id, preserve_objstm, generate_objstm, compress_objstm);
     }
 
-    //FIXME toMemory
+    public static byte[] netcpdf_toMemory(int pdf, int linearize, int makeid)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_toMemory(int pdf, int linearize, int makeid, ref int length);
+        int length = 0;
+        IntPtr ptr = cpdf_toMemory(pdf, linearize, makeid, ref length);
+        byte[] data = new byte[length];
+        //Marshal.copy(ptr, 0, data, length);
+        //FIXME: Free the memory in C - we need to export a free-ing function in cpdflibwrapper.h
+        return data;
+    }
 
     public static int netcpdf_isEncrypted(int pdf)
     {
