@@ -113,9 +113,8 @@ class Program
 
     /* CHAPTER 0. Preliminaries */
 
-    public static void netcpdf_startup(string[] argv)
+    public static void netcpdf_startup()
     {
-        //FIXME Actually convert and pass the args
         [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] argv);
         IntPtr[] args = {};
         cpdf_startup(args);
@@ -1548,8 +1547,7 @@ class Program
     {
 
         /* CHAPTER 0. Preliminaries */
-        string[] argv = new string[] { };
-        netcpdf_startup(argv); //FIXME real argv
+        netcpdf_startup();
         netcpdf_version();
         netcpdf_setSlow();
         netcpdf_setFast();
