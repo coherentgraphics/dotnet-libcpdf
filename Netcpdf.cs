@@ -1612,16 +1612,23 @@ class Program
         int enckind = netcpdf_encryptionKind(pdf10);
 
         /* CHAPTER 2. Merging and Splitting */
+        Console.WriteLine("***** CHAPTER 2. Merging and Splitting");
         int pdf11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pdf12 = netcpdf_selectPages(pdf11, even);
-        netcpdf_toFile(pdf12, "testoutputs/selectedpages.pdf", netcpdf_false, netcpdf_true);
-        int[] arr = new [] {pdf12, pdf12, pdf12};
-        Console.WriteLine($"length = {arr.Length}");
+        int selectrange = netcpdf_range(1, 3);
+        Console.WriteLine("---cpdf_mergeSimple()");
+        int[] arr = new [] {pdf11, pdf11, pdf11};
         int merged = netcpdf_mergeSimple(arr, arr.Length);
-        netcpdf_toFile(merged, "testoutputs/merged3.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFile(merged, "testoutputs/02merged.pdf", netcpdf_false, netcpdf_true);
+        Console.WriteLine("---cpdf_merge()");
         int merged2 = netcpdf_merge(arr, arr.Length, netcpdf_false, netcpdf_false);
-        int[] ranges = new [] {netcpdf_all(pdf12), netcpdf_all(pdf12), netcpdf_all(pdf12)};
+        netcpdf_toFile(merged2, "testoutputs/02merged2.pdf", netcpdf_false, netcpdf_true);
+        Console.WriteLine("---cpdf_mergeSame()");
+        int[] ranges = new [] {netcpdf_all(pdf11), netcpdf_all(pdf11), netcpdf_all(pdf11)};
         int merged3 = netcpdf_mergeSame(arr, arr.Length, netcpdf_false, netcpdf_false, ranges);
+        netcpdf_toFile(merged3, "testoutputs/02merged3.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_selectPages()");
+        int pdf12 = netcpdf_selectPages(pdf11, selectrange);
+        netcpdf_toFile(pdf12, "testoutputs/02selected.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 3. Pages */
         int pdf15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
