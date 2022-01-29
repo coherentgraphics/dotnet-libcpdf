@@ -1549,8 +1549,8 @@ class Program
         /* CHAPTER 0. Preliminaries */
         netcpdf_startup();
         netcpdf_version();
-        netcpdf_setSlow();
         netcpdf_setFast();
+        netcpdf_setSlow();
         //Console.WriteLine("lastError = %i\n", cpdf_lastError());
         //Console.WriteLine("lastErrorString = %s\n", Marshal.PtrToStringAuto(cpdf_lastErrorString()));
         netcpdf_onExit();
