@@ -1556,6 +1556,7 @@ class Program
         netcpdf_onExit();
 
         /* CHAPTER 1. Basics */
+        Console.WriteLine("***** CHAPTER 1. Basics");
         int pdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
         //FIXME fromMemory
@@ -1715,12 +1716,20 @@ class Program
         /* Encryption covered under Chapter 1 in cpdflib. */
 
         /* CHAPTER 5. Compression */
+        Console.WriteLine("***** CHAPTER 5. Compression");
         int pdf16 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_compress()");
         netcpdf_compress(pdf16);
+        netcpdf_toFile(pdf16, "testoutputs/05compressed.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_decompress()");
         netcpdf_decompress(pdf16);
+        netcpdf_toFile(pdf16, "testoutputs/05decompressed.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_squeezeInMemory()");
         netcpdf_squeezeInMemory(pdf16);
+        netcpdf_toFile(pdf16, "testoutputs/05squeezedinmemory.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 6. Bookmarks */
+        Console.WriteLine("***** CHAPTER 6. Bookmarks");
         int pdf17 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_startGetBookmarkInfo(pdf17);
         int nb = netcpdf_numberBookmarks();
@@ -1745,6 +1754,7 @@ class Program
         /* Not included in the library version. */
 
         /* CHAPTER 8. Logos, Watermarks and Stamps */
+        Console.WriteLine("***** CHAPTER 8. Logos, Watermarks and Stamps");
         int pdf20 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf21 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_stampOn(pdf20, pdf21, netcpdf_all(pdf20));
@@ -1759,6 +1769,7 @@ class Program
         string name = netcpdf_stampAsXObject(pdf20, netcpdf_all(pdf20), pdf20);
 
         /* CHAPTER 9. Multipage facilities */
+        Console.WriteLine("***** CHAPTER 9. Multipage Facilities");
         int pdf19 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_twoUp(pdf19);
         netcpdf_twoUpStack(pdf19);
@@ -1772,6 +1783,7 @@ class Program
         /* Not in the library version */
 
         /* CHAPTER 11. Document Information and Metadata */
+        Console.WriteLine("***** CHAPTER 11. Document Information and Metadata");
         int pdf30 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
         int v = netcpdf_getVersion(pdf30);
@@ -1881,6 +1893,7 @@ class Program
         netcpdf_endGetPageLabels();
 
         /* CHAPTER 12. File Attachments */
+        Console.WriteLine("***** CHAPTER 12. File Attachments");
         netcpdf_attachFile("testinputs/cpdflibmanual.pdf", pdf30);
         netcpdf_attachFileToPage("testinputs/cpdflibmanual.pdf", pdf30, 1);
         netcpdf_removeAttachedFiles(pdf30);
@@ -1894,6 +1907,7 @@ class Program
         netcpdf_endGetAttachments();
 
         /* CHAPTER 13. Images. */
+        Console.WriteLine("***** CHAPTER 13. Images");
         int im_n = netcpdf_startGetImageResolution(pdf30, 2.0);
         for (int im = 0; im < im_n; im++)
         {
@@ -1907,6 +1921,7 @@ class Program
         netcpdf_endGetImageResolution();
 
         /* CHAPTER 14. Fonts. */
+        Console.WriteLine("***** CHAPTER 14. Fonts");
         netcpdf_startGetFontInfo(pdf30);
         int fonts = netcpdf_numberFonts();
         for (int ff = 0; ff < fonts; ff++)
@@ -1921,11 +1936,13 @@ class Program
         netcpdf_copyFont(pdf30, pdf30, netcpdf_all(pdf30), 1, "/Font");
 
         /* CHAPTER 15. PDF and JSON */
+        Console.WriteLine("***** CHAPTER 15. PDF and JSON");
         int pdf14 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_outputJSON("testoutputs/foo.json", netcpdf_false, netcpdf_true, pdf14);
 
 
         /* CHAPTER 16. Optional Content Groups */
+        Console.WriteLine("***** CHAPTER 16. Optional Content Groups");
         int pdf13 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int n2 = netcpdf_startGetOCGList(pdf13);
         for(int x = 0; x < n2; x++)
@@ -1937,7 +1954,11 @@ class Program
         netcpdf_OCGOrderAll(pdf13);
         netcpdf_OCGCoalesce(pdf13);
 
-        /* CHAPTER 17. Miscellaneous */
+        /* CHAPTER 17. Creating New PDFs */
+        Console.WriteLine("***** CHAPTER 17. Creating New PDFs");
+
+        /* CHAPTER 18. Miscellaneous */
+        Console.WriteLine("***** CHAPTER 18. Miscellaneous");
         int pdf22 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_draft(pdf22, netcpdf_all(pdf22), netcpdf_false);
         netcpdf_removeAllText(pdf22, netcpdf_all(pdf22));
@@ -1951,6 +1972,7 @@ class Program
         netcpdf_setFullVersion(pdf22, 2, 0);
         netcpdf_removeDictEntry(pdf22, "/Foo");
         netcpdf_removeClipping(pdf22, netcpdf_all(pdf22));
+
     }
 }
 }
