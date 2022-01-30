@@ -1550,13 +1550,20 @@ class Program
     {
 
         /* CHAPTER 0. Preliminaries */
+        Console.WriteLine("***** CHAPTER 0. Preliminaries");
+        Console.WriteLine("---cpdf_startup()");
         netcpdf_startup();
-        netcpdf_version();
+        Console.WriteLine("---cpdf_version()");
+        Console.WriteLine("version = {0}", netcpdf_version());
+        Console.WriteLine("---cpdf_setFast()");
         netcpdf_setFast();
+        Console.WriteLine("---cpdf_setSlow()");
         netcpdf_setSlow();
-        //Console.WriteLine("lastError = %i\n", cpdf_lastError());
-        //Console.WriteLine("lastErrorString = %s\n", Marshal.PtrToStringAuto(cpdf_lastErrorString()));
-        netcpdf_onExit();
+        //FIXME
+        //Console.WriteLine("lastError = %i\n", netcpdf_lastError());
+        //Console.WriteLine("lastErrorString = %s\n", netcpdf_lastErrorString());
+        Console.WriteLine("---cpdf_clearError()");
+        netcpdf_clearError();
 
         /* CHAPTER 1. Basics */
         Console.WriteLine("***** CHAPTER 1. Basics");
