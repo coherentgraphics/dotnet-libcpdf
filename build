@@ -1,1 +1,2 @@
+cp ../cpdflib-source/libcpdf.so /usr/local/lib/libcpdf.so
 dotnet build

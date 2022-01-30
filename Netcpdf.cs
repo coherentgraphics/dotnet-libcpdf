@@ -1980,16 +1980,21 @@ class Program
 
         /* CHAPTER 16. Optional Content Groups */
         Console.WriteLine("***** CHAPTER 16. Optional Content Groups");
-        int pdf13 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int n2 = netcpdf_startGetOCGList(pdf13);
+        int ocg = netcpdf_fromFile("testinputs/has_ocgs.pdf", "");
+        Console.WriteLine("---cpdf: Get OCG List");
+        int n2 = netcpdf_startGetOCGList(ocg);
         for(int x = 0; x < n2; x++)
         {
             Console.WriteLine(netcpdf_OCGListEntry(x));
         }
         netcpdf_endGetOCGList();
-        netcpdf_OCGRename(pdf13, "From", "To");
-        netcpdf_OCGOrderAll(pdf13);
-        netcpdf_OCGCoalesce(pdf13);
+        Console.WriteLine("---cpdf_OCGCoalesce()");
+        netcpdf_OCGCoalesce(ocg);
+        Console.WriteLine("---cpdf_OCGRename()");
+        netcpdf_OCGRename(ocg, "From", "To");
+        Console.WriteLine("---cpdf_OCGOrderAll()");
+        netcpdf_OCGOrderAll(ocg);
+
 
         /* CHAPTER 17. Creating New PDFs */
         Console.WriteLine("***** CHAPTER 17. Creating New PDFs");
