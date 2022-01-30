@@ -1914,10 +1914,14 @@ class Program
 
         /* CHAPTER 12. File Attachments */
         Console.WriteLine("***** CHAPTER 12. File Attachments");
-        netcpdf_attachFile("testinputs/cpdflibmanual.pdf", pdf30);
-        netcpdf_attachFileToPage("testinputs/cpdflibmanual.pdf", pdf30, 1);
-        netcpdf_removeAttachedFiles(pdf30);
-        netcpdf_startGetAttachments(pdf30);
+        int attachments = netcpdf_fromFile("testinputs/has_attachments.pdf", "");
+        Console.WriteLine("---cpdf_attachFile()");
+        netcpdf_attachFile("testinputs/image.pdf", attachments);
+        Console.WriteLine("---cpdf_attachFileToPage()");
+        netcpdf_attachFileToPage("testinputs/cpdflibmanual.pdf", attachments, 1);
+        netcpdf_toFile(attachments, "testoutputs/12with_attachments.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf: get attachments");
+        netcpdf_startGetAttachments(attachments);
         int n_a = netcpdf_numberGetAttachments();
         for (int aa = 0; aa < n_a; aa++)
         {
@@ -1925,6 +1929,9 @@ class Program
             int a_page = netcpdf_getAttachmentPage(aa);
         }
         netcpdf_endGetAttachments();
+        Console.WriteLine("---cpdf_removeAttachedFiles()");
+        netcpdf_removeAttachedFiles(attachments);
+        netcpdf_toFile(attachments, "testoutputs/12removed_attachments.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 13. Images. */
         Console.WriteLine("***** CHAPTER 13. Images");
