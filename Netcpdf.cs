@@ -199,17 +199,6 @@ class Program
         return cpdf_fromMemoryLazy(data, length, userpw);
     }
 
-    public static int netcpdf_blankDocument(double w, double h, int pages)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
-        return cpdf_blankDocument(w, h, pages);
-    }
-
-    public static int netcpdf_blankDocumentPaper(int papersize, int pages)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
-        return cpdf_blankDocumentPaper(papersize, pages);
-    }
 
     public static void netcpdf_deletePdf(int pdf)
     {
@@ -1425,10 +1414,10 @@ class Program
     }
 
     /* CHAPTER 15. PDF and JSON */
-    public static void netcpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf)
+    public static void netcpdf_outputJSON(string filename, int parse_content, int no_stream_data, int decompress_streams, int pdf)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int pdf);
-        cpdf_outputJSON(filename, parse_content, no_stream_data, pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int decompress_streams, int pdf);
+        cpdf_outputJSON(filename, parse_content, no_stream_data, decompress_streams, pdf);
     }
 
 
@@ -1470,7 +1459,21 @@ class Program
     }
 
 
-    /* CHAPTER 17. Miscellaneous */
+    /* CHAPTER 17. Creating New PDFs */
+    public static int netcpdf_blankDocument(double w, double h, int pages)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
+        return cpdf_blankDocument(w, h, pages);
+    }
+
+    public static int netcpdf_blankDocumentPaper(int papersize, int pages)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
+        return cpdf_blankDocumentPaper(papersize, pages);
+    }
+
+
+    /* CHAPTER 18. Miscellaneous */
     public static void netcpdf_draft(int pdf, int range, int boxes)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_draft(int pdf, int range, int boxes);
@@ -1563,9 +1566,6 @@ class Program
         //FIXME fromMemoryLazy
         int pdf3 = netcpdf_blankDocument(153.5, 234.2, 50);
         int pdf4 = netcpdf_blankDocumentPaper(netcpdf_a4landscape, 50);
-        netcpdf_toFile(pdf3, "testoutputs/blank.pdf", netcpdf_false, netcpdf_true);
-        netcpdf_toFile(pdf4, "testoutputs/blankpaper.pdf", netcpdf_false, netcpdf_true);
-        netcpdf_toFile(pdf, "testoutputs/out.pdf", netcpdf_false, netcpdf_true);
         netcpdf_deletePdf(pdf);
         netcpdf_replacePdf(pdf3, pdf4);
         int n = netcpdf_startEnumeratePDFs();
@@ -1731,8 +1731,10 @@ class Program
         /* CHAPTER 6. Bookmarks */
         Console.WriteLine("***** CHAPTER 6. Bookmarks");
         int pdf17 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf: get bookmarks");
         netcpdf_startGetBookmarkInfo(pdf17);
         int nb = netcpdf_numberBookmarks();
+        Console.WriteLine($"There are {nb} bookmarks");
         for (int b2 = 0; b2 < nb; b2++)
         {
             int level = netcpdf_getBookmarkLevel(b2);
@@ -1742,7 +1744,7 @@ class Program
             Console.WriteLine($"Bookmark at level {level} points to page {page} and has text \"{text}\" and open {open}");
         }
         netcpdf_endGetBookmarkInfo();
-
+        Console.WriteLine("---cpdf: set bookmarks");
         netcpdf_startSetBookmarkInfo(1);
         netcpdf_setBookmarkLevel(0, 0);
         netcpdf_setBookmarkPage(pdf17, 0, 1);
@@ -1974,8 +1976,9 @@ class Program
 
         /* CHAPTER 15. PDF and JSON */
         Console.WriteLine("***** CHAPTER 15. PDF and JSON");
-        int pdf14 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        netcpdf_outputJSON("testoutputs/foo.json", netcpdf_false, netcpdf_true, pdf14);
+        int jsonpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_outputJSON()");
+        netcpdf_outputJSON("testoutputs/15json.json", netcpdf_false, netcpdf_false, netcpdf_false, jsonpdf);
 
 
         /* CHAPTER 16. Optional Content Groups */
@@ -1998,6 +2001,12 @@ class Program
 
         /* CHAPTER 17. Creating New PDFs */
         Console.WriteLine("***** CHAPTER 17. Creating New PDFs");
+        Console.WriteLine("---cpdf_blankDocument()");
+        int new1 = netcpdf_blankDocument(100.0, 200.0, 20);
+        Console.WriteLine("---cpdf_blankDocumentPaper()");
+        int new2 = netcpdf_blankDocumentPaper(netcpdf_a4portrait, 10);
+        netcpdf_toFile(new1, "testoutputs/01blank.pdf", netcpdf_false, netcpdf_false);
+        netcpdf_toFile(new2, "testoutputs/01blanka4.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 18. Miscellaneous */
         Console.WriteLine("***** CHAPTER 18. Miscellaneous");
