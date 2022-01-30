@@ -710,16 +710,16 @@ class Program
         cpdf_stampExtended(pdf, pdf2, scale_stamp_to_fit, position, relative_to_cropbox);
     }
 
-    public static void netcpdf_combinePages(int under, int over)
+    public static int netcpdf_combinePages(int under, int over)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
-        cpdf_combinePages(under, over);
+        return cpdf_combinePages(under, over);
     }
 
-    public static void netcpdf_addText(int metrics, int pdf, int range, string text, netcpdf_position position, double linespacing, int bates, int font, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts)
+    public static void netcpdf_addText(int metrics, int pdf, int range, string text, netcpdf_position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_addText(int metrics, int pdf, int range, string text, netcpdf_position position, double linespacing, int bates, int font, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts);
-        cpdf_addText(metrics, pdf, range, text, position, linespacing, bates, font, r, g, b, underneath, relative_to_cropbox, outline, opacity, justification, midline, topline, filename, linewidth, embed_fonts);
+        [DllImport("libcpdf.so")] static extern void cpdf_addText(int metrics, int pdf, int range, string text, netcpdf_position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts);
+        cpdf_addText(metrics, pdf, range, text, position, linespacing, bates, font, fontsize, r, g, b, underneath, relative_to_cropbox, outline, opacity, justification, midline, topline, filename, linewidth, embed_fonts);
     }
 
     public static void netcpdf_addTextSimple(int pdf, int range, string text, netcpdf_position position, int font, double fontsize)
@@ -1764,21 +1764,63 @@ class Program
 
         /* CHAPTER 8. Logos, Watermarks and Stamps */
         Console.WriteLine("***** CHAPTER 8. Logos, Watermarks and Stamps");
-        int pdf20 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pdf21 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        netcpdf_stampOn(pdf20, pdf21, netcpdf_all(pdf20));
-        netcpdf_stampUnder(pdf20, pdf21, netcpdf_all(pdf20));
-        netcpdf_position pos = new netcpdf_position (netcpdf_topRight, 1.0, 2.0);
-        netcpdf_stampExtended(pdf20, pdf21, netcpdf_all(pdf20), netcpdf_true, netcpdf_true, pos, netcpdf_true);
-        netcpdf_combinePages(pdf20, pdf21);
-        netcpdf_addTextSimple(pdf21, netcpdf_all(pdf21), "text", pos, netcpdf_timesBoldItalic, 40.0);
-        netcpdf_addText(netcpdf_false, pdf21, netcpdf_all(pdf21), "text", pos, 1.5, 1, netcpdf_timesBoldItalic, 0.0, 0.5, 0.5, netcpdf_false, netcpdf_true, netcpdf_false, 0.5, netcpdf_RightJustify, netcpdf_false, netcpdf_false, "filename", 5.4, netcpdf_false);
-        netcpdf_removeText(pdf20, netcpdf_all(pdf20));
-        int w = netcpdf_textWidth(netcpdf_timesBoldItalic, "foo");
-        string name = netcpdf_stampAsXObject(pdf20, netcpdf_all(pdf20), pdf20);
+        int textfile = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_addText()");
+        netcpdf_position pos = new netcpdf_position (netcpdf_topLeft, 20.0, 20.0);
+        netcpdf_addText(netcpdf_false,
+                        textfile,
+                        netcpdf_all(textfile),
+                        "Some Text~~~~~~~~~~!",
+                        pos,
+                        1.0,
+                        1,
+                        netcpdf_timesRoman,
+                        20.0,
+                        0.5,
+                        0.5,
+                        0.5,
+                        netcpdf_false,
+                        netcpdf_false,
+                        netcpdf_true,
+                        0.5,
+                        netcpdf_leftJustify,
+                        netcpdf_false,
+                        netcpdf_false,
+                        "",
+                        1.0,
+                        netcpdf_false);
+        Console.WriteLine("---cpdf_addTextSimple()");
+        netcpdf_addTextSimple(textfile, netcpdf_all(textfile), "The text!", pos, netcpdf_timesRoman, 50.0);
+        netcpdf_toFile(textfile, "testoutputs/08added_text.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_removeText()");
+        netcpdf_removeText(textfile, netcpdf_all(textfile));
+        netcpdf_toFile(textfile, "testoutputs/08removed_text.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_textWidth()");
+        int w = netcpdf_textWidth(netcpdf_timesRoman, "What is the width of this?");
+        int stamp = netcpdf_fromFile("testinputs/logo.pdf", "");
+        int stampee = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int stamp_range = netcpdf_all(stamp);
+        Console.WriteLine("---cpdf_stampOn()");
+        netcpdf_stampOn(stamp, stampee, stamp_range);
+        Console.WriteLine("---cpdf_stampUnder()");
+        netcpdf_stampUnder(stamp, stampee, stamp_range);
+        netcpdf_position spos = new netcpdf_position (netcpdf_topLeft, 20.0, 20.0);
+        Console.WriteLine("---cpdf_stampExtended()");
+        netcpdf_stampExtended(stamp, stampee, stamp_range, netcpdf_true, netcpdf_true, spos, netcpdf_true);
+        netcpdf_toFile(stamp, "testoutputs/08stamp_after.pdf", netcpdf_false, netcpdf_false);
+        netcpdf_toFile(stampee, "testoutputs/08stampee_after.pdf", netcpdf_false, netcpdf_false);
+        int c1 = netcpdf_fromFile("testinputs/logo.pdf", "");
+        int c2 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_combinePages()");
+        int c3 = netcpdf_combinePages(c1, c2);
+        netcpdf_toFile(c3, "testoutputs/08c3after.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_stampAsXObject()"); 
+        int undoc = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int ulogo = netcpdf_fromFile("testinputs/logo.pdf", "");
+        string name = netcpdf_stampAsXObject(undoc, netcpdf_all(undoc), ulogo);
 
         /* CHAPTER 9. Multipage facilities */
-        Console.WriteLine("***** CHAPTER 9. Multipage Facilities");
+        Console.WriteLine("***** CHAPTER 9. Multipage facilities");
         int mp = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_twoUp()");
         netcpdf_twoUp(mp);
