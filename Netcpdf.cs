@@ -1739,7 +1739,7 @@ class Program
             int page = netcpdf_getBookmarkPage(pdf17, b2);
             string text = netcpdf_getBookmarkText(b2);
             int open = netcpdf_getBookmarkOpenStatus(b2);
-            Console.WriteLine($"{level} {page} {text} {open}", level, page, text, open);
+            Console.WriteLine($"Bookmark at level {level} points to page {page} and has text \"{text}\" and open {open}");
         }
         netcpdf_endGetBookmarkInfo();
 
@@ -1770,14 +1770,34 @@ class Program
 
         /* CHAPTER 9. Multipage facilities */
         Console.WriteLine("***** CHAPTER 9. Multipage Facilities");
-        int pdf19 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        netcpdf_twoUp(pdf19);
-        netcpdf_twoUpStack(pdf19);
-        netcpdf_padBefore(pdf19, netcpdf_all(pdf19));
-        netcpdf_padAfter(pdf19, netcpdf_all(pdf19));
-        netcpdf_padEvery(pdf19, 6);
-        netcpdf_padMultiple(pdf19, 6);
-        netcpdf_padMultipleBefore(pdf19, 7);
+        int mp = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_twoUp()");
+        netcpdf_twoUp(mp);
+        netcpdf_toFile(mp, "testoutputs/09mp.pdf", netcpdf_false, netcpdf_false);
+        int mp2 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_twoUpStack()");
+        netcpdf_twoUpStack(mp2);
+        netcpdf_toFile(mp2, "testoutputs/09mp2.pdf", netcpdf_false, netcpdf_false);
+        int mp3 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_padBefore()");
+        netcpdf_padBefore(mp3, netcpdf_range(1, 10));
+        netcpdf_toFile(mp3, "testoutputs/09mp3.pdf", netcpdf_false, netcpdf_false);
+        int mp4 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_padAfter()");
+        netcpdf_padAfter(mp4, netcpdf_range(1, 10));
+        netcpdf_toFile(mp4, "testoutputs/09mp4.pdf", netcpdf_false, netcpdf_false);
+        int mp5 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_padEvery()");
+        netcpdf_padEvery(mp5, 5);
+        netcpdf_toFile(mp5, "testoutputs/09mp5.pdf", netcpdf_false, netcpdf_false);
+        int mp6 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_padMultiple()");
+        netcpdf_padMultiple(mp6, 10);
+        netcpdf_toFile(mp6, "testoutputs/09mp6.pdf", netcpdf_false, netcpdf_false);
+        int mp7 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_padMultipleBefore()");
+        netcpdf_padMultipleBefore(mp7, 23);
+        netcpdf_toFile(mp7, "testoutputs/09mp7.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 10. Annotations */
         /* Not in the library version */
@@ -1908,7 +1928,9 @@ class Program
 
         /* CHAPTER 13. Images. */
         Console.WriteLine("***** CHAPTER 13. Images");
-        int im_n = netcpdf_startGetImageResolution(pdf30, 2.0);
+        Console.WriteLine("---cpdf: get image resolution");
+        int image_pdf = netcpdf_fromFile("testinputs/image.pdf", "");
+        int im_n = netcpdf_startGetImageResolution(image_pdf, 2.0);
         for (int im = 0; im < im_n; im++)
         {
             int im_p = netcpdf_getImageResolutionPageNumber(im);
@@ -1917,23 +1939,31 @@ class Program
             int im_yp = netcpdf_getImageResolutionYPixels(im);
             double im_xres = netcpdf_getImageResolutionXRes(im);
             double im_yres = netcpdf_getImageResolutionYRes(im);
+            Console.WriteLine($"IMAGE: {im_p}, {im_name}, {im_xp}, {im_yp}, {im_xres:00.000000}, {im_yres:00.000000}");
         }
         netcpdf_endGetImageResolution();
 
         /* CHAPTER 14. Fonts. */
         Console.WriteLine("***** CHAPTER 14. Fonts");
-        netcpdf_startGetFontInfo(pdf30);
-        int fonts = netcpdf_numberFonts();
-        for (int ff = 0; ff < fonts; ff++)
+        Console.WriteLine("---cpdf: Get Fonts");
+        int fonts = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int fonts2 = netcpdf_fromFile("testinputs/frontmatter.pdf", "");
+        netcpdf_startGetFontInfo(fonts);
+        int n_fonts = netcpdf_numberFonts();
+        for (int ff = 0; ff < n_fonts; ff++)
         {
             int page = netcpdf_getFontPage(ff);
             string f_name = netcpdf_getFontName(ff);
             string type = netcpdf_getFontType(ff);
             string encoding = netcpdf_getFontEncoding(ff);
+            Console.WriteLine("Page {0}, font {1} has type {2} and encoding {3}", page, f_name, type, encoding);
         }
         netcpdf_endGetFontInfo();
-        netcpdf_removeFonts(pdf30);
-        netcpdf_copyFont(pdf30, pdf30, netcpdf_all(pdf30), 1, "/Font");
+        Console.WriteLine("---cpdf_removeFonts()");
+        netcpdf_removeFonts(fonts);
+        netcpdf_toFile(fonts, "testoutputs/14remove_fonts.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_copyFont()");
+        netcpdf_copyFont(fonts, fonts2, netcpdf_all(fonts), 1, "/Font");
 
         /* CHAPTER 15. PDF and JSON */
         Console.WriteLine("***** CHAPTER 15. PDF and JSON");
@@ -1959,20 +1989,55 @@ class Program
 
         /* CHAPTER 18. Miscellaneous */
         Console.WriteLine("***** CHAPTER 18. Miscellaneous");
-        int pdf22 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        netcpdf_draft(pdf22, netcpdf_all(pdf22), netcpdf_false);
-        netcpdf_removeAllText(pdf22, netcpdf_all(pdf22));
-        netcpdf_blackText(pdf22, netcpdf_all(pdf22));
-        netcpdf_blackLines(pdf22, netcpdf_all(pdf22));
-        netcpdf_blackFills(pdf22, netcpdf_all(pdf22));
-        netcpdf_thinLines(pdf22, netcpdf_all(pdf22), 1.0);
-        netcpdf_copyId(pdf22, pdf22);
-        netcpdf_removeId(pdf22);
-        netcpdf_setVersion(pdf22, 2);
-        netcpdf_setFullVersion(pdf22, 2, 0);
-        netcpdf_removeDictEntry(pdf22, "/Foo");
-        netcpdf_removeClipping(pdf22, netcpdf_all(pdf22));
-
+        int misc = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc2 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc3 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc4 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc5 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc6 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc7 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc8 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc9 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc12 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misclogo = netcpdf_fromFile("testinputs/logo.pdf", "");
+        Console.WriteLine("---cpdf_draft()");
+        netcpdf_draft(misc, netcpdf_all(misc), netcpdf_true);
+        netcpdf_toFile(misc, "testoutputs/17draft.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_removeAllText()");
+        netcpdf_removeAllText(misc2, netcpdf_all(misc2));
+        netcpdf_toFile(misc, "testoutputs/17removealltext.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_blackText()");
+        netcpdf_blackText(misc3, netcpdf_all(misc3));
+        netcpdf_toFile(misc, "testoutputs/17blacktext.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_blackLines()");
+        netcpdf_blackLines(misc4, netcpdf_all(misc4));
+        netcpdf_toFile(misc, "testoutputs/17blacklines.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_blackFills()");
+        netcpdf_blackFills(misc5, netcpdf_all(misc5));
+        netcpdf_toFile(misc, "testoutputs/17blackfills.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_thinLines()");
+        netcpdf_thinLines(misc6, netcpdf_all(misc6), 1.0);
+        netcpdf_toFile(misc, "testoutputs/17thinlines.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_copyId()");
+        netcpdf_copyId(misclogo, misc7);
+        netcpdf_toFile(misc, "testoutputs/17copyid.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_removeId()");
+        netcpdf_removeId(misc8);
+        netcpdf_toFile(misc, "testoutputs/17draft.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_setVersion()");
+        netcpdf_setVersion(misc9, 1);
+        netcpdf_toFile(misc, "testoutputs/17setversion.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_setFullVersion()");
+        netcpdf_setFullVersion(misc10, 2, 0);
+        netcpdf_toFile(misc, "testoutputs/17setfullversion.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_removeDictEntry()");
+        netcpdf_removeDictEntry(misc11, "/Producer");
+        netcpdf_toFile(misc, "testoutputs/17removedictentry.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_removeClipping()");
+        netcpdf_removeClipping(misc12, netcpdf_all(misc12));
+        netcpdf_toFile(misc, "testoutputs/17removeclipping.pdf", netcpdf_false, netcpdf_false);
     }
 }
 }
