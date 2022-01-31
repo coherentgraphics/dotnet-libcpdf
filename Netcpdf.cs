@@ -1567,7 +1567,9 @@ class Program
 
         /* CHAPTER 1. Basics */
         Console.WriteLine("***** CHAPTER 1. Basics");
+        Console.WriteLine("---cpdf_fromFile()");
         int pdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_fromFileLazy()");
         int pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
         //FIXME fromMemory
         //FIXME fromMemoryLazy
@@ -1575,6 +1577,7 @@ class Program
         int pdf4 = netcpdf_blankDocumentPaper(netcpdf_a4landscape, 50);
         netcpdf_deletePdf(pdf);
         netcpdf_replacePdf(pdf3, pdf4);
+        Console.WriteLine("---cpdf: enumerate PDFs");
         int n = netcpdf_startEnumeratePDFs();
         for (int x = 0; x < n; x++)
         {
@@ -1582,42 +1585,89 @@ class Program
             string info = netcpdf_enumeratePDFsInfo(x);
         }
         netcpdf_endEnumeratePDFs();
-        Console.WriteLine("{0:N}", netcpdf_ptOfCm(1.0));
-        Console.WriteLine("{0:N}", netcpdf_ptOfMm(1.0));
-        Console.WriteLine("{0:N}", netcpdf_ptOfIn(1.0));
-        Console.WriteLine("{0:N}", netcpdf_cmOfPt(1.0));
-        Console.WriteLine("{0:N}", netcpdf_mmOfPt(1.0));
-        Console.WriteLine("{0:N}", netcpdf_inOfPt(1.0));
-        int r = netcpdf_parsePagespec(pdf3, "1-2,5-end");
-        int valid = netcpdf_validatePagespec("1-2");
-        Console.WriteLine(netcpdf_stringOfPagespec(pdf3, r));
-        int b = netcpdf_blankRange();
-        netcpdf_deleteRange(b);
+        Console.WriteLine("---cpdf_ptOfIn()");
+        Console.WriteLine($"One inch is {netcpdf_ptOfIn(1.0):0.000000} points");
+        Console.WriteLine("---cpdf_ptOfCm()");
+        Console.WriteLine($"One centimetre is {netcpdf_ptOfCm(1.0):0.000000} points");
+        Console.WriteLine("---cpdf_ptOfMm()");
+        Console.WriteLine($"One millimetre is {netcpdf_ptOfMm(1.0):0.000000} points");
+        Console.WriteLine("---cpdf_inOfPt()");
+        Console.WriteLine($"One point is {netcpdf_inOfPt(1.0):0.000000} inches");
+        Console.WriteLine("---cpdf_cmOfPt()");
+        Console.WriteLine($"One point is {netcpdf_cmOfPt(1.0):0.000000} centimetres");
+        Console.WriteLine("---cpdf_mmOfPt()");
+        Console.WriteLine($"One point is {netcpdf_mmOfPt(1.0):0.000000} millimetres");
+        Console.WriteLine("---cpdf_range()");
         int range = netcpdf_range(1, 10);
+        Console.WriteLine("---cpdf_all()");
         int all = netcpdf_all(pdf3);
+        Console.WriteLine("---cpdf_even()");
         int even = netcpdf_even(all);
+        Console.WriteLine("---cpdf_odd()");
         int odd = netcpdf_odd(all);
+        Console.WriteLine("---cpdf_rangeUnion()");
         int union = netcpdf_rangeUnion(even, odd);
+        Console.WriteLine("---cpdf_difference()");
         int diff = netcpdf_difference(even, odd);
+        Console.WriteLine("---cpdf_removeDuplicates()");
         int revdup = netcpdf_removeDuplicates(even);
+        Console.WriteLine("---cpdf_rangeLength()");
         int length = netcpdf_rangeLength(even);
+        Console.WriteLine("---cpdf_rangeGet()");
         int rangeget = netcpdf_rangeGet(even, 1);
+        Console.WriteLine("---cpdf_rangeAdd()");
+        int rangeadd = netcpdf_rangeAdd(even, 20);
+        Console.WriteLine("---cpdf_isInRange()");
         int isin = netcpdf_isInRange(even, 2);
+        Console.WriteLine("---cpdf_parsePagespec()");
+        int r = netcpdf_parsePagespec(pdf3, "1-5");
+        Console.WriteLine("---cpdf_validatePagespec()");
+        int valid = netcpdf_validatePagespec("1-4,5,6");
+        Console.WriteLine($"Validating pagespec gives {valid}");
+        Console.WriteLine("---cpdf_stringOfPagespec()");
+        string ps = netcpdf_stringOfPagespec(pdf3, r);
+        Console.WriteLine($"String of pagespec is {ps}");
+        Console.WriteLine("---cpdf_blankRange()");
+        int b = netcpdf_blankRange();
+
+        netcpdf_deleteRange(b);
+
         int pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_pages()");
         int pages = netcpdf_pages(pdf10);
+        Console.WriteLine($"Pages = {pages}");
+        Console.WriteLine("---cpdf_pagesFast()");
         int pagesfast = netcpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
-        netcpdf_toFile(pdf10, "testoutputs/even.pdf", netcpdf_false, netcpdf_true);
-        netcpdf_toFileExt(pdf10, "testoutputs/evenext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
+        Console.WriteLine($"Pages = {pages}");
+        Console.WriteLine("---cpdf_toFile()");
+        netcpdf_toFile(pdf10, "testoutputs/01tofile.pdf", netcpdf_false, netcpdf_true);
+        Console.WriteLine("---cpdf_toFileExt()");
+        netcpdf_toFileExt(pdf10, "testoutputs/01tofileext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
+        Console.WriteLine("---cpdf_isEncrypted()");
         int isenc = netcpdf_isEncrypted(pdf10);
-        netcpdf_decryptPdf(pdf10, "");
-        netcpdf_decryptPdfOwner(pdf10, "");
+        Console.WriteLine($"isencrypted:{isenc}");
+        Console.WriteLine("---cpdf_isLinearized()");
+        int lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
+        Console.WriteLine($"islinearized:{lin}");
+
         int pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int[] permissions = new [] {netcpdf_noHqPrint};
-        netcpdf_toFileEncrypted(pdf400, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, "testoutputs/tofileenc.pdf");
-        netcpdf_toFileEncryptedExt(pdf401, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_false, "testoutputs/tofileencext.pdf");
+        Console.WriteLine("---cpdf_toFileEncrypted()");
+        netcpdf_toFileEncrypted(pdf400, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, "testoutputs/01encrypted.pdf");
+        Console.WriteLine("---cpdf_toFileEncryptedExt()");
+        netcpdf_toFileEncryptedExt(pdf401, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_false, "testoutputs/01encryptedext.pdf");
+        Console.WriteLine("---cpdf_hasPermission()");
         int hasnoedit = netcpdf_hasPermission(pdf10, netcpdf_noEdit);
+        int hasnocopy = netcpdf_hasPermission(pdf10, netcpdf_noCopy);
+        Console.WriteLine($"Haspermission {hasnoedit}, {hasnocopy}");
+        Console.WriteLine("---cpdf_encryptionKind()");
         int enckind = netcpdf_encryptionKind(pdf10);
+        Console.WriteLine($"encryption kind is {enckind}");
+        Console.WriteLine("---cpdf_decryptPdf()");
+        netcpdf_decryptPdf(pdf10, "");
+        Console.WriteLine("---cpdf_decryptPdfOwner()");
+        netcpdf_decryptPdfOwner(pdf10, "");
 
         /* CHAPTER 2. Merging and Splitting */
         Console.WriteLine("***** CHAPTER 2. Merging and Splitting");
@@ -1856,7 +1906,7 @@ class Program
         /* CHAPTER 11. Document Information and Metadata */
         Console.WriteLine("***** CHAPTER 11. Document Information and Metadata");
         int pdf30 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
+
         int v = netcpdf_getVersion(pdf30);
         int v2 = netcpdf_getMajorVersion(pdf30);
         string title = netcpdf_getTitle(pdf30);
