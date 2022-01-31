@@ -1016,10 +1016,10 @@ class Program
         cpdf_getDateComponents(datestring, ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
     }
 
-    public static string netcpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec)
+    public static string netcpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset)
     {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec);
-        return Marshal.PtrToStringAuto(cpdf_dateStringOfComponents(y, m, d, h, min, sec));
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset);
+        return Marshal.PtrToStringAuto(cpdf_dateStringOfComponents(y, m, d, h, min, sec, hour_offset, minute_offset));
     }
 
     public static int netcpdf_getPageRotation(int pdf, int pagenumber)
@@ -2003,13 +2003,17 @@ class Program
         int hour_offset = 0;
         int minute_offset = 0;
         Console.WriteLine("---cpdf_getDateComponents()");
-        netcpdf_getDateComponents("2000211213", ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
+        netcpdf_getDateComponents("D:20061108125017Z", ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
+        Console.WriteLine($"D:20061108125017Z = {year}, {month}, {day}, {hour}, {minute}, {second}, {hour_offset}, {minute_offset}");
         Console.WriteLine("---cpdf_dateStringOfComponents()");
-        string datestr = netcpdf_dateStringOfComponents(1, 2, 3, 4, 5, 6);
+        string datestr = netcpdf_dateStringOfComponents(year, month, day, hour, minute, second, hour_offset, minute_offset);
+        Console.WriteLine(datestr);
         Console.WriteLine("---cpdf_getPageRotation()");
         int rot = netcpdf_getPageRotation(pdf30, 1);
+        Console.WriteLine($"/Rotate on page 1 = {rot}");
         Console.WriteLine("---cpdf_hasBox()");
         int hasbox = netcpdf_hasBox(pdf30, 1, "/CropBox");
+        Console.WriteLine($"hasbox: {hasbox}");
         double mb_minx = 0.0;
         double mb_maxx = 0.0;
         double mb_miny = 0.0;
@@ -2032,14 +2036,19 @@ class Program
         double bb_maxy = 0.0;
         Console.WriteLine("---cpdf_getMediaBox()");
         netcpdf_getMediaBox(pdf30, 1, ref mb_minx, ref mb_maxx, ref mb_miny, ref mb_maxy);
+        Console.WriteLine($"Media: {mb_minx:0.000000} {mb_maxx:0.000000} {mb_miny:0.000000} {mb_maxy:0.000000}");
         Console.WriteLine("---cpdf_getCropBox()");
         netcpdf_getCropBox(pdf30, 1, ref cb_minx, ref cb_maxx, ref cb_miny, ref cb_maxy);
+        Console.WriteLine($"Crop: {cb_minx:0.000000} {cb_maxx:0.000000} {cb_miny:0.000000} {cb_maxy:0.000000}");
         Console.WriteLine("---cpdf_getBleedBox()");
         netcpdf_getBleedBox(pdf30, 1, ref bb_minx, ref bb_maxx, ref bb_miny, ref bb_maxy);
+        Console.WriteLine($"Bleed: {bb_minx:0.000000} {bb_maxx:0.000000} {bb_miny:0.000000} {bb_maxy:0.000000}");
         Console.WriteLine("---cpdf_getArtBox()");
         netcpdf_getArtBox(pdf30, 1, ref ab_minx, ref ab_maxx, ref ab_miny, ref ab_maxy);
+        Console.WriteLine($"Art: {ab_minx:0.000000} {ab_maxx:0.000000} {ab_miny:0.000000} {ab_maxy:0.000000}");
         Console.WriteLine("---cpdf_getTrimBox()");
         netcpdf_getTrimBox(pdf30, 1, ref tb_minx, ref tb_maxx, ref tb_miny, ref tb_maxy);
+        Console.WriteLine($"Trim: {tb_minx:0.000000} {tb_maxx:0.000000} {tb_miny:0.000000} {tb_maxy:0.000000}");
         Console.WriteLine("---cpdf_setMediaBox()");
         netcpdf_setMediabox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
         Console.WriteLine("---cpdf_setCropBox()");
@@ -2084,18 +2093,25 @@ class Program
         netcpdf_createMetadata(pdf30);
         Console.WriteLine("---cpdf_setMetadataDate()");
         netcpdf_setMetadataDate(pdf30, "2000");
+        Console.WriteLine("---cpdf_addPageLabels()");
         netcpdf_addPageLabels(pdf30, netcpdf_decimalArabic, "PRE-", netcpdf_all(pdf), netcpdf_false);
-        netcpdf_removePageLabels(pdf30);
-        string pl = netcpdf_getPageLabelStringForPage(pdf30, 1);
+        Console.WriteLine("---cpdf: get page labels");
         int pls = netcpdf_startGetPageLabels(pdf30);
+        Console.WriteLine($"There are {pls} labels");
         for (int plsc = 0; plsc < pls; plsc++)
         {
             int style = netcpdf_getPageLabelStyle(plsc);
             string prefix = netcpdf_getPageLabelPrefix(plsc);
             int offset = netcpdf_getPageLabelOffset(plsc);
             int lab_range = netcpdf_getPageLabelRange(plsc);
+            Console.WriteLine($"Page label: {style}, {prefix}, {offset}, {lab_range}");
         }
         netcpdf_endGetPageLabels();
+        Console.WriteLine("---cpdf_removePageLabels()");
+        netcpdf_removePageLabels(pdf30);
+        Console.WriteLine("---cpdf_getPageLabelStringForPage()");
+        string pl = netcpdf_getPageLabelStringForPage(pdf30, 1);
+        Console.WriteLine($"Label string is {pl}");
 
         /* CHAPTER 12. File Attachments */
         Console.WriteLine("***** CHAPTER 12. File Attachments");
