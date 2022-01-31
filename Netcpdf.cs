@@ -1640,7 +1640,7 @@ class Program
         int pagesfast = netcpdf_pagesFast("", "testinputs/cpdflibmanual.pdf");
         Console.WriteLine($"Pages = {pages}");
         Console.WriteLine("---cpdf_toFile()");
-        netcpdf_toFile(pdf10, "testoutputs/01tofile.pdf", netcpdf_false, netcpdf_true);
+        netcpdf_toFile(pdf10, "testoutputs/01tofile.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_toFileExt()");
         netcpdf_toFileExt(pdf10, "testoutputs/01tofileext.pdf", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_true);
         Console.WriteLine("---cpdf_isEncrypted()");
@@ -1652,17 +1652,18 @@ class Program
 
         int pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int[] permissions = new [] {netcpdf_noHqPrint};
+        int[] permissions = new [] {netcpdf_noEdit};
         Console.WriteLine("---cpdf_toFileEncrypted()");
-        netcpdf_toFileEncrypted(pdf400, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, "testoutputs/01encrypted.pdf");
+        netcpdf_toFileEncrypted(pdf400, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_false, "testoutputs/01encrypted.pdf");
         Console.WriteLine("---cpdf_toFileEncryptedExt()");
-        netcpdf_toFileEncryptedExt(pdf401, netcpdf_aes256bitisotrue, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, netcpdf_false, "testoutputs/01encryptedext.pdf");
+        netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", netcpdf_false, netcpdf_false, netcpdf_true, netcpdf_true, netcpdf_true, "testoutputs/01encryptedext.pdf");
         Console.WriteLine("---cpdf_hasPermission()");
-        int hasnoedit = netcpdf_hasPermission(pdf10, netcpdf_noEdit);
-        int hasnocopy = netcpdf_hasPermission(pdf10, netcpdf_noCopy);
+        int pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user");
+        int hasnoedit = netcpdf_hasPermission(pdfenc, netcpdf_noEdit);
+        int hasnocopy = netcpdf_hasPermission(pdfenc, netcpdf_noCopy);
         Console.WriteLine($"Haspermission {hasnoedit}, {hasnocopy}");
         Console.WriteLine("---cpdf_encryptionKind()");
-        int enckind = netcpdf_encryptionKind(pdf10);
+        int enckind = netcpdf_encryptionKind(pdfenc);
         Console.WriteLine($"encryption kind is {enckind}");
         Console.WriteLine("---cpdf_decryptPdf()");
         netcpdf_decryptPdf(pdf10, "");
