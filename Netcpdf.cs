@@ -1563,6 +1563,24 @@ class Program
         cpdf_removeDictEntry(pdf, key);
     }
 
+    public static void netcpdf_removeDictEntrySearch(int pdf, string key, string searchterm)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntrySearch(int pdf, string key, string searchterm);
+        cpdf_removeDictEntrySearch(pdf, key, searchterm);
+    }
+
+    public static void netcpdf_replaceDictEntry(int pdf, string key, string newvalue)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_replaceDictEntry(int pdf, string key, string newvalue);
+        cpdf_replaceDictEntry(pdf, key, newvalue);
+    }
+
+    public static void netcpdf_replaceDictEntrySearch(int pdf, string key, string newvalue, string searchterm)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_replaceDictEntrySearch(int pdf, string key, string newvalue, string searchterm);
+        cpdf_replaceDictEntrySearch(pdf, key, newvalue, searchterm);
+    }
+
     public static void netcpdf_removeClipping(int pdf, int range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
@@ -2272,6 +2290,9 @@ class Program
         int misc10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int misc11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int misc12 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc13 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc14 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int misclogo = netcpdf_fromFile("testinputs/logo.pdf", "");
         Console.WriteLine("---cpdf_draft()");
         netcpdf_draft(misc, netcpdf_all(misc), netcpdf_true);
@@ -2306,6 +2327,15 @@ class Program
         Console.WriteLine("---cpdf_removeDictEntry()");
         netcpdf_removeDictEntry(misc11, "/Producer");
         netcpdf_toFile(misc11, "testoutputs/17removedictentry.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_removeDictEntrySearch()");
+        netcpdf_removeDictEntrySearch(misc13, "/Producer", "1");
+        netcpdf_toFile(misc13, "testoutputs/17removedictentrysearch.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_replaceDictEntry()");
+        netcpdf_replaceDictEntry(misc14, "/Producer", "{\"I\" : 1}");
+        netcpdf_toFile(misc14, "testoutputs/17replacedictentry.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_replaceDictEntrySearch()");
+        netcpdf_replaceDictEntrySearch(misc15, "/Producer", "1", "2");
+        netcpdf_toFile(misc15, "testoutputs/17replacedictentrysearch.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_removeClipping()");
         netcpdf_removeClipping(misc12, netcpdf_all(misc12));
         netcpdf_toFile(misc12, "testoutputs/17removeclipping.pdf", netcpdf_false, netcpdf_false);
