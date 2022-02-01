@@ -140,14 +140,14 @@ class Program
 
     public static int netcpdf_lastError()
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_lastError();
-        return cpdf_lastError();
+        [DllImport("libcpdf.so")] static extern int cpdf_fLastError();
+        return cpdf_fLastError();
     }
 
     public static string netcpdf_lastErrorString()
     {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_lastErrorString();
-        return Marshal.PtrToStringAuto(cpdf_lastErrorString());
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_fLastErrorString();
+        return Marshal.PtrToStringAuto(cpdf_fLastErrorString());
     }
 
     public static void netcpdf_clearError()
@@ -1210,10 +1210,10 @@ class Program
         cpdf_setMetadataDate(pdf, date);
     }
 
-    public static void netcpdf_addPageLabels(int pdf, int style, string prefix, int range, int progress)
+    public static void netcpdf_addPageLabels(int pdf, int style, string prefix, int offset, int range, int progress)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int range, int progress);
-        cpdf_addPageLabels(pdf, style, prefix, range, progress);
+        [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int offset, int range, int progress);
+        cpdf_addPageLabels(pdf, style, prefix, offset, range, progress);
     }
 
     public static void netcpdf_removePageLabels(int pdf)
@@ -1600,9 +1600,6 @@ class Program
         netcpdf_setFast();
         Console.WriteLine("---cpdf_setSlow()");
         netcpdf_setSlow();
-        //FIXME
-        //Console.WriteLine("lastError = %i\n", netcpdf_lastError());
-        //Console.WriteLine("lastErrorString = %s\n", netcpdf_lastErrorString());
         Console.WriteLine("---cpdf_clearError()");
         netcpdf_clearError();
 
@@ -2155,7 +2152,7 @@ class Program
         netcpdf_setMetadataDate(pdf30, "now");
         netcpdf_toFile(pdf30, "testoutputs/11metadata4.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_addPageLabels()");
-        netcpdf_addPageLabels(pdf30, netcpdf_decimalArabic, "PRE-", netcpdf_all(pdf30), netcpdf_false);
+        netcpdf_addPageLabels(pdf30, netcpdf_uppercaseRoman, "PREFIX-", 1, netcpdf_all(pdf30), netcpdf_false);
         Console.WriteLine("---cpdf: get page labels");
         int pls = netcpdf_startGetPageLabels(pdf30);
         Console.WriteLine($"There are {pls} labels");
