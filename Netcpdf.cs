@@ -687,6 +687,11 @@ class Program
         cpdf_endSetBookmarkInfo(pdf);
     }
 
+    public static void netcpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark);
+        cpdf_tableOfContents(pdf, font, fontsize, title, bookmark);
+    }
     /* CHAPTER 7. Presentations */
     /* Not included in the library version. */
 
@@ -753,6 +758,12 @@ class Program
     }
 
     /* CHAPTER 9. Multipage facilities */
+    static public void netcpdf_impose(int pdf, double x, double y, int fit, int columns, int rtl, int btt, int center, double margin, double spacing, double linewidth)
+    {
+      [DllImport("libcpdf.so")] static extern void cpdf_impose(int pdf, double x, double y, int fit, int columns, int rtl, int btt, int center, double margin, double spacing, double linewidth);
+      cpdf_impose(pdf, x, y, fit, columns, rtl, btt, center, margin, spacing, linewidth);
+    }
+
     static public void netcpdf_twoUp(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_twoUp(int pdf);
@@ -1472,6 +1483,18 @@ class Program
         return cpdf_blankDocumentPaper(papersize, pages);
     }
 
+    public static int netcpdf_textToPDF(double w, double h, int font, double fontsize, string filename)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_textToPDF(double w, double h, int font, double fontsize, string filename);
+        return cpdf_textToPDF(w, h, font, fontsize, filename);
+    }
+
+    public static int netcpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename);
+        return cpdf_textToPDFPaper(papersize, font, fontsize, filename);
+    }
+
 
     /* CHAPTER 18. Miscellaneous */
     public static void netcpdf_draft(int pdf, int range, int boxes)
@@ -1809,6 +1832,10 @@ class Program
         netcpdf_setBookmarkOpenStatus(0, 0);
         netcpdf_setBookmarkText(0, "The text");
         netcpdf_endSetBookmarkInfo(pdf17);
+        Console.WriteLine("---cpdf_tableOfContents()");
+        int tocpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        netcpdf_tableOfContents(tocpdf, netcpdf_timesRoman, 12.0, "Table of Contents", netcpdf_false);
+        netcpdf_toFile(tocpdf, "testoutputs/06toc.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 7. Presentations */
         /* Not included in the library version. */
@@ -1880,6 +1907,13 @@ class Program
         Console.WriteLine("---cpdf_twoUpStack()");
         netcpdf_twoUpStack(mp2);
         netcpdf_toFile(mp2, "testoutputs/09mp2.pdf", netcpdf_false, netcpdf_false);
+        int mp25 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_impose()");
+        netcpdf_impose(mp25, 5.0, 4.0, netcpdf_false, netcpdf_false, netcpdf_false, netcpdf_false, netcpdf_false, 40.0, 20.0, 2.0);
+        netcpdf_toFile(mp25, "testoutputs/09mp25.pdf", netcpdf_false, netcpdf_false);
+        int mp26 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        netcpdf_impose(mp26, 2000.0, 1000.0, netcpdf_true, netcpdf_false, netcpdf_false, netcpdf_false, netcpdf_false, 40.0, 20.0, 2.0);
+        netcpdf_toFile(mp26, "testoutputs/09mp26.pdf", netcpdf_false, netcpdf_false);
         int mp3 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_padBefore()");
         netcpdf_padBefore(mp3, netcpdf_range(1, 10));
@@ -2216,6 +2250,13 @@ class Program
         int new2 = netcpdf_blankDocumentPaper(netcpdf_a4portrait, 10);
         netcpdf_toFile(new1, "testoutputs/01blank.pdf", netcpdf_false, netcpdf_false);
         netcpdf_toFile(new2, "testoutputs/01blanka4.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_textToPDF()");
+        int ttpdf = netcpdf_textToPDF(500.0, 600.0, netcpdf_timesItalic, 8.0, "../cpdflib-source/cpdflibtest.c");
+        netcpdf_toFile(ttpdf, "testoutputs/01ttpdf.pdf", netcpdf_false, netcpdf_false);
+        int ttpdfpaper = netcpdf_textToPDFPaper(netcpdf_a4portrait, netcpdf_timesBoldItalic, 10.0, "../cpdflib-source/cpdflibtest.c");
+        Console.WriteLine("---cpdf_textToPDFPaper()");
+        netcpdf_toFile(ttpdf, "testoutputs/01ttpdfpaper.pdf", netcpdf_false, netcpdf_false);
+
 
         /* CHAPTER 18. Miscellaneous */
         Console.WriteLine("***** CHAPTER 18. Miscellaneous");
