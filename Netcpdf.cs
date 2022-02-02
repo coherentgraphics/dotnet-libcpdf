@@ -711,8 +711,8 @@ class Program
 
     public static void netcpdf_stampExtended(int pdf, int pdf2, int range, int isover, int scale_stamp_to_fit, netcpdf_position position, int relative_to_cropbox)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_stampExtended(int pdf, int pdf2, int scale_stamp_to_fit, netcpdf_position position, int relative_to_cropbox);
-        cpdf_stampExtended(pdf, pdf2, scale_stamp_to_fit, position, relative_to_cropbox);
+        [DllImport("libcpdf.so")] static extern void cpdf_stampExtended(int pdf, int pdf2, int range, int isover, int scale_stamp_to_fit, netcpdf_position position, int relative_to_cropbox);
+        cpdf_stampExtended(pdf, pdf2, range, isover, scale_stamp_to_fit, position, relative_to_cropbox);
     }
 
     public static int netcpdf_combinePages(int under, int over)
@@ -2014,15 +2014,15 @@ class Program
         Console.WriteLine("---cpdf_setTitle()");
         netcpdf_setTitle(pdf30, "title");
         Console.WriteLine("---cpdf_setAuthor()");
-        netcpdf_setAuthor(pdf30, "title");
+        netcpdf_setAuthor(pdf30, "author");
         Console.WriteLine("---cpdf_setSubject()");
-        netcpdf_setSubject(pdf30, "title");
+        netcpdf_setSubject(pdf30, "subject");
         Console.WriteLine("---cpdf_setKeywords()");
-        netcpdf_setKeywords(pdf30, "title");
+        netcpdf_setKeywords(pdf30, "keywords");
         Console.WriteLine("---cpdf_setCreator()");
-        netcpdf_setCreator(pdf30, "title");
+        netcpdf_setCreator(pdf30, "creator");
         Console.WriteLine("---cpdf_setProducer()");
-        netcpdf_setProducer(pdf30, "title");
+        netcpdf_setProducer(pdf30, "producer");
         Console.WriteLine("---cpdf_setCreationDate()");
         netcpdf_setCreationDate(pdf30, "now");
         Console.WriteLine("---cpdf_setModificationDate()");
@@ -2030,15 +2030,15 @@ class Program
         Console.WriteLine("---cpdf_setTitleXMP()");
         netcpdf_setTitleXMP(pdf30, "title");
         Console.WriteLine("---cpdf_setAuthorXMP()");
-        netcpdf_setAuthorXMP(pdf30, "title");
+        netcpdf_setAuthorXMP(pdf30, "author");
         Console.WriteLine("---cpdf_setSubjectXMP()");
-        netcpdf_setSubjectXMP(pdf30, "title");
+        netcpdf_setSubjectXMP(pdf30, "subject");
         Console.WriteLine("---cpdf_setKeywordsXMP()");
-        netcpdf_setKeywordsXMP(pdf30, "title");
+        netcpdf_setKeywordsXMP(pdf30, "keywords");
         Console.WriteLine("---cpdf_setCreatorXMP()");
-        netcpdf_setCreatorXMP(pdf30, "title");
+        netcpdf_setCreatorXMP(pdf30, "creator");
         Console.WriteLine("---cpdf_setProducerXMP()");
-        netcpdf_setProducerXMP(pdf30, "title");
+        netcpdf_setProducerXMP(pdf30, "producer");
         Console.WriteLine("---cpdf_setCreationDateXMP()");
         netcpdf_setCreationDateXMP(pdf30, "now");
         Console.WriteLine("---cpdf_setModificationDateXMP()");
@@ -2100,16 +2100,16 @@ class Program
         netcpdf_getTrimBox(pdf30, 1, ref tb_minx, ref tb_maxx, ref tb_miny, ref tb_maxy);
         Console.WriteLine($"Trim: {tb_minx:0.000000} {tb_maxx:0.000000} {tb_miny:0.000000} {tb_maxy:0.000000}");
         Console.WriteLine("---cpdf_setMediaBox()");
-        netcpdf_setMediabox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
+        netcpdf_setMediabox(pdf30, netcpdf_all(pdf30), 100, 500, 150, 550);
         Console.WriteLine("---cpdf_setCropBox()");
-        netcpdf_setCropBox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
+        netcpdf_setCropBox(pdf30, netcpdf_all(pdf30), 100, 500, 150, 550);
         Console.WriteLine("---cpdf_setTrimBox()");
-        netcpdf_setTrimBox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
+        netcpdf_setTrimBox(pdf30, netcpdf_all(pdf30), 100, 500, 150, 550);
         Console.WriteLine("---cpdf_setArtBox()");
-        netcpdf_setArtBox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
+        netcpdf_setArtBox(pdf30, netcpdf_all(pdf30), 100, 500, 150, 550);
         Console.WriteLine("---cpdf_setBleedBox()");
+        netcpdf_setBleedBox(pdf30, netcpdf_all(pdf30), 100, 500, 150, 550);
         netcpdf_toFile(pdf30, "testoutputs/11setboxes.pdf", netcpdf_false, netcpdf_false);
-        netcpdf_setBleedBox(pdf30, netcpdf_all(pdf30), 1.0, 2.0, 3.0, 4.0);
         Console.WriteLine("---cpdf_markTrapped()");
         netcpdf_markTrapped(pdf30);
         Console.WriteLine("---cpdf_markTrappedXMP()");
@@ -2121,9 +2121,9 @@ class Program
         netcpdf_markUntrappedXMP(pdf30);
         netcpdf_toFile(pdf30, "testoutputs/11untrapped.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_setPageLayout()");
-        netcpdf_setPageLayout(pdf30, netcpdf_singlePage);
+        netcpdf_setPageLayout(pdf30, netcpdf_twoColumnLeft);
         Console.WriteLine("---cpdf_setPageMode()");
-        netcpdf_setPageMode(pdf30, netcpdf_useNone);
+        netcpdf_setPageMode(pdf30, netcpdf_useOutlines);
         Console.WriteLine("---cpdf_hideToolbar()");
         netcpdf_hideToolbar(pdf30, netcpdf_true);
         Console.WriteLine("---cpdf_hideMenubar()");
@@ -2137,7 +2137,7 @@ class Program
         Console.WriteLine("---cpdf_displayDocTitle()");
         netcpdf_displayDocTitle(pdf30, netcpdf_true);
         Console.WriteLine("---cpdf_openAtPage()");
-        netcpdf_openAtPage(pdf30, netcpdf_true, 1);
+        netcpdf_openAtPage(pdf30, netcpdf_true, 4);
         netcpdf_toFile(pdf30, "testoutputs/11open.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_setMetadataFromFile()");
         netcpdf_setMetadataFromFile(pdf30, "testinputs/cpdflibmanual.pdf");
@@ -2183,10 +2183,13 @@ class Program
         Console.WriteLine("---cpdf: get attachments");
         netcpdf_startGetAttachments(attachments);
         int n_a = netcpdf_numberGetAttachments();
+        Console.WriteLine($"There are {n_a} attachments to get");
         for (int aa = 0; aa < n_a; aa++)
         {
             string a_n = netcpdf_getAttachmentName(aa);
+            Console.WriteLine($"Attachment {aa} is named {a_n}");
             int a_page = netcpdf_getAttachmentPage(aa);
+            Console.WriteLine($"It is on page {a_page}");
         }
         netcpdf_endGetAttachments();
         Console.WriteLine("---cpdf_removeAttachedFiles()");
@@ -2237,6 +2240,9 @@ class Program
         int jsonpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_outputJSON()");
         netcpdf_outputJSON("testoutputs/15json.json", netcpdf_false, netcpdf_false, netcpdf_false, jsonpdf);
+        netcpdf_outputJSON("testoutputs/15jsonnostream.json", netcpdf_false, netcpdf_true, netcpdf_false, jsonpdf);
+        netcpdf_outputJSON("testoutputs/15jsonparsed.json", netcpdf_true, netcpdf_false, netcpdf_false, jsonpdf);
+        netcpdf_outputJSON("testoutputs/15jsondecomp.json", netcpdf_false, netcpdf_false, netcpdf_true, jsonpdf);
 
 
         /* CHAPTER 16. Optional Content Groups */
@@ -2270,7 +2276,7 @@ class Program
         netcpdf_toFile(ttpdf, "testoutputs/01ttpdf.pdf", netcpdf_false, netcpdf_false);
         int ttpdfpaper = netcpdf_textToPDFPaper(netcpdf_a4portrait, netcpdf_timesBoldItalic, 10.0, "../cpdflib-source/cpdflibtest.c");
         Console.WriteLine("---cpdf_textToPDFPaper()");
-        netcpdf_toFile(ttpdf, "testoutputs/01ttpdfpaper.pdf", netcpdf_false, netcpdf_false);
+        netcpdf_toFile(ttpdfpaper, "testoutputs/01ttpdfpaper.pdf", netcpdf_false, netcpdf_false);
 
 
         /* CHAPTER 18. Miscellaneous */
