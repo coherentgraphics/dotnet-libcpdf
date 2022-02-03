@@ -393,15 +393,15 @@ class Program
         cpdf_toFileExt(pdf, filename, linearize, make_id, preserve_objstm, generate_objstm, compress_objstm);
     }
 
+    //free()
     public static byte[] netcpdf_toMemory(int pdf, int linearize, int makeid)
     {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_toMemory(int pdf, int linearize, int makeid, ref int length);
-        int length = 0;
-        IntPtr ptr = cpdf_toMemory(pdf, linearize, makeid, ref length);
-        byte[] data = new byte[length];
-        //Marshal.copy(ptr, 0, data, length);
-        //FIXME: Free the memory in C - we need to export a free-ing function in cpdflibwrapper.h
-        return data;
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_toMemory(int pdf, int linearize, int makeid, ref int len);
+        int len = 0;
+        IntPtr data = cpdf_toMemory(pdf, linearize, makeid, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
     }
 
     public static int netcpdf_isEncrypted(int pdf)
@@ -688,6 +688,16 @@ class Program
         cpdf_endSetBookmarkInfo(pdf);
     }
 
+    static public byte[] netcpdf_getBookmarksJSON(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarksJSON(int pdf, ref int len);
+        int len = 0;
+        IntPtr data = cpdf_getBookmarksJSON(pdf, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
+    }
+
     public static void netcpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark);
@@ -808,7 +818,15 @@ class Program
     }
 
     /* CHAPTER 10. Annotations */
-    /* Not in the library version */
+    static public byte[] netcpdf_annotationsJSON(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_annotationsJSON(int pdf, ref int len);
+        int len = 0;
+        IntPtr data = cpdf_annotationsJSON(pdf, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
+    }
 
     /* CHAPTER 11. Document Information and Metadata */
 
@@ -1191,12 +1209,21 @@ class Program
     }
 
     //FIXME setMetadataFromByteArray
-    //FIXME getMetadata
 
     public static void netcpdf_removeMetadata(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
         cpdf_removeMetadata(pdf);
+    }
+
+    public static byte[] netcpdf_getMetadata(int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getMetadata(int pdf, ref int len);
+        int len = 0;
+        IntPtr data = cpdf_getMetadata(pdf, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
     }
 
     public static void netcpdf_createMetadata(int pdf)
@@ -1441,6 +1468,17 @@ class Program
         cpdf_outputJSON(filename, parse_content, no_stream_data, decompress_streams, pdf);
     }
 
+    //FIXME free()
+    public static byte[] netcpdf_outputJSONMemory(int pdf, int parse_content, int no_stream_data, int decompress_streams)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_outputJSONMemory(int pdf, int parse_content, int no_stream_data, int decompress_streams, ref int len);
+        int len = 0;
+        IntPtr data = cpdf_outputJSONMemory(pdf, parse_content, no_stream_data, decompress_streams, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
+    }
+
     public static int netcpdf_fromJSON(string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromJSON(string filename);
@@ -1635,6 +1673,8 @@ class Program
         int pdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_fromFileLazy()");
         int pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
+        Console.WriteLine("---cpdf_toMemory()");
+        byte[] mempdf = netcpdf_toMemory(pdf, netcpdf_false, netcpdf_false);
         //FIXME fromMemory
         //FIXME fromMemoryLazy
         int pdf3 = netcpdf_blankDocument(153.5, 234.2, 50);
@@ -1873,6 +1913,10 @@ class Program
         netcpdf_setBookmarkOpenStatus(0, 0);
         netcpdf_setBookmarkText(0, "The text");
         netcpdf_endSetBookmarkInfo(pdf17);
+        Console.WriteLine("---cpdf_getBookmarksJSON()");
+        int marksjson = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        byte[] marksdata = netcpdf_getBookmarksJSON(marksjson);
+        Console.WriteLine($"Contains {marksdata.Length} bytes of data");
         Console.WriteLine("---cpdf_tableOfContents()");
         int tocpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_tableOfContents(tocpdf, netcpdf_timesRoman, 12.0, "Table of Contents", netcpdf_false);
@@ -1977,7 +2021,11 @@ class Program
         netcpdf_toFile(mp7, "testoutputs/09mp7.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 10. Annotations */
-        /* Not in the library version */
+        Console.WriteLine("***** CHAPTER 10. Annotations");
+        Console.WriteLine("---cpdf_annotationsJSON()");
+        int annot = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        byte[] annotjson = netcpdf_annotationsJSON(annot);
+        Console.WriteLine($"Contains {annotjson.Length} bytes of data");
 
         /* CHAPTER 11. Document Information and Metadata */
         Console.WriteLine("***** CHAPTER 11. Document Information and Metadata");
@@ -2169,6 +2217,8 @@ class Program
         netcpdf_setMetadataFromFile(pdf30, "testinputs/cpdflibmanual.pdf");
         netcpdf_toFile(pdf30, "testoutputs/11metadata1.pdf", netcpdf_false, netcpdf_false);
         netcpdf_toFile(pdf30, "testoutputs/11metadata2.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_getMetadata()");
+        byte[] metadata = netcpdf_getMetadata(pdf30);
         Console.WriteLine("---cpdf_removeMetadata()");
         netcpdf_removeMetadata(pdf30);
         Console.WriteLine("---cpdf_createMetadata()");
@@ -2274,6 +2324,8 @@ class Program
         Console.WriteLine("---cpdf_fromJSON()");
         int fromjsonpdf = netcpdf_fromJSON("testoutputs/15jsonparsed.json");
         netcpdf_toFile(fromjsonpdf, "testoutputs/15fromjson.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_outputJSONMemory()");
+        byte[] jbuf = netcpdf_outputJSONMemory(fromjsonpdf, netcpdf_false, netcpdf_false, netcpdf_false);
 
 
         /* CHAPTER 16. Optional Content Groups */
