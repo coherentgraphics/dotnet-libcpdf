@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Runtime.InteropServices;
 
 namespace dotnet_libcpdf
@@ -1310,7 +1311,16 @@ class Program
         return cpdf_getAttachmentPage(n);
     }
 
-    //FIXME cpdf_getAttachmentData
+    //FIXME free()
+    public static byte[] netcpdf_getAttachmentData(int serial)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentData(int serial, ref int len);
+        int len = 0;
+        IntPtr data = cpdf_getAttachmentData(serial, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
+    }
 
     public static void netcpdf_endGetAttachments()
     {
@@ -1431,6 +1441,11 @@ class Program
         cpdf_outputJSON(filename, parse_content, no_stream_data, decompress_streams, pdf);
     }
 
+    public static int netcpdf_fromJSON(string filename)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromJSON(string filename);
+        return cpdf_fromJSON(filename);
+    }
 
     /* CHAPTER 16. Optional Content Groups */
     public static int netcpdf_startGetOCGList(int pdf)
@@ -1585,6 +1600,17 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
         cpdf_removeClipping(pdf, range);
+    }
+
+    //FIXME NEED TO ADD A FREEING FUNCTION HERE
+    public static byte[] netcpdf_getDictEntries(int pdf, string key)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_getDictEntries(int pdf, string key, ref int retlen);
+        int len = 0;
+        IntPtr data = cpdf_getDictEntries(pdf, key, ref len);
+        var databytes = new byte[len];
+        Marshal.Copy(data, databytes, 0, len);
+        return databytes;
     }
 
     static void Main(string[] args)
@@ -2190,6 +2216,8 @@ class Program
             Console.WriteLine($"Attachment {aa} is named {a_n}");
             int a_page = netcpdf_getAttachmentPage(aa);
             Console.WriteLine($"It is on page {a_page}");
+            byte[] a_data = netcpdf_getAttachmentData(aa);
+            Console.WriteLine($"Contains {a_data.Length} bytes of data");
         }
         netcpdf_endGetAttachments();
         Console.WriteLine("---cpdf_removeAttachedFiles()");
@@ -2243,6 +2271,9 @@ class Program
         netcpdf_outputJSON("testoutputs/15jsonnostream.json", netcpdf_false, netcpdf_true, netcpdf_false, jsonpdf);
         netcpdf_outputJSON("testoutputs/15jsonparsed.json", netcpdf_true, netcpdf_false, netcpdf_false, jsonpdf);
         netcpdf_outputJSON("testoutputs/15jsondecomp.json", netcpdf_false, netcpdf_false, netcpdf_true, jsonpdf);
+        Console.WriteLine("---cpdf_fromJSON()");
+        int fromjsonpdf = netcpdf_fromJSON("testoutputs/15jsonparsed.json");
+        netcpdf_toFile(fromjsonpdf, "testoutputs/15fromjson.pdf", netcpdf_false, netcpdf_false);
 
 
         /* CHAPTER 16. Optional Content Groups */
@@ -2296,6 +2327,7 @@ class Program
         int misc13 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int misc14 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int misc15 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        int misc16 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int misclogo = netcpdf_fromFile("testinputs/logo.pdf", "");
         Console.WriteLine("---cpdf_draft()");
         netcpdf_draft(misc, netcpdf_all(misc), netcpdf_true);
@@ -2339,6 +2371,9 @@ class Program
         Console.WriteLine("---cpdf_replaceDictEntrySearch()");
         netcpdf_replaceDictEntrySearch(misc15, "/Producer", "1", "2");
         netcpdf_toFile(misc15, "testoutputs/17replacedictentrysearch.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_getDictEntries()");
+        byte[] entries = netcpdf_getDictEntries(misc16, "/Producer");
+        Console.WriteLine($"length of entries data = {entries.Length}");
         Console.WriteLine("---cpdf_removeClipping()");
         netcpdf_removeClipping(misc12, netcpdf_all(misc12));
         netcpdf_toFile(misc12, "testoutputs/17removeclipping.pdf", netcpdf_false, netcpdf_false);
