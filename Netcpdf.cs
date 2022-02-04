@@ -188,13 +188,8 @@ class Program
         return pdf;
     }
 
-    public static int netcpdf_fromMemoryPtr(IntPtr data, int length, string userpw)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(IntPtr data, int length, string userpw);
-        return cpdf_fromMemory(data, length, userpw);
-    }
-
-    public static int netcpdf_fromMemoryPtrLazy(IntPtr data, int length, string userpw)
+    //For this one, the caller must use AllocHGlobal / Marshal.Copy / FreeHGlobal itself. It must not free the memory until the PDF is also gone.
+    public static int netcpdf_fromMemoryLazy(IntPtr data, int length, string userpw)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromMemoryLazy(IntPtr data, int length, string userpw);
         return cpdf_fromMemoryLazy(data, length, userpw);
@@ -1675,8 +1670,14 @@ class Program
         int pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_toMemory()");
         byte[] mempdf = netcpdf_toMemory(pdf, netcpdf_false, netcpdf_false);
-        //FIXME fromMemory
-        //FIXME fromMemoryLazy
+        Console.WriteLine("---cpdf_fromMemory()");
+        int frommem = netcpdf_fromMemory(mempdf, "");
+        netcpdf_toFile(frommem, "testoutputs/01fromMemory.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_fromMemoryLazy()");
+        IntPtr ptr = Marshal.AllocHGlobal(mempdf.Length);
+        Marshal.Copy(mempdf, 0, ptr, mempdf.Length);
+        int frommemlazy = netcpdf_fromMemoryLazy(ptr, mempdf.Length, "");
+        netcpdf_toFile(frommemlazy, "testoutputs/01fromMemoryLazy.pdf", netcpdf_false, netcpdf_false);
         int pdf3 = netcpdf_blankDocument(153.5, 234.2, 50);
         int pdf4 = netcpdf_blankDocumentPaper(netcpdf_a4landscape, 50);
         netcpdf_deletePdf(pdf);
