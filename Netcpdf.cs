@@ -760,10 +760,10 @@ class Program
         return cpdf_textWidth(font, text);
     }
 
-    public static void netcpdf_addContent(string content, int before, int range, int pdf)
+    public static void netcpdf_addContent(string content, int before, int pdf, int range)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_addContent(string content, int before, int range, int pdf);
-        cpdf_addContent(content, before, range, pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_addContent(string content, int before, int pdf, int range);
+        cpdf_addContent(content, before, pdf, range);
     }
 
     public static string netcpdf_stampAsXObject(int pdf, int range, int stamp_pdf)
@@ -1214,11 +1214,8 @@ class Program
     
     public static void netcpdf_setMetadataFromByteArray(int pdf, byte[] data)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromByteArray(int pdf, IntPtr data, int length);
-        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        cpdf_setMetadataFromByteArray(pdf, ptr, data.Length);
-        Marshal.FreeHGlobal(ptr);
+        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromByteArray(int pdf, byte[] data, int length);
+        cpdf_setMetadataFromByteArray(pdf, data, data.Length);
     }
 
     public static void netcpdf_removeMetadata(int pdf)
@@ -1952,10 +1949,11 @@ class Program
         Console.WriteLine("---cpdf: set bookmarks");
         netcpdf_startSetBookmarkInfo(1);
         netcpdf_setBookmarkLevel(0, 0);
-        netcpdf_setBookmarkPage(pdf17, 0, 1);
-        netcpdf_setBookmarkOpenStatus(0, 0);
-        netcpdf_setBookmarkText(0, "The text");
+        netcpdf_setBookmarkPage(pdf17, 0, 20);
+        netcpdf_setBookmarkOpenStatus(0, netcpdf_true);
+        netcpdf_setBookmarkText(0, "New bookmark!");
         netcpdf_endSetBookmarkInfo(pdf17);
+        netcpdf_toFile(pdf17, "testoutputs/06newmarks.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_getBookmarksJSON()");
         int marksjson = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         byte[] marksdata = netcpdf_getBookmarksJSON(marksjson);
@@ -2027,6 +2025,10 @@ class Program
         int undoc = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int ulogo = netcpdf_fromFile("testinputs/logo.pdf", "");
         string name = netcpdf_stampAsXObject(undoc, netcpdf_all(undoc), ulogo);
+        string content = $"q 1 0 0 1 100 100 cm {name} Do Q q 1 0 0 1 300 300 cm {name} Do Q q 1 0 0 1 500 500 cm {name} Do Q";
+        Console.WriteLine("---cpdf_addContent()");
+        netcpdf_addContent(content, netcpdf_true, undoc, netcpdf_all(undoc));
+        netcpdf_toFile(undoc, "testoutputs/08demo.pdf", netcpdf_false, netcpdf_false);
 
         /* CHAPTER 9. Multipage facilities */
         Console.WriteLine("***** CHAPTER 9. Multipage facilities");
@@ -2263,7 +2265,8 @@ class Program
         netcpdf_setMetadataFromFile(pdf30, "testinputs/cpdflibmanual.pdf");
         netcpdf_toFile(pdf30, "testoutputs/11metadata1.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_setMetadataFromByteArray()");
-        netcpdf_setMetadataFromByteArray(pdf30, Encoding.ASCII.GetBytes("BYTEARRAY"));
+        byte[] md = Encoding.ASCII.GetBytes("BYTEARRAY");
+        netcpdf_setMetadataFromByteArray(pdf30, md);
         netcpdf_toFile(pdf30, "testoutputs/11metadata2.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_getMetadata()");
         byte[] metadata = netcpdf_getMetadata(pdf30);
