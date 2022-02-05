@@ -693,6 +693,15 @@ class Program
         return databytes;
     }
 
+    public static void netcpdf_setBookmarksJSON(int pdf, byte[] data)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarksJSON(int pdf, IntPtr data, int length);
+        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        cpdf_setBookmarksJSON(pdf, ptr, data.Length);
+        Marshal.FreeHGlobal(ptr);
+    }
+
     public static void netcpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark);
@@ -1202,8 +1211,15 @@ class Program
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromFile(int pdf, string filename);
         cpdf_setMetadataFromFile(pdf, filename);
     }
-
-    //FIXME setMetadataFromByteArray
+    
+    public static void netcpdf_setMetadataFromByteArray(int pdf, byte[] data)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromByteArray(int pdf, IntPtr data, int length);
+        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        cpdf_setMetadataFromByteArray(pdf, ptr, data.Length);
+        Marshal.FreeHGlobal(ptr);
+    }
 
     public static void netcpdf_removeMetadata(int pdf)
     {
@@ -1301,7 +1317,23 @@ class Program
         cpdf_attachFileToPage(filename, pdf, pagenumber);
     }
 
-    //FIXME cpdf_attachFileFromMemory / cpdf_attachFileToPageFromMemory
+    public static void netcpdf_attachFileFromMemory(byte[] data, string name, int pdf)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_attachFileFromMemory(IntPtr data, int length, string name, int pdf);
+        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        cpdf_attachFileFromMemory(ptr, data.Length, name, pdf);
+        Marshal.FreeHGlobal(ptr);
+    }
+
+    public static void netcpdf_attachFileToPageFromMemory(byte[] data, string name, int pdf, int pagenumber)
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPageFromMemory(IntPtr data, int length, string name, int pdf, int pagenumber);
+        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        cpdf_attachFileToPageFromMemory(ptr, data.Length, name, pdf, pagenumber);
+        Marshal.FreeHGlobal(ptr);
+    }
 
     public static void netcpdf_removeAttachedFiles(int pdf)
     {
@@ -1478,6 +1510,16 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromJSON(string filename);
         return cpdf_fromJSON(filename);
+    }
+
+    public static int netcpdf_fromJSONMemory(byte[] data)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromJSONMemory(IntPtr data, int length);
+        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
+        Marshal.Copy(data, 0, ptr, data.Length);
+        int pdf = cpdf_fromJSONMemory(ptr, data.Length);
+        Marshal.FreeHGlobal(ptr);
+        return pdf;
     }
 
     /* CHAPTER 16. Optional Content Groups */
@@ -1918,6 +1960,9 @@ class Program
         int marksjson = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         byte[] marksdata = netcpdf_getBookmarksJSON(marksjson);
         Console.WriteLine($"Contains {marksdata.Length} bytes of data");
+        Console.WriteLine("---cpdf_setBookmarksJSON()");
+        netcpdf_setBookmarksJSON(marksjson, marksdata);
+        netcpdf_toFile(marksjson, "testoutputs/06jsonmarks.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_tableOfContents()");
         int tocpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_tableOfContents(tocpdf, netcpdf_timesRoman, 12.0, "Table of Contents", netcpdf_false);
@@ -2217,6 +2262,8 @@ class Program
         Console.WriteLine("---cpdf_setMetadataFromFile()");
         netcpdf_setMetadataFromFile(pdf30, "testinputs/cpdflibmanual.pdf");
         netcpdf_toFile(pdf30, "testoutputs/11metadata1.pdf", netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_setMetadataFromByteArray()");
+        netcpdf_setMetadataFromByteArray(pdf30, Encoding.ASCII.GetBytes("BYTEARRAY"));
         netcpdf_toFile(pdf30, "testoutputs/11metadata2.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_getMetadata()");
         byte[] metadata = netcpdf_getMetadata(pdf30);
@@ -2255,7 +2302,12 @@ class Program
         Console.WriteLine("---cpdf_attachFile()");
         netcpdf_attachFile("testinputs/image.pdf", attachments);
         Console.WriteLine("---cpdf_attachFileToPage()");
-        netcpdf_attachFileToPage("testinputs/cpdflibmanual.pdf", attachments, 1);
+        netcpdf_attachFileToPage("testinputs/image.pdf", attachments, 1);
+        Console.WriteLine("---cpdf_attachFileFromMemory()");
+        byte[] empty = {};
+        netcpdf_attachFileFromMemory(empty, "metadata.txt", attachments);
+        Console.WriteLine("---cpdf_attachFileToPageFromMemory()");
+        netcpdf_attachFileToPageFromMemory(empty, "metadata.txt", attachments, 1);
         netcpdf_toFile(attachments, "testoutputs/12with_attachments.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf: get attachments");
         netcpdf_startGetAttachments(attachments);
@@ -2327,6 +2379,9 @@ class Program
         netcpdf_toFile(fromjsonpdf, "testoutputs/15fromjson.pdf", netcpdf_false, netcpdf_false);
         Console.WriteLine("---cpdf_outputJSONMemory()");
         byte[] jbuf = netcpdf_outputJSONMemory(fromjsonpdf, netcpdf_false, netcpdf_false, netcpdf_false);
+        Console.WriteLine("---cpdf_fromJSONMemory()");
+        int jfrommem = netcpdf_fromJSONMemory(jbuf);
+        netcpdf_toFile(jfrommem, "testoutputs/15fromJSONMemory.pdf", netcpdf_false, netcpdf_false);
 
 
         /* CHAPTER 16. Optional Content Groups */
