@@ -392,6 +392,8 @@ class Program
         IntPtr data = cpdf_toMemory(pdf, linearize, makeid, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
@@ -686,6 +688,8 @@ class Program
         IntPtr data = cpdf_getBookmarksJSON(pdf, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
@@ -822,6 +826,8 @@ class Program
         IntPtr data = cpdf_annotationsJSON(pdf, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
@@ -1224,6 +1230,8 @@ class Program
         IntPtr data = cpdf_getMetadata(pdf, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
@@ -1356,6 +1364,8 @@ class Program
         IntPtr data = cpdf_getAttachmentData(serial, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
@@ -1478,7 +1488,6 @@ class Program
         cpdf_outputJSON(filename, parse_content, no_stream_data, decompress_streams, pdf);
     }
 
-    //FIXME free()
     public static byte[] netcpdf_outputJSONMemory(int pdf, int parse_content, int no_stream_data, int decompress_streams)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_outputJSONMemory(int pdf, int parse_content, int no_stream_data, int decompress_streams, ref int len);
@@ -1486,6 +1495,8 @@ class Program
         IntPtr data = cpdf_outputJSONMemory(pdf, parse_content, no_stream_data, decompress_streams, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
@@ -1657,7 +1668,6 @@ class Program
         cpdf_removeClipping(pdf, range);
     }
 
-    //FIXME NEED TO ADD A FREEING FUNCTION HERE
     public static byte[] netcpdf_getDictEntries(int pdf, string key)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getDictEntries(int pdf, string key, ref int retlen);
@@ -1665,6 +1675,8 @@ class Program
         IntPtr data = cpdf_getDictEntries(pdf, key, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
+        [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
+        cpdf_free(data);
         return databytes;
     }
 
