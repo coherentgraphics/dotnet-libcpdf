@@ -180,11 +180,8 @@ class Program
 
     public static int netcpdf_fromMemory(byte[] data, string userpw)
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(IntPtr data, int length, string userpw);
-        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        int pdf = cpdf_fromMemory(ptr, data.Length, userpw);
-        Marshal.FreeHGlobal(ptr);
+        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(byte[] data, int length, string userpw);
+        int pdf = cpdf_fromMemory(data, data.Length, userpw);
         return pdf;
     }
 
@@ -388,7 +385,6 @@ class Program
         cpdf_toFileExt(pdf, filename, linearize, make_id, preserve_objstm, generate_objstm, compress_objstm);
     }
 
-    //free()
     public static byte[] netcpdf_toMemory(int pdf, int linearize, int makeid)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_toMemory(int pdf, int linearize, int makeid, ref int len);
@@ -695,11 +691,8 @@ class Program
 
     public static void netcpdf_setBookmarksJSON(int pdf, byte[] data)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarksJSON(int pdf, IntPtr data, int length);
-        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        cpdf_setBookmarksJSON(pdf, ptr, data.Length);
-        Marshal.FreeHGlobal(ptr);
+        [DllImport("libcpdf.so")] static extern void cpdf_setBookmarksJSON(int pdf, byte[] data, int length);
+        cpdf_setBookmarksJSON(pdf, data, data.Length);
     }
 
     public static void netcpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark)
@@ -1316,20 +1309,14 @@ class Program
 
     public static void netcpdf_attachFileFromMemory(byte[] data, string name, int pdf)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_attachFileFromMemory(IntPtr data, int length, string name, int pdf);
-        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        cpdf_attachFileFromMemory(ptr, data.Length, name, pdf);
-        Marshal.FreeHGlobal(ptr);
+        [DllImport("libcpdf.so")] static extern void cpdf_attachFileFromMemory(byte[] data, int length, string name, int pdf);
+        cpdf_attachFileFromMemory(data, data.Length, name, pdf);
     }
 
     public static void netcpdf_attachFileToPageFromMemory(byte[] data, string name, int pdf, int pagenumber)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPageFromMemory(IntPtr data, int length, string name, int pdf, int pagenumber);
-        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        cpdf_attachFileToPageFromMemory(ptr, data.Length, name, pdf, pagenumber);
-        Marshal.FreeHGlobal(ptr);
+        [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPageFromMemory(byte[] data, int length, string name, int pdf, int pagenumber);
+        cpdf_attachFileToPageFromMemory(data, data.Length, name, pdf, pagenumber);
     }
 
     public static void netcpdf_removeAttachedFiles(int pdf)
@@ -1362,7 +1349,6 @@ class Program
         return cpdf_getAttachmentPage(n);
     }
 
-    //FIXME free()
     public static byte[] netcpdf_getAttachmentData(int serial)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentData(int serial, ref int len);
@@ -1511,11 +1497,8 @@ class Program
 
     public static int netcpdf_fromJSONMemory(byte[] data)
     {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromJSONMemory(IntPtr data, int length);
-        IntPtr ptr = Marshal.AllocHGlobal(data.Length);
-        Marshal.Copy(data, 0, ptr, data.Length);
-        int pdf = cpdf_fromJSONMemory(ptr, data.Length);
-        Marshal.FreeHGlobal(ptr);
+        [DllImport("libcpdf.so")] static extern int cpdf_fromJSONMemory(byte[] data, int length);
+        int pdf = cpdf_fromJSONMemory(data, data.Length);
         return pdf;
     }
 
