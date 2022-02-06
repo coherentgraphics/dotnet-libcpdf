@@ -537,10 +537,16 @@ class Program
         return cpdf_merge(pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
     }
 
-    public static int netcpdf_mergeSame(int[] pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts, int[] ranges)
+    public static int netcpdf_mergeSame(List<int> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSame(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts, int[] ranges);
-        return cpdf_mergeSame(pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0, ranges);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int[] c_pdfs = pdfs.ToArray();
+        List<int> int_ranges = ranges.ConvertAll(range_of_list);
+        int[] c_ranges = int_ranges.ToArray();
+        int result = cpdf_mergeSame(c_pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0, c_ranges);
+        for (int x = 0; x < c_ranges.Length; x++) { cpdf_deleteRange(c_ranges[x]); }
+        return result;
     }
 
     public static int netcpdf_selectPages(int pdf, int r)
@@ -1897,14 +1903,16 @@ class Program
         int selectrange = netcpdf_range(1, 3);
         Console.WriteLine("---cpdf_mergeSimple()");
         int[] arr = new [] {pdf11, pdf11, pdf11};
+        List<int> arr_list = new List<int> {};
+        arr_list.AddRange(arr);
         int merged = netcpdf_mergeSimple(arr, arr.Length);
         netcpdf_toFile(merged, "testoutputs/02merged.pdf", false, true);
         Console.WriteLine("---cpdf_merge()");
         int merged2 = netcpdf_merge(arr, arr.Length, false, false);
         netcpdf_toFile(merged2, "testoutputs/02merged2.pdf", false, true);
         Console.WriteLine("---cpdf_mergeSame()");
-        List<int>[] ranges = new [] {netcpdf_all(pdf11), netcpdf_all(pdf11), netcpdf_all(pdf11)};
-        int merged3 = netcpdf_mergeSame(arr, arr.Length, false, false, ranges);
+        List<List<int>> ranges = new List<List<int>> {netcpdf_all(pdf11), netcpdf_all(pdf11), netcpdf_all(pdf11)};
+        int merged3 = netcpdf_mergeSame(arr_list, arr.Length, false, false, ranges);
         netcpdf_toFile(merged3, "testoutputs/02merged3.pdf", false, false);
         Console.WriteLine("---cpdf_selectPages()");
         int pdf12 = netcpdf_selectPages(pdf11, selectrange);
