@@ -264,10 +264,14 @@ class Program
         return cpdf_inOfPt(i);
     }
 
-    public static int netcpdf_parsePagespec(int pdf, string pagespec)
+    public static List<int> netcpdf_parsePagespec(int pdf, string pagespec)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
-        return cpdf_parsePagespec(pdf, pagespec);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int r = cpdf_parsePagespec(pdf, pagespec);
+        List<int> r_out = list_of_range(r);
+        cpdf_deleteRange(r);
+        return r_out;
     }
 
     public static int netcpdf_validatePagespec(string pagespec)
@@ -276,22 +280,19 @@ class Program
         return cpdf_validatePagespec(pagespec);
     }
 
-    public static string netcpdf_stringOfPagespec(int pdf, int r)
+    public static string netcpdf_stringOfPagespec(int pdf, List<int> r)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
-        return Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf, r));
-    }
-
-    public static int netcpdf_blankRange()
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
-        return cpdf_blankRange();
-    }
-
-    public static void netcpdf_deleteRange(int r)
-    {
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        cpdf_deleteRange(r);
+        int rn = range_of_list(r);
+        string s = Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf, rn));
+        cpdf_deleteRange(rn);
+        return s;
+    }
+
+    public static List<int> netcpdf_blankRange()
+    {
+        return new List<int>();
     }
 
     public static int netcpdf_range(int f, int t)
@@ -394,10 +395,16 @@ class Program
         return n_out;
     }
 
-    public static int netcpdf_rangeAdd(int r, int page)
+    public static List<int> netcpdf_rangeAdd(List<int> r, int page)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int page);
-        return cpdf_rangeAdd(r, page);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        int r2 = cpdf_rangeAdd(rn, page);
+        List<int> r_out = list_of_range(r2);
+        cpdf_deleteRange(rn);
+        cpdf_deleteRange(r2);
+        return r_out;
     }
 
     public static List<int> list_of_range(int r)
@@ -428,10 +435,14 @@ class Program
        return r;
     }
 
-    public static int netcpdf_isInRange(int r, int page)
+    public static int netcpdf_isInRange(List<int> r, int page)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
-        return cpdf_isInRange(r, page);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        int res = cpdf_isInRange(rn, page);
+        cpdf_deleteRange(rn);
+        return res;
     }
 
     public static int netcpdf_pages(int pdf)
@@ -1828,7 +1839,7 @@ class Program
         Console.WriteLine("---cpdf_rangeGet()");
         int rangeget = netcpdf_rangeGet(even, 1);
         Console.WriteLine("---cpdf_rangeAdd()");
-        int rangeadd = netcpdf_rangeAdd(even, 20);
+        List<int> rangeadd = netcpdf_rangeAdd(even, 20);
         Console.WriteLine("---cpdf_isInRange()");
         int isin = netcpdf_isInRange(even, 2);
         Console.WriteLine("---cpdf_parsePagespec()");
@@ -1841,8 +1852,6 @@ class Program
         Console.WriteLine($"String of pagespec is {ps}");
         Console.WriteLine("---cpdf_blankRange()");
         List<int> b = netcpdf_blankRange();
-
-        netcpdf_deleteRange(b);
 
         int pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_pages()");
