@@ -1856,49 +1856,64 @@ class Program
     public static int netcpdf_startGetImageResolution(int pdf, double min_required_resolution)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_startGetImageResolution(int pdf, double min_required_resolution);
-        return cpdf_startGetImageResolution(pdf, min_required_resolution);
+        int res = cpdf_startGetImageResolution(pdf, min_required_resolution);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getImageResolutionPageNumber(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionPageNumber(int n);
-        return cpdf_getImageResolutionPageNumber(n);
+        int res = cpdf_getImageResolutionPageNumber(n);
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getImageResolutionImageName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getImageResolutionImageName(int n);
-        return Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(n));
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getImageResolutionXPixels(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionXPixels(int n);
-        return cpdf_getImageResolutionXPixels(n);
+        int res = cpdf_getImageResolutionXPixels(n);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getImageResolutionYPixels(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionYPixels(int n);
-        return cpdf_getImageResolutionYPixels(n);
+        int res = cpdf_getImageResolutionYPixels(n);
+        checkerror();
+        return res;
     }
 
     public static double netcpdf_getImageResolutionXRes(int n)
     {
         [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionXRes(int n);
-        return cpdf_getImageResolutionXRes(n);
+        double res = cpdf_getImageResolutionXRes(n);
+        checkerror();
+        return res;
     }
 
     public static double netcpdf_getImageResolutionYRes(int n)
     {
         [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionYRes(int n);
-        return cpdf_getImageResolutionYRes(n);
+        double res = cpdf_getImageResolutionYRes(n);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_endGetImageResolution()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetImageResolution();
         cpdf_endGetImageResolution();
+        checkerror();
     }
 
     /* CHAPTER 14. Fonts. */
@@ -1907,48 +1922,61 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetFontInfo(int pdf);
         cpdf_startGetFontInfo(pdf);
+        checkerror();
     }
 
     public static int netcpdf_numberFonts()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberFonts();
-        return cpdf_numberFonts();
+        int res = cpdf_numberFonts();
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getFontPage(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getFontPage(int n);
-        return cpdf_getFontPage(n);
+        int res = cpdf_getFontPage(n);
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getFontName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
-        return Marshal.PtrToStringAuto(cpdf_getFontName(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getFontName(n));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getFontType(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
-        return Marshal.PtrToStringAuto(cpdf_getFontType(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getFontType(n));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getFontEncoding(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
-        return Marshal.PtrToStringAuto(cpdf_getFontEncoding(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getFontEncoding(n));
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_endGetFontInfo()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
         cpdf_endGetFontInfo();
+        checkerror();
     }
 
     public static void netcpdf_removeFonts(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeFonts(int pdf);
         cpdf_removeFonts(pdf);
+        checkerror();
     }
 
     public static void netcpdf_copyFont(int docfrom, int docto, List<int> range, int pagenumber, string fontname)
@@ -1958,6 +1986,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_copyFont(docfrom, docto, rn, pagenumber, fontname);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     /* CHAPTER 15. PDF and JSON */
@@ -1965,6 +1994,7 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int decompress_streams, int pdf);
         cpdf_outputJSON(filename, parse_content ? 1 : 0, no_stream_data ? 1 : 0, decompress_streams ? 1 : 0, pdf);
+        checkerror();
     }
 
     public static byte[] netcpdf_outputJSONMemory(int pdf, bool parse_content, bool no_stream_data, bool decompress_streams)
@@ -1976,19 +2006,23 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
     public static int netcpdf_fromJSON(string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromJSON(string filename);
-        return cpdf_fromJSON(filename);
+        int res = cpdf_fromJSON(filename);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_fromJSONMemory(byte[] data)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromJSONMemory(byte[] data, int length);
         int pdf = cpdf_fromJSONMemory(data, data.Length);
+        checkerror();
         return pdf;
     }
 
@@ -1996,37 +2030,45 @@ class Program
     public static int netcpdf_startGetOCGList(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList(int pdf);
-        return cpdf_startGetOCGList(pdf);
+        int res = cpdf_startGetOCGList(pdf);
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_OCGListEntry(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
-        return Marshal.PtrToStringAuto(cpdf_OCGListEntry(n));
+        string res = Marshal.PtrToStringAuto(cpdf_OCGListEntry(n));
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_endGetOCGList()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetOCGList();
         cpdf_endGetOCGList();
+        checkerror();
     }
 
     public static void netcpdf_OCGRename(int pdf, string name_from, string name_to)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_OCGRename(int pdf, string name_from, string name_to);
         cpdf_OCGRename(pdf, name_from, name_to);
+        checkerror();
     }
 
     public static void netcpdf_OCGOrderAll(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_OCGOrderAll(int pdf);
         cpdf_OCGOrderAll(pdf);
+        checkerror();
     }
 
     public static void netcpdf_OCGCoalesce(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_OCGCoalesce(int pdf);
         cpdf_OCGCoalesce(pdf);
+        checkerror();
     }
 
 
@@ -2034,25 +2076,33 @@ class Program
     public static int netcpdf_blankDocument(double w, double h, int pages)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
-        return cpdf_blankDocument(w, h, pages);
+        int res = cpdf_blankDocument(w, h, pages);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_blankDocumentPaper(int papersize, int pages)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
-        return cpdf_blankDocumentPaper(papersize, pages);
+        int res = cpdf_blankDocumentPaper(papersize, pages);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_textToPDF(double w, double h, int font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDF(double w, double h, int font, double fontsize, string filename);
-        return cpdf_textToPDF(w, h, font, fontsize, filename);
+        int res = cpdf_textToPDF(w, h, font, fontsize, filename);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename);
-        return cpdf_textToPDFPaper(papersize, font, fontsize, filename);
+        int res = cpdf_textToPDFPaper(papersize, font, fontsize, filename);
+        checkerror();
+        return res;
     }
 
 
@@ -2064,6 +2114,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_draft(pdf, rn, boxes ? 1 : 0);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removeAllText(int pdf, List<int> range)
@@ -2073,6 +2124,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeAllText(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_blackText(int pdf, List<int> range)
@@ -2082,6 +2134,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_blackText(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_blackLines(int pdf, List<int> range)
@@ -2091,6 +2144,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_blackLines(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_blackFills(int pdf, List<int> range)
@@ -2100,6 +2154,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_blackFills(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_thinLines(int pdf, List<int> range, double min_thickness)
@@ -2109,54 +2164,63 @@ class Program
         int rn = range_of_list(range);
         cpdf_thinLines(pdf, rn, min_thickness);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_copyId(int pdf_from, int pdf_to)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_copyId(int pdf_from, int pdf_to);
         cpdf_copyId(pdf_from, pdf_to);
+        checkerror();
     }
 
     public static void netcpdf_removeId(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeId(int pdf);
         cpdf_removeId(pdf);
+        checkerror();
     }
 
     public static void netcpdf_setVersion(int pdf, int version)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setVersion(int pdf, int version);
         cpdf_setVersion(pdf, version);
+        checkerror();
     }
 
     public static void netcpdf_setFullVersion(int pdf, int major, int minor)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setFullVersion(int pdf, int major, int minor);
         cpdf_setFullVersion(pdf, major, minor);
+        checkerror();
     }
 
     public static void netcpdf_removeDictEntry(int pdf, string key)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntry(int pdf, string key);
         cpdf_removeDictEntry(pdf, key);
+        checkerror();
     }
 
     public static void netcpdf_removeDictEntrySearch(int pdf, string key, string searchterm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntrySearch(int pdf, string key, string searchterm);
         cpdf_removeDictEntrySearch(pdf, key, searchterm);
+        checkerror();
     }
 
     public static void netcpdf_replaceDictEntry(int pdf, string key, string newvalue)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_replaceDictEntry(int pdf, string key, string newvalue);
         cpdf_replaceDictEntry(pdf, key, newvalue);
+        checkerror();
     }
 
     public static void netcpdf_replaceDictEntrySearch(int pdf, string key, string newvalue, string searchterm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_replaceDictEntrySearch(int pdf, string key, string newvalue, string searchterm);
         cpdf_replaceDictEntrySearch(pdf, key, newvalue, searchterm);
+        checkerror();
     }
 
     public static void netcpdf_removeClipping(int pdf, List<int> range)
@@ -2166,6 +2230,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeClipping(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static byte[] netcpdf_getDictEntries(int pdf, string key)
@@ -2177,6 +2242,7 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
