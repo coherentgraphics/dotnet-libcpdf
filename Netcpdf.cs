@@ -347,10 +347,15 @@ class Program
         return new List<int>();
     }
 
-    public static int netcpdf_range(int f, int t)
+    public static List<int> netcpdf_range(int f, int t)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_range(int f, int t);
-        return cpdf_range(f, t);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = cpdf_range(f, t);
+        List<int> l = list_of_range(rn);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return l;
     }
 
     public static List<int> netcpdf_all(int pdf)
@@ -601,10 +606,15 @@ class Program
         return result;
     }
 
-    public static int netcpdf_selectPages(int pdf, int r)
+    public static int netcpdf_selectPages(int pdf, List<int> r)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_selectPages(int pdf, int r);
-        return cpdf_selectPages(pdf, r);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        int res = cpdf_selectPages(pdf, rn);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return res;
     }
 
     /* CHAPTER 3. Pages */
@@ -1012,16 +1022,24 @@ class Program
         cpdf_twoUpStack(pdf);
     }
 
-    static public void netcpdf_padBefore(int pdf, int range)
+    static public void netcpdf_padBefore(int pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padBefore(int pdf, int range);
-        cpdf_padBefore(pdf, range);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(range);
+        cpdf_padBefore(pdf, rn);
+        cpdf_deleteRange(rn);
+        checkerror();
     }
 
-    static public void netcpdf_padAfter(int pdf, int range)
+    static public void netcpdf_padAfter(int pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padAfter(int pdf, int range);
-        cpdf_padAfter(pdf, range);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(range);
+        cpdf_padAfter(pdf, rn);
+        cpdf_deleteRange(rn);
+        checkerror();
     }
 
     static public void netcpdf_padEvery(int pdf, int n)
@@ -2003,7 +2021,7 @@ class Program
         Console.WriteLine("---cpdf_mmOfPt()");
         Console.WriteLine($"One point is {netcpdf_mmOfPt(1.0):0.000000} millimetres");
         Console.WriteLine("---cpdf_range()");
-        int range = netcpdf_range(1, 10);
+        List<int> range = netcpdf_range(1, 10);
         Console.WriteLine("---cpdf_all()");
         List<int> all = netcpdf_all(pdf3);
         Console.WriteLine("---cpdf_even()");
@@ -2076,7 +2094,7 @@ class Program
         /* CHAPTER 2. Merging and Splitting */
         Console.WriteLine("***** CHAPTER 2. Merging and Splitting");
         int pdf11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int selectrange = netcpdf_range(1, 3);
+        List<int> selectrange = netcpdf_range(1, 3);
         Console.WriteLine("---cpdf_mergeSimple()");
         int[] arr = new [] {pdf11, pdf11, pdf11};
         List<int> arr_list = new List<int> {};
