@@ -323,12 +323,12 @@ class Program
         return r_out;
     }
 
-    public static int netcpdf_validatePagespec(string pagespec)
+    public static bool netcpdf_validatePagespec(string pagespec)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
         int res = cpdf_validatePagespec(pagespec);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static string netcpdf_stringOfPagespec(int pdf, List<int> r)
@@ -503,7 +503,7 @@ class Program
         return r;
     }
 
-    public static int netcpdf_isInRange(List<int> r, int page)
+    public static bool netcpdf_isInRange(List<int> r, int page)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
@@ -511,7 +511,7 @@ class Program
         int res = cpdf_isInRange(rn, page);
         cpdf_deleteRange(rn);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static int netcpdf_pages(int pdf)
@@ -557,12 +557,12 @@ class Program
         return databytes;
     }
 
-    public static int netcpdf_isEncrypted(int pdf)
+    public static bool netcpdf_isEncrypted(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
         int res = cpdf_isEncrypted(pdf);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static void netcpdf_decryptPdf(int pdf, string userpw)
@@ -593,12 +593,12 @@ class Program
         checkerror();
     }
 
-    public static int netcpdf_hasPermission(int pdf, int permission)
+    public static bool netcpdf_hasPermission(int pdf, int permission)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasPermission(int pdf, int permission);
         int res = cpdf_hasPermission(pdf, permission);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static int netcpdf_encryptionKind(int pdf)
@@ -908,12 +908,12 @@ class Program
         return res;
     }
 
-    public static int netcpdf_getBookmarkOpenStatus(int n)
+    public static bool netcpdf_getBookmarkOpenStatus(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
         int res = cpdf_getBookmarkOpenStatus(n);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static void netcpdf_endGetBookmarkInfo()
@@ -991,6 +991,7 @@ class Program
         cpdf_tableOfContents(pdf, font, fontsize, title, bookmark ? 1 : 0);
         checkerror();
     }
+
     /* CHAPTER 7. Presentations */
     /* Not included in the library version. */
 
@@ -1172,12 +1173,12 @@ class Program
 
     /* CHAPTER 11. Document Information and Metadata */
 
-    public static int netcpdf_isLinearized(string filename)
+    public static bool netcpdf_isLinearized(string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isLinearized(string filename);
         int res = cpdf_isLinearized(filename);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static int netcpdf_getVersion(int pdf)
@@ -1459,12 +1460,12 @@ class Program
         return res;
     }
 
-    public static int netcpdf_hasBox(int pdf, int pagenumber, string boxname)
+    public static bool netcpdf_hasBox(int pdf, int pagenumber, string boxname)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasBox(int pdf, int pagenumber, string boxname);
         int res = cpdf_hasBox(pdf, pagenumber, boxname);
         checkerror();
-        return res;
+        return (res > 0);
     }
 
     public static void netcpdf_getMediaBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
@@ -2323,12 +2324,12 @@ class Program
         Console.WriteLine("---cpdf_rangeAdd()");
         List<int> rangeadd = netcpdf_rangeAdd(even, 20);
         Console.WriteLine("---cpdf_isInRange()");
-        int isin = netcpdf_isInRange(even, 2);
+        bool isin = netcpdf_isInRange(even, 2);
         Console.WriteLine("---cpdf_parsePagespec()");
         List<int> r = netcpdf_parsePagespec(pdf3, "1-5");
         Console.WriteLine("---cpdf_validatePagespec()");
-        int valid = netcpdf_validatePagespec("1-4,5,6");
-        Console.WriteLine($"Validating pagespec gives {valid}");
+        bool valid = netcpdf_validatePagespec("1-4,5,6");
+        Console.WriteLine($"Validating pagespec gives {(valid ? 1 : 0)}");
         Console.WriteLine("---cpdf_stringOfPagespec()");
         string ps = netcpdf_stringOfPagespec(pdf3, r);
         Console.WriteLine($"String of pagespec is {ps}");
@@ -2347,11 +2348,11 @@ class Program
         Console.WriteLine("---cpdf_toFileExt()");
         netcpdf_toFileExt(pdf10, "testoutputs/01tofileext.pdf", false, true, true, true, true);
         Console.WriteLine("---cpdf_isEncrypted()");
-        int isenc = netcpdf_isEncrypted(pdf10);
-        Console.WriteLine($"isencrypted:{isenc}");
+        bool isenc = netcpdf_isEncrypted(pdf10);
+        Console.WriteLine($"isencrypted:{(isenc ? 1 : 0)}");
         Console.WriteLine("---cpdf_isLinearized()");
-        int lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
-        Console.WriteLine($"islinearized:{lin}");
+        bool lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
+        Console.WriteLine($"islinearized:{(lin ? 1 : 0)}");
 
         int pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2362,9 +2363,9 @@ class Program
         netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
         Console.WriteLine("---cpdf_hasPermission()");
         int pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user");
-        int hasnoedit = netcpdf_hasPermission(pdfenc, netcpdf_noEdit);
-        int hasnocopy = netcpdf_hasPermission(pdfenc, netcpdf_noCopy);
-        Console.WriteLine($"Haspermission {hasnoedit}, {hasnocopy}");
+        bool hasnoedit = netcpdf_hasPermission(pdfenc, netcpdf_noEdit);
+        bool hasnocopy = netcpdf_hasPermission(pdfenc, netcpdf_noCopy);
+        Console.WriteLine($"Haspermission {(hasnoedit ? 1 : 0)}, {(hasnocopy ? 1 : 0)}");
         Console.WriteLine("---cpdf_encryptionKind()");
         int enckind = netcpdf_encryptionKind(pdfenc);
         Console.WriteLine($"encryption kind is {enckind}");
@@ -2503,8 +2504,8 @@ class Program
             int level = netcpdf_getBookmarkLevel(b2);
             int page = netcpdf_getBookmarkPage(pdf17, b2);
             string text = netcpdf_getBookmarkText(b2);
-            int open = netcpdf_getBookmarkOpenStatus(b2);
-            Console.WriteLine($"Bookmark at level {level} points to page {page} and has text \"{text}\" and open {open}");
+            bool open = netcpdf_getBookmarkOpenStatus(b2);
+            Console.WriteLine($"Bookmark at level {level} points to page {page} and has text \"{text}\" and open {(open ? 1 : 0)}");
         }
         netcpdf_endGetBookmarkInfo();
         Console.WriteLine("---cpdf: set bookmarks");
@@ -2745,8 +2746,8 @@ class Program
         int rot = netcpdf_getPageRotation(pdf30, 1);
         Console.WriteLine($"/Rotate on page 1 = {rot}");
         Console.WriteLine("---cpdf_hasBox()");
-        int hasbox = netcpdf_hasBox(pdf30, 1, "/CropBox");
-        Console.WriteLine($"hasbox: {hasbox}");
+        bool hasbox = netcpdf_hasBox(pdf30, 1, "/CropBox");
+        Console.WriteLine($"hasbox: {(hasbox ? 1 : 0)}");
         double mb_minx = 0.0;
         double mb_maxx = 0.0;
         double mb_miny = 0.0;
