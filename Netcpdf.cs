@@ -112,18 +112,18 @@ class Program
 
     public class CPDFError : Exception
     {
-      public CPDFError(string error) : base(error)
-      {
-      }
+        public CPDFError(string error) : base(error)
+        {
+        }
     }
 
     public static void checkerror()
     {
-       if (netcpdf_lastError() != 0)
-       {
-         netcpdf_clearError();
-         throw new CPDFError(netcpdf_lastErrorString());
-       }
+        if (netcpdf_lastError() != 0)
+        {
+            netcpdf_clearError();
+            throw new CPDFError(netcpdf_lastErrorString());
+        }
     }
     /* CHAPTER 0. Preliminaries */
 
@@ -365,6 +365,7 @@ class Program
         int rn = cpdf_all(pdf);
         List<int> r = list_of_range(rn);
         cpdf_deleteRange(rn);
+        checkerror();
         return r;
     }
 
@@ -377,6 +378,7 @@ class Program
         List<int> r = list_of_range(rn);
         cpdf_deleteRange(rn);
         cpdf_deleteRange(range_in);
+        checkerror();
         return r;
     }
 
@@ -389,6 +391,7 @@ class Program
         List<int> r = list_of_range(rn);
         cpdf_deleteRange(rn);
         cpdf_deleteRange(range_in);
+        checkerror();
         return r;
     }
 
@@ -403,6 +406,7 @@ class Program
         cpdf_deleteRange(a_r);
         cpdf_deleteRange(b_r);
         cpdf_deleteRange(rn);
+        checkerror();
         return r;
     }
 
@@ -417,6 +421,7 @@ class Program
         cpdf_deleteRange(a_r);
         cpdf_deleteRange(b_r);
         cpdf_deleteRange(rn);
+        checkerror();
         return r;
     }
 
@@ -429,6 +434,7 @@ class Program
         List<int> r = list_of_range(rn);
         cpdf_deleteRange(a_r);
         cpdf_deleteRange(rn);
+        checkerror();
         return r;
     }
 
@@ -439,6 +445,7 @@ class Program
         int rn = range_of_list(r);
         int l = cpdf_rangeLength(rn);
         cpdf_deleteRange(rn);
+        checkerror();
         return l;
     }
 
@@ -449,6 +456,7 @@ class Program
         int rn = range_of_list(r);
         int n_out = cpdf_rangeGet(rn, n);
         cpdf_deleteRange(rn);
+        checkerror();
         return n_out;
     }
 
@@ -461,35 +469,38 @@ class Program
         List<int> r_out = list_of_range(r2);
         cpdf_deleteRange(rn);
         cpdf_deleteRange(r2);
+        checkerror();
         return r_out;
     }
 
     public static List<int> list_of_range(int r)
     {
-       [DllImport("libcpdf.so")] static extern int cpdf_rangeLength(int r);
-       [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
-       List<int> l = new List<int>();
-       for (int x = 0; x < cpdf_rangeLength(r); x++)
-       {
-         l.Add(cpdf_rangeGet(r, x));
-       }
-       return l;
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeLength(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
+        List<int> l = new List<int>();
+        for (int x = 0; x < cpdf_rangeLength(r); x++)
+        {
+            l.Add(cpdf_rangeGet(r, x));
+        }
+        checkerror();
+        return l;
     }
 
 
     public static int range_of_list(List<int> l)
     {
-       [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-       [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
-       [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int n);
-       int r = cpdf_blankRange();
-       for (int x = 0; x < l.Count; x++)
-       {
-          int rn = cpdf_rangeAdd(r, l[x]);
-          cpdf_deleteRange(r);
-          r = rn;
-       }
-       return r;
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int n);
+        int r = cpdf_blankRange();
+        for (int x = 0; x < l.Count; x++)
+        {
+            int rn = cpdf_rangeAdd(r, l[x]);
+            cpdf_deleteRange(r);
+            r = rn;
+        }
+        checkerror();
+        return r;
     }
 
     public static int netcpdf_isInRange(List<int> r, int page)
@@ -499,31 +510,38 @@ class Program
         int rn = range_of_list(r);
         int res = cpdf_isInRange(rn, page);
         cpdf_deleteRange(rn);
+        checkerror();
         return res;
     }
 
     public static int netcpdf_pages(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
-        return cpdf_pages(pdf);
+        int res = cpdf_pages(pdf);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_pagesFast(string password, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
-        return cpdf_pagesFast(password, filename);
+        int res = cpdf_pagesFast(password, filename);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_toFile(int pdf, string filename, bool linearize, bool make_id)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
         cpdf_toFile(pdf, filename, linearize ? 1 : 0, make_id ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_toFileExt(int pdf, string filename, bool linearize, bool make_id, bool preserve_objstm, bool generate_objstm, bool compress_objstm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
         cpdf_toFileExt(pdf, filename, linearize ? 1 : 0, make_id ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0);
+        checkerror();
     }
 
     public static byte[] netcpdf_toMemory(int pdf, bool linearize, bool makeid)
@@ -535,49 +553,59 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
     public static int netcpdf_isEncrypted(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
-        return cpdf_isEncrypted(pdf);
+        int res = cpdf_isEncrypted(pdf);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_decryptPdf(int pdf, string userpw)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdf(int pdf, string userpw);
         cpdf_decryptPdf(pdf, userpw);
+        checkerror();
     }
 
     public static void netcpdf_decryptPdfOwner(int pdf, string ownerpw)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdfOwner(int pdf, string ownerpw);
         cpdf_decryptPdfOwner(pdf, ownerpw);
+        checkerror();
     }
 
     public static void netcpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
         cpdf_toFileEncrypted(pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
+        checkerror();
     }
 
     public static void netcpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
         cpdf_toFileEncryptedExt(pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
+        checkerror();
     }
 
     public static int netcpdf_hasPermission(int pdf, int permission)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasPermission(int pdf, int permission);
-        return cpdf_hasPermission(pdf, permission);
+        int res = cpdf_hasPermission(pdf, permission);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_encryptionKind(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_encryptionKind(int pdf);
-        return cpdf_encryptionKind(pdf);
+        int res = cpdf_encryptionKind(pdf);
+        return res;
     }
 
     /* CHAPTER 2. Merging and Splitting */
@@ -585,13 +613,17 @@ class Program
     public static int netcpdf_mergeSimple(int[] pdfs, int length)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSimple(int[] pdfs, int length);
-        return cpdf_mergeSimple(pdfs, length);
+        int res = cpdf_mergeSimple(pdfs, length);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_merge(int[] pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_merge(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts);
-        return cpdf_merge(pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
+        int res = cpdf_merge(pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_mergeSame(List<int> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
@@ -602,7 +634,10 @@ class Program
         List<int> int_ranges = ranges.ConvertAll(range_of_list);
         int[] c_ranges = int_ranges.ToArray();
         int result = cpdf_mergeSame(c_pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0, c_ranges);
-        for (int x = 0; x < c_ranges.Length; x++) { cpdf_deleteRange(c_ranges[x]); }
+        for (int x = 0; x < c_ranges.Length; x++) {
+            cpdf_deleteRange(c_ranges[x]);
+        }
+        checkerror();
         return result;
     }
 
@@ -625,6 +660,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_scalePages(pdf, rn, sx, sy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_scaleToFit(int pdf, List<int> range, double sx, double sy, double scale)
@@ -634,6 +670,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_scaleToFit(pdf, rn, sx, sy, scale);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_scaleToFitPaper(int pdf, List<int> range, int pagesize, double scale)
@@ -643,6 +680,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_scaleToFitPaper(pdf, rn, pagesize, scale);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_scaleContents(int pdf, List<int> range, netcpdf_position position, double scale)
@@ -652,6 +690,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_scaleContents(pdf, rn, position, scale);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_shiftContents(int pdf, List<int> range, double dx, double dy)
@@ -661,6 +700,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_shiftContents(pdf, rn, dx, dy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_rotate(int pdf, List<int> range, int rotation)
@@ -670,6 +710,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_rotate(pdf, rn, rotation);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_rotateBy(int pdf, List<int> range, int rotation)
@@ -679,6 +720,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_rotateBy(pdf, rn, rotation);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_rotateContents(int pdf, List<int> range, double angle)
@@ -688,6 +730,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_rotateContents(pdf, rn, angle);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_upright(int pdf, List<int> range)
@@ -697,6 +740,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_upright(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_hFlip(int pdf, List<int> range)
@@ -706,6 +750,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_hFlip(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_vFlip(int pdf, List<int> range)
@@ -715,6 +760,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_vFlip(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_crop(int pdf, List<int> range, double x, double y, double w, double h)
@@ -724,6 +770,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_crop(pdf, rn, x, y, w, h);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removeCrop(int pdf, List<int> range)
@@ -733,6 +780,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeCrop(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removeTrim(int pdf, List<int> range)
@@ -742,6 +790,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeTrim(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removeArt(int pdf, List<int> range)
@@ -751,6 +800,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeArt(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removeBleed(int pdf, List<int> range)
@@ -760,6 +810,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeBleed(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_trimMarks(int pdf, List<int> range)
@@ -769,6 +820,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_trimMarks(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_showBoxes(int pdf, List<int> range)
@@ -778,6 +830,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_showBoxes(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_hardBox(int pdf, List<int> range, string boxname)
@@ -787,6 +840,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_hardBox(pdf, rn, boxname);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     /* CHAPTER 4. Encryption */
@@ -797,18 +851,21 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
         cpdf_compress(pdf);
+        checkerror();
     }
 
     public static void netcpdf_decompress(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decompress(int pdf);
         cpdf_decompress(pdf);
+        checkerror();
     }
 
     public static void netcpdf_squeezeInMemory(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_squeezeInMemory(int pdf);
         cpdf_squeezeInMemory(pdf);
+        checkerror();
     }
 
     /* CHAPTER 6. Bookmarks */
@@ -816,78 +873,96 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetBookmarkInfo(int pdf);
         cpdf_startGetBookmarkInfo(pdf);
+        checkerror();
     }
 
     public static int netcpdf_numberBookmarks()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberBookmarks();
-        return cpdf_numberBookmarks();
+        int res = cpdf_numberBookmarks();
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getBookmarkLevel(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkLevel(int n);
-        return cpdf_getBookmarkLevel(n);
+        int res = cpdf_getBookmarkLevel(n);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getBookmarkPage(int pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkPage(int pdf, int n);
-        return cpdf_getBookmarkPage(pdf, n);
+        int res = cpdf_getBookmarkPage(pdf, n);
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getBookmarkText(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
-        return Marshal.PtrToStringAuto(cpdf_getBookmarkText(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getBookmarkText(n));
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getBookmarkOpenStatus(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
-        return cpdf_getBookmarkOpenStatus(n);
+        int res = cpdf_getBookmarkOpenStatus(n);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_endGetBookmarkInfo()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetBookmarkInfo();
         cpdf_endGetBookmarkInfo();
+        checkerror();
     }
 
     public static void netcpdf_startSetBookmarkInfo(int nummarks)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startSetBookmarkInfo(int nummarks);
         cpdf_startSetBookmarkInfo(nummarks);
+        checkerror();
     }
 
     public static void netcpdf_setBookmarkLevel(int n, int level)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkLevel(int n, int level);
         cpdf_setBookmarkLevel(n, level);
+        checkerror();
     }
 
     public static void netcpdf_setBookmarkPage(int pdf, int n, int targetpage)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkPage(int pdf, int n, int targetpage);
         cpdf_setBookmarkPage(pdf, n, targetpage);
+        checkerror();
     }
 
     public static void netcpdf_setBookmarkOpenStatus(int n, bool status)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkOpenStatus(int n, int status);
         cpdf_setBookmarkOpenStatus(n, status ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_setBookmarkText(int n, string text)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkText(int n, string text);
         cpdf_setBookmarkText(n, text);
+        checkerror();
     }
 
     public static void netcpdf_endSetBookmarkInfo(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endSetBookmarkInfo(int pdf);
         cpdf_endSetBookmarkInfo(pdf);
+        checkerror();
     }
 
     static public byte[] netcpdf_getBookmarksJSON(int pdf)
@@ -899,6 +974,7 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
@@ -906,12 +982,14 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarksJSON(int pdf, byte[] data, int length);
         cpdf_setBookmarksJSON(pdf, data, data.Length);
+        checkerror();
     }
 
     public static void netcpdf_tableOfContents(int pdf, int font, double fontsize, string title, bool bookmark)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark);
         cpdf_tableOfContents(pdf, font, fontsize, title, bookmark ? 1 : 0);
+        checkerror();
     }
     /* CHAPTER 7. Presentations */
     /* Not included in the library version. */
@@ -925,6 +1003,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_stampOn(stamp_pdf, pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_stampUnder(int stamp_pdf, int pdf, List<int> range)
@@ -934,6 +1013,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_stampUnder(stamp_pdf, pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_stampExtended(int pdf, int pdf2, List<int> range, bool isover, bool scale_stamp_to_fit, netcpdf_position position, bool relative_to_cropbox)
@@ -943,12 +1023,15 @@ class Program
         int rn = range_of_list(range);
         cpdf_stampExtended(pdf, pdf2, rn, isover ? 1 : 0, scale_stamp_to_fit ? 1 : 0, position, relative_to_cropbox ? 1 : 0);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static int netcpdf_combinePages(int under, int over)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
-        return cpdf_combinePages(under, over);
+        int res = cpdf_combinePages(under, over);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_addText(bool metrics, int pdf, List<int> range, string text, netcpdf_position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, bool underneath, bool relative_to_cropbox, bool outline, double opacity, int justification, bool midline, bool topline, string filename, double linewidth, bool embed_fonts)
@@ -958,6 +1041,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_addText(metrics ? 1 : 0, pdf, rn, text, position, linespacing, bates, font, fontsize, r, g, b, underneath ? 1 : 0, relative_to_cropbox ? 1 : 0, outline ? 1 : 0, opacity, justification, midline ? 1 : 0, topline ? 1 : 0, filename, linewidth, embed_fonts ? 1 : 0);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_addTextSimple(int pdf, List<int> range, string text, netcpdf_position position, int font, double fontsize)
@@ -967,6 +1051,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_addTextSimple(pdf, rn, text, position, font, fontsize);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removeText(int pdf, List<int> range)
@@ -976,12 +1061,15 @@ class Program
         int rn = range_of_list(range);
         cpdf_removeText(pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static int netcpdf_textWidth(int font, string text)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
-        return cpdf_textWidth(font, text);
+        int res = cpdf_textWidth(font, text);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_addContent(string content, bool before, int pdf, List<int> range)
@@ -991,6 +1079,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_addContent(content, before ? 1 : 0, pdf, rn);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static string netcpdf_stampAsXObject(int pdf, List<int> range, int stamp_pdf)
@@ -1000,26 +1089,30 @@ class Program
         int rn = range_of_list(range);
         string s = Marshal.PtrToStringAuto(cpdf_stampAsXObject(pdf, rn, stamp_pdf));
         cpdf_deleteRange(rn);
+        checkerror();
         return s;
     }
 
     /* CHAPTER 9. Multipage facilities */
     static public void netcpdf_impose(int pdf, double x, double y, bool fit, bool columns, bool rtl, bool btt, bool center, double margin, double spacing, double linewidth)
     {
-      [DllImport("libcpdf.so")] static extern void cpdf_impose(int pdf, double x, double y, int fit, int columns, int rtl, int btt, int center, double margin, double spacing, double linewidth);
-      cpdf_impose(pdf, x, y, fit ? 1 : 0, columns ? 1 : 0, rtl ? 1 : 0, btt ? 1 : 0, center ? 1 : 0, margin, spacing, linewidth);
+        [DllImport("libcpdf.so")] static extern void cpdf_impose(int pdf, double x, double y, int fit, int columns, int rtl, int btt, int center, double margin, double spacing, double linewidth);
+        cpdf_impose(pdf, x, y, fit ? 1 : 0, columns ? 1 : 0, rtl ? 1 : 0, btt ? 1 : 0, center ? 1 : 0, margin, spacing, linewidth);
+        checkerror();
     }
 
     static public void netcpdf_twoUp(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_twoUp(int pdf);
         cpdf_twoUp(pdf);
+        checkerror();
     }
 
     static public void netcpdf_twoUpStack(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_twoUpStack(int pdf);
         cpdf_twoUpStack(pdf);
+        checkerror();
     }
 
     static public void netcpdf_padBefore(int pdf, List<int> range)
@@ -1046,18 +1139,21 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padEvery(int pdf, int n);
         cpdf_padEvery(pdf, n);
+        checkerror();
     }
 
     static public void netcpdf_padMultiple(int pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padMultiple(int pdf, int n);
         cpdf_padMultiple(pdf, n);
+        checkerror();
     }
 
     static public void netcpdf_padMultipleBefore(int pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padMultipleBefore(int pdf, int n);
         cpdf_padMultipleBefore(pdf, n);
+        checkerror();
     }
 
     /* CHAPTER 10. Annotations */
@@ -1070,6 +1166,7 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
@@ -1078,265 +1175,331 @@ class Program
     public static int netcpdf_isLinearized(string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isLinearized(string filename);
-        return cpdf_isLinearized(filename);
+        int res = cpdf_isLinearized(filename);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getVersion(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getVersion(int pdf);
-        return cpdf_getVersion(pdf);
+        int res = cpdf_getVersion(pdf);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getMajorVersion(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getMajorVersion(int pdf);
-        return cpdf_getMajorVersion(pdf);
+        int res = cpdf_getMajorVersion(pdf);
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getTitle(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitle(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getTitle(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getTitle(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getAuthor(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthor(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getAuthor(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getAuthor(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getSubject (int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getSubject(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getSubject(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getKeywords(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywords(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getKeywords(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getKeywords(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getCreator(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreator(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getCreator(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getCreator(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getProducer(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducer(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getProducer(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getProducer(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getCreationDate(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDate(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getCreationDate(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getCreationDate(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getModificationDate(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDate(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getModificationDate(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getModificationDate(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getTitleXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitleXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getTitleXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getTitleXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getAuthorXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthorXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getAuthorXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getAuthorXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getSubjectXMP (int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubjectXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getSubjectXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getSubjectXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getKeywordsXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywordsXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getKeywordsXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getKeywordsXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getCreatorXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreatorXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getCreatorXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getCreatorXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getProducerXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducerXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getProducerXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getProducerXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getCreationDateXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDateXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getCreationDateXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getCreationDateXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getModificationDateXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDateXMP(int pdf);
-        return Marshal.PtrToStringAuto(cpdf_getModificationDateXMP(pdf));
+        string res = Marshal.PtrToStringAuto(cpdf_getModificationDateXMP(pdf));
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_setTitle(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setTitle(int pdf, string s);
         cpdf_setTitle(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setAuthor(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setAuthor(int pdf, string s);
         cpdf_setAuthor(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setSubject(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setSubject(int pdf, string s);
         cpdf_setSubject(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setKeywords(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setKeywords(int pdf, string s);
         cpdf_setKeywords(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setCreator(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreator(int pdf, string s);
         cpdf_setCreator(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setProducer(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setProducer(int pdf, string s);
         cpdf_setProducer(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setCreationDate(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreationDate(int pdf, string s);
         cpdf_setCreationDate(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setModificationDate(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setModificationDate(int pdf, string s);
         cpdf_setModificationDate(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setTitleXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setTitleXMP(int pdf, string s);
         cpdf_setTitleXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setAuthorXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setAuthorXMP(int pdf, string s);
         cpdf_setAuthorXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setSubjectXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setSubjectXMP(int pdf, string s);
         cpdf_setSubjectXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setKeywordsXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setKeywordsXMP(int pdf, string s);
         cpdf_setKeywordsXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setCreatorXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreatorXMP(int pdf, string s);
         cpdf_setCreatorXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setProducerXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setProducerXMP(int pdf, string s);
         cpdf_setProducerXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setCreationDateXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreationDateXMP(int pdf, string s);
         cpdf_setCreationDateXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_setModificationDateXMP(int pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setModificationDateXMP(int pdf, string s);
         cpdf_setModificationDateXMP(pdf, s);
+        checkerror();
     }
 
     public static void netcpdf_getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset);
         cpdf_getDateComponents(datestring, ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
+        checkerror();
     }
 
     public static string netcpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset);
-        return Marshal.PtrToStringAuto(cpdf_dateStringOfComponents(y, m, d, h, min, sec, hour_offset, minute_offset));
+        string res = Marshal.PtrToStringAuto(cpdf_dateStringOfComponents(y, m, d, h, min, sec, hour_offset, minute_offset));
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getPageRotation(int pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageRotation(int pdf, int pagenumber);
-        return cpdf_getPageRotation(pdf, pagenumber);
+        int res = cpdf_getPageRotation(pdf, pagenumber);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_hasBox(int pdf, int pagenumber, string boxname)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasBox(int pdf, int pagenumber, string boxname);
-        return cpdf_hasBox(pdf, pagenumber, boxname);
+        int res = cpdf_hasBox(pdf, pagenumber, boxname);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_getMediaBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getMediaBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
         cpdf_getMediaBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+        checkerror();
     }
 
     public static void netcpdf_getCropBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getCropBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
         cpdf_getCropBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+        checkerror();
     }
 
     public static void netcpdf_getTrimBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getTrimBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
         cpdf_getTrimBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+        checkerror();
     }
 
     public static void netcpdf_getArtBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getArtBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
         cpdf_getArtBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+        checkerror();
     }
 
     public static void netcpdf_getBleedBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getBleedBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
         cpdf_getBleedBox(pdf, pagenumber, ref minx, ref maxx, ref miny, ref maxy);
+        checkerror();
     }
 
     public static void netcpdf_setMediabox(int pdf, List<int> range, double minx, double maxx, double miny, double maxy)
@@ -1346,6 +1509,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_setMediabox(pdf, rn, minx, maxx, miny, maxy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_setCropBox(int pdf, List<int> range, double minx, double maxx, double miny, double maxy)
@@ -1355,6 +1519,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_setCropBox(pdf, rn, minx, maxx, miny, maxy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_setTrimBox(int pdf, List<int> range, double minx, double maxx, double miny, double maxy)
@@ -1364,6 +1529,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_setTrimBox(pdf, rn, minx, maxx, miny, maxy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_setArtBox(int pdf, List<int> range, double minx, double maxx, double miny, double maxy)
@@ -1373,6 +1539,7 @@ class Program
         int rn = range_of_list(range);
         cpdf_setArtBox(pdf, rn, minx, maxx, miny, maxy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_setBleedBox(int pdf, List<int> range, double minx, double maxx, double miny, double maxy)
@@ -1382,102 +1549,119 @@ class Program
         int rn = range_of_list(range);
         cpdf_setBleedBox(pdf, rn, minx, maxx, miny, maxy);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_markTrapped(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markTrapped(int pdf);
         cpdf_markTrapped(pdf);
+        checkerror();
     }
 
     public static void netcpdf_markUntrapped(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markUntrapped(int pdf);
         cpdf_markUntrapped(pdf);
+        checkerror();
     }
 
     public static void netcpdf_markTrappedXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markTrappedXMP(int pdf);
         cpdf_markTrappedXMP(pdf);
+        checkerror();
     }
 
     public static void netcpdf_markUntrappedXMP(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markUntrappedXMP(int pdf);
         cpdf_markUntrappedXMP(pdf);
+        checkerror();
     }
 
     public static void netcpdf_setPageLayout(int pdf, int layout)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
         cpdf_setPageLayout(pdf, layout);
+        checkerror();
     }
 
     public static void netcpdf_setPageMode(int pdf, int mode)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setPageMode(int pdf, int mode);
         cpdf_setPageMode(pdf, mode);
+        checkerror();
     }
 
     public static void netcpdf_hideToolbar(int pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hideToolbar(int pdf, int flag);
         cpdf_hideToolbar(pdf, flag ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_hideMenubar(int pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hideMenubar(int pdf, int flag);
         cpdf_hideMenubar(pdf, flag ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_hideWindowUi(int pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hideWindowUi(int pdf, int flag);
         cpdf_hideWindowUi(pdf, flag ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_fitWindow(int pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_fitWindow(int pdf, int flag);
         cpdf_fitWindow(pdf, flag ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_centerWindow(int pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_centerWindow(int pdf, int flag);
         cpdf_centerWindow(pdf, flag ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_displayDocTitle(int pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_displayDocTitle(int pdf, int flag);
         cpdf_displayDocTitle(pdf, flag ? 1 : 0);
+        checkerror();
     }
 
     public static void netcpdf_openAtPage(int pdf, bool fit, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_openAtPage(int pdf, int fit, int pagenumber);
         cpdf_openAtPage(pdf, fit ? 1 : 0, pagenumber);
+        checkerror();
     }
 
     public static void netcpdf_setMetadataFromFile(int pdf, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromFile(int pdf, string filename);
         cpdf_setMetadataFromFile(pdf, filename);
+        checkerror();
     }
-    
+
     public static void netcpdf_setMetadataFromByteArray(int pdf, byte[] data)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromByteArray(int pdf, byte[] data, int length);
         cpdf_setMetadataFromByteArray(pdf, data, data.Length);
+        checkerror();
     }
 
     public static void netcpdf_removeMetadata(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
         cpdf_removeMetadata(pdf);
+        checkerror();
     }
 
     public static byte[] netcpdf_getMetadata(int pdf)
@@ -1489,6 +1673,7 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
@@ -1496,12 +1681,14 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_createMetadata(int pdf);
         cpdf_createMetadata(pdf);
+        checkerror();
     }
 
     public static void netcpdf_setMetadataDate(int pdf, string date)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
         cpdf_setMetadataDate(pdf, date);
+        checkerror();
     }
 
     public static void netcpdf_addPageLabels(int pdf, int style, string prefix, int offset, List<int> range, bool progress)
@@ -1511,54 +1698,69 @@ class Program
         int rn = range_of_list(range);
         cpdf_addPageLabels(pdf, style, prefix, offset, rn, progress ? 1 : 0);
         cpdf_deleteRange(rn);
+        checkerror();
     }
 
     public static void netcpdf_removePageLabels(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removePageLabels(int pdf);
         cpdf_removePageLabels(pdf);
+        checkerror();
     }
 
     public static string netcpdf_getPageLabelStringForPage(int pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelStringForPage(int pdf, int pagenumber);
-        return Marshal.PtrToStringAuto(cpdf_getPageLabelStringForPage(pdf, pagenumber));
+        string res = Marshal.PtrToStringAuto(cpdf_getPageLabelStringForPage(pdf, pagenumber));
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_startGetPageLabels(int pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_startGetPageLabels(int pdf);
-        return cpdf_startGetPageLabels(pdf);
+        int res = cpdf_startGetPageLabels(pdf);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getPageLabelStyle(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelStyle(int n);
-        return cpdf_getPageLabelStyle(n);
+        int res = cpdf_getPageLabelStyle(n);
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getPageLabelPrefix(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelPrefix(int n);
-        return Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(n));
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getPageLabelOffset(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelOffset(int n);
-        return cpdf_getPageLabelOffset(n);
+        int res = cpdf_getPageLabelOffset(n);
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getPageLabelRange(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelRange(int n);
-        return cpdf_getPageLabelRange(n);
+        int res = cpdf_getPageLabelRange(n);
+        checkerror();
+        return res;
     }
 
     public static void netcpdf_endGetPageLabels()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetPageLabels();
         cpdf_endGetPageLabels();
+        checkerror();
     }
 
     /* CHAPTER 12. File Attachments */
@@ -1567,54 +1769,66 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFile(string filename, int pdf);
         cpdf_attachFile(filename, pdf);
+        checkerror();
     }
 
     public static void netcpdf_attachFileToPage(string filename, int pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPage(string filename, int pdf, int pagenumber);
         cpdf_attachFileToPage(filename, pdf, pagenumber);
+        checkerror();
     }
 
     public static void netcpdf_attachFileFromMemory(byte[] data, string name, int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileFromMemory(byte[] data, int length, string name, int pdf);
         cpdf_attachFileFromMemory(data, data.Length, name, pdf);
+        checkerror();
     }
 
     public static void netcpdf_attachFileToPageFromMemory(byte[] data, string name, int pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPageFromMemory(byte[] data, int length, string name, int pdf, int pagenumber);
         cpdf_attachFileToPageFromMemory(data, data.Length, name, pdf, pagenumber);
+        checkerror();
     }
 
     public static void netcpdf_removeAttachedFiles(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeAttachedFiles(int pdf);
         cpdf_removeAttachedFiles(pdf);
+        checkerror();
     }
 
     public static void netcpdf_startGetAttachments(int pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetAttachments(int pdf);
         cpdf_startGetAttachments(pdf);
+        checkerror();
     }
 
     public static int netcpdf_numberGetAttachments()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberGetAttachments();
-        return cpdf_numberGetAttachments();
+        int res =cpdf_numberGetAttachments();
+        checkerror();
+        return res;
     }
 
     public static string netcpdf_getAttachmentName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentName(int n);
-        return Marshal.PtrToStringAuto(cpdf_getAttachmentName(n));
+        string res = Marshal.PtrToStringAuto(cpdf_getAttachmentName(n));
+        checkerror();
+        return res;
     }
 
     public static int netcpdf_getAttachmentPage(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getAttachmentPage(int n);
-        return cpdf_getAttachmentPage(n);
+        int res =cpdf_getAttachmentPage(n);
+        checkerror();
+        return res;
     }
 
     public static byte[] netcpdf_getAttachmentData(int serial)
@@ -1626,6 +1840,7 @@ class Program
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
         cpdf_free(data);
+        checkerror();
         return databytes;
     }
 
@@ -1633,6 +1848,7 @@ class Program
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetAttachments();
         cpdf_endGetAttachments();
+        checkerror();
     }
 
     /* CHAPTER 13. Images. */
@@ -2300,7 +2516,7 @@ class Program
         Console.WriteLine("---cpdf_combinePages()");
         int c3 = netcpdf_combinePages(c1, c2);
         netcpdf_toFile(c3, "testoutputs/08c3after.pdf", false, false);
-        Console.WriteLine("---cpdf_stampAsXObject()"); 
+        Console.WriteLine("---cpdf_stampAsXObject()");
         int undoc = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int ulogo = netcpdf_fromFile("testinputs/logo.pdf", "");
         string name = netcpdf_stampAsXObject(undoc, netcpdf_all(undoc), ulogo);
