@@ -9,6 +9,38 @@ public class Netcpdf
 {
 #pragma warning disable 414
 
+    public class Pdf: IDisposable
+    {
+      private int pdf = -1;
+      private bool disposed = false;
+
+      public Pdf(int pdf)
+      {
+        this.pdf = pdf;
+      }
+
+      public void Dispose()
+      {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+      }
+
+      protected virtual void Dispose(bool disposing)
+      {
+        if (!this.disposed)
+        {
+          netcpdf_deletePdf(this.pdf);
+          this.pdf = -1;
+          disposed = true;
+        }
+      }
+
+      ~Pdf()
+      {
+        Dispose(disposing: false);
+      }
+    }
+
     static int netcpdf_a0portrait = 0;
     static int netcpdf_a1portrait = 1;
     static int netcpdf_a2portrait = 2;
