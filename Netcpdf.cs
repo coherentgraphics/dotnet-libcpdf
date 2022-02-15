@@ -11,7 +11,7 @@ public class Netcpdf
 
     public class Pdf: IDisposable
     {
-      private int pdf = -1;
+      public int pdf = -1;
       private bool disposed = false;
 
       public Pdf(int pdf)
@@ -29,7 +29,8 @@ public class Netcpdf
       {
         if (!this.disposed)
         {
-          netcpdf_deletePdf(this.pdf);
+          [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);          
+          cpdf_deletePdf(this.pdf);
           this.pdf = -1;
           disposed = true;
         }
@@ -217,52 +218,37 @@ public class Netcpdf
 
     /* CHAPTER 1. Basics */
 
-    public static int netcpdf_fromFile(string filename, string userpw)
+    public static Pdf netcpdf_fromFile(string filename, string userpw)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
         int res =  cpdf_fromFile(filename, userpw);
         checkerror();
-        return res;
+        return new Pdf(res);
     }
 
-    public static int netcpdf_fromFileLazy(string filename, string userpw)
+    public static Pdf netcpdf_fromFileLazy(string filename, string userpw)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromFileLazy(string filename, string userpw);
         int res = cpdf_fromFileLazy(filename, userpw);
         checkerror();
-        return res;
+        return new Pdf(res);
     }
 
-    public static int netcpdf_fromMemory(byte[] data, string userpw)
+    public static Pdf netcpdf_fromMemory(byte[] data, string userpw)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(byte[] data, int length, string userpw);
         int pdf = cpdf_fromMemory(data, data.Length, userpw);
         checkerror();
-        return pdf;
+        return new Pdf(pdf);
     }
 
     //For this one, the caller must use AllocHGlobal / Marshal.Copy / FreeHGlobal itself. It must not free the memory until the PDF is also gone.
-    public static int netcpdf_fromMemoryLazy(IntPtr data, int length, string userpw)
+    public static Pdf netcpdf_fromMemoryLazy(IntPtr data, int length, string userpw)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromMemoryLazy(IntPtr data, int length, string userpw);
         int pdf = cpdf_fromMemoryLazy(data, length, userpw);
         checkerror();
-        return pdf;
-    }
-
-
-    public static void netcpdf_deletePdf(int pdf)
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
-        cpdf_deletePdf(pdf);
-        checkerror();
-    }
-
-    public static void netcpdf_replacePdf(int pdf, int pdf2)
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_replacePdf(int pdf, int pdf2);
-        cpdf_replacePdf(pdf, pdf2);
-        checkerror();
+        return new Pdf(pdf);
     }
 
     public static int netcpdf_startEnumeratePDFs()
@@ -546,10 +532,10 @@ public class Netcpdf
         return (res > 0);
     }
 
-    public static int netcpdf_pages(int pdf)
+    public static int netcpdf_pages(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
-        int res = cpdf_pages(pdf);
+        int res = cpdf_pages(pdf.pdf);
         checkerror();
         return res;
     }
@@ -562,25 +548,25 @@ public class Netcpdf
         return res;
     }
 
-    public static void netcpdf_toFile(int pdf, string filename, bool linearize, bool make_id)
+    public static void netcpdf_toFile(Pdf pdf, string filename, bool linearize, bool make_id)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
-        cpdf_toFile(pdf, filename, linearize ? 1 : 0, make_id ? 1 : 0);
+        cpdf_toFile(pdf.pdf, filename, linearize ? 1 : 0, make_id ? 1 : 0);
         checkerror();
     }
 
-    public static void netcpdf_toFileExt(int pdf, string filename, bool linearize, bool make_id, bool preserve_objstm, bool generate_objstm, bool compress_objstm)
+    public static void netcpdf_toFileExt(Pdf pdf, string filename, bool linearize, bool make_id, bool preserve_objstm, bool generate_objstm, bool compress_objstm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
-        cpdf_toFileExt(pdf, filename, linearize ? 1 : 0, make_id ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0);
+        cpdf_toFileExt(pdf.pdf, filename, linearize ? 1 : 0, make_id ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0);
         checkerror();
     }
 
-    public static byte[] netcpdf_toMemory(int pdf, bool linearize, bool makeid)
+    public static byte[] netcpdf_toMemory(Pdf pdf, bool linearize, bool makeid)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_toMemory(int pdf, int linearize, int makeid, ref int len);
         int len = 0;
-        IntPtr data = cpdf_toMemory(pdf, linearize ? 1 : 0, makeid ? 1 : 0, ref len);
+        IntPtr data = cpdf_toMemory(pdf.pdf, linearize ? 1 : 0, makeid ? 1 : 0, ref len);
         var databytes = new byte[len];
         Marshal.Copy(data, databytes, 0, len);
         [DllImport("libcpdf.so")] static extern void cpdf_free(IntPtr ptr);
@@ -589,54 +575,54 @@ public class Netcpdf
         return databytes;
     }
 
-    public static bool netcpdf_isEncrypted(int pdf)
+    public static bool netcpdf_isEncrypted(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
-        int res = cpdf_isEncrypted(pdf);
+        int res = cpdf_isEncrypted(pdf.pdf);
         checkerror();
         return (res > 0);
     }
 
-    public static void netcpdf_decryptPdf(int pdf, string userpw)
+    public static void netcpdf_decryptPdf(Pdf pdf, string userpw)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdf(int pdf, string userpw);
-        cpdf_decryptPdf(pdf, userpw);
+        cpdf_decryptPdf(pdf.pdf, userpw);
         checkerror();
     }
 
-    public static void netcpdf_decryptPdfOwner(int pdf, string ownerpw)
+    public static void netcpdf_decryptPdfOwner(Pdf pdf, string ownerpw)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdfOwner(int pdf, string ownerpw);
-        cpdf_decryptPdfOwner(pdf, ownerpw);
+        cpdf_decryptPdfOwner(pdf.pdf, ownerpw);
         checkerror();
     }
 
-    public static void netcpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
+    public static void netcpdf_toFileEncrypted(Pdf pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
-        cpdf_toFileEncrypted(pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
+        cpdf_toFileEncrypted(pdf.pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
         checkerror();
     }
 
-    public static void netcpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
+    public static void netcpdf_toFileEncryptedExt(Pdf pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
-        cpdf_toFileEncryptedExt(pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
+        cpdf_toFileEncryptedExt(pdf.pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
         checkerror();
     }
 
-    public static bool netcpdf_hasPermission(int pdf, int permission)
+    public static bool netcpdf_hasPermission(Pdf pdf, int permission)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasPermission(int pdf, int permission);
-        int res = cpdf_hasPermission(pdf, permission);
+        int res = cpdf_hasPermission(pdf.pdf, permission);
         checkerror();
         return (res > 0);
     }
 
-    public static int netcpdf_encryptionKind(int pdf)
+    public static int netcpdf_encryptionKind(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_encryptionKind(int pdf);
-        int res = cpdf_encryptionKind(pdf);
+        int res = cpdf_encryptionKind(pdf.pdf);
         return res;
     }
 
@@ -2300,23 +2286,21 @@ public class Netcpdf
         /* CHAPTER 1. Basics */
         Console.WriteLine("***** CHAPTER 1. Basics");
         Console.WriteLine("---cpdf_fromFile()");
-        int pdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Pdf pdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_fromFileLazy()");
-        int pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
+        Pdf pdf2 = netcpdf_fromFileLazy("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_toMemory()");
         byte[] mempdf = netcpdf_toMemory(pdf, false, false);
         Console.WriteLine("---cpdf_fromMemory()");
-        int frommem = netcpdf_fromMemory(mempdf, "");
+        Pdf frommem = netcpdf_fromMemory(mempdf, "");
         netcpdf_toFile(frommem, "testoutputs/01fromMemory.pdf", false, false);
         Console.WriteLine("---cpdf_fromMemoryLazy()");
         IntPtr ptr = Marshal.AllocHGlobal(mempdf.Length);
         Marshal.Copy(mempdf, 0, ptr, mempdf.Length);
-        int frommemlazy = netcpdf_fromMemoryLazy(ptr, mempdf.Length, "");
+        Pdf frommemlazy = netcpdf_fromMemoryLazy(ptr, mempdf.Length, "");
         netcpdf_toFile(frommemlazy, "testoutputs/01fromMemoryLazy.pdf", false, false);
         int pdf3 = netcpdf_blankDocument(153.5, 234.2, 50);
         int pdf4 = netcpdf_blankDocumentPaper(netcpdf_a4landscape, 50);
-        netcpdf_deletePdf(pdf);
-        netcpdf_replacePdf(pdf3, pdf4);
         Console.WriteLine("---cpdf: enumerate PDFs");
         int n = netcpdf_startEnumeratePDFs();
         for (int x = 0; x < n; x++)
@@ -2369,8 +2353,7 @@ public class Netcpdf
         Console.WriteLine($"String of pagespec is {ps}");
         Console.WriteLine("---cpdf_blankRange()");
         List<int> b = netcpdf_blankRange();
-
-        int pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Pdf pdf10 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_pages()");
         int pages = netcpdf_pages(pdf10);
         Console.WriteLine($"Pages = {pages}");
@@ -2388,15 +2371,15 @@ public class Netcpdf
         bool lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
         Console.WriteLine($"islinearized:{(lin ? 1 : 0)}");
 
-        int pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Pdf pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
+        Pdf pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         int[] permissions = new [] {netcpdf_noEdit};
         Console.WriteLine("---cpdf_toFileEncrypted()");
         netcpdf_toFileEncrypted(pdf400, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, "testoutputs/01encrypted.pdf");
         Console.WriteLine("---cpdf_toFileEncryptedExt()");
         netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
         Console.WriteLine("---cpdf_hasPermission()");
-        int pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user");
+        Pdf pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user");
         bool hasnoedit = netcpdf_hasPermission(pdfenc, netcpdf_noEdit);
         bool hasnocopy = netcpdf_hasPermission(pdfenc, netcpdf_noCopy);
         Console.WriteLine($"Haspermission {(hasnoedit ? 1 : 0)}, {(hasnocopy ? 1 : 0)}");
