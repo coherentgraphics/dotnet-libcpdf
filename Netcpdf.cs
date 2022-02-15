@@ -3,9 +3,9 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
-namespace dotnet_libcpdf
+namespace Netcpdf
 {
-class Program
+public class Netcpdf
 {
 #pragma warning disable 414
 
