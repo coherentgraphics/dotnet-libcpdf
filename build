@@ -1,2 +1,3 @@
 cp ../cpdflib-source/libcpdf.so /usr/local/lib/libcpdf.so
 dotnet build
+cp bin/Debug/net6.0/dotnet-libcpdf.dll /usr/local/lib/dotnet-libcpdf.so
