@@ -2247,9 +2247,8 @@ class Program
         return databytes;
     }
 
-    static void Main(string[] args)
+    public static void chapter0()
     {
-
         /* CHAPTER 0. Preliminaries */
         Console.WriteLine("***** CHAPTER 0. Preliminaries");
         Console.WriteLine("---cpdf_startup()");
@@ -2262,7 +2261,10 @@ class Program
         netcpdf_setSlow();
         Console.WriteLine("---cpdf_clearError()");
         netcpdf_clearError();
+    }
 
+    public static void chapter1()
+    {
         /* CHAPTER 1. Basics */
         Console.WriteLine("***** CHAPTER 1. Basics");
         Console.WriteLine("---cpdf_fromFile()");
@@ -2373,7 +2375,10 @@ class Program
         netcpdf_decryptPdf(pdf10, "");
         Console.WriteLine("---cpdf_decryptPdfOwner()");
         netcpdf_decryptPdfOwner(pdf10, "");
+    }
 
+    public static void chapter2()
+    {
         /* CHAPTER 2. Merging and Splitting */
         Console.WriteLine("***** CHAPTER 2. Merging and Splitting");
         int pdf11 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2394,7 +2399,10 @@ class Program
         Console.WriteLine("---cpdf_selectPages()");
         int pdf12 = netcpdf_selectPages(pdf11, selectrange);
         netcpdf_toFile(pdf12, "testoutputs/02selected.pdf", false, false);
+    }
 
+    public static void chapter3()
+    {
         /* CHAPTER 3. Pages */
         Console.WriteLine("***** CHAPTER 3. Pages");
         int pagespdf1 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2474,11 +2482,16 @@ class Program
         Console.WriteLine("---cpdf_removeBleed()");
         netcpdf_removeBleed(pagespdf19, netcpdf_all(pagespdf19));
         netcpdf_toFile(pagespdf19, "testoutputs/03remove_bleed.pdf", false, false);
+    }
 
-
+    public static void chapter4()
+    {
         /* CHAPTER 4. Encryption */
         /* Encryption covered under Chapter 1 in cpdflib. */
+    }
 
+    public static void chapter5()
+    {
         /* CHAPTER 5. Compression */
         Console.WriteLine("***** CHAPTER 5. Compression");
         int pdf16 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2491,7 +2504,10 @@ class Program
         Console.WriteLine("---cpdf_squeezeInMemory()");
         netcpdf_squeezeInMemory(pdf16);
         netcpdf_toFile(pdf16, "testoutputs/05squeezedinmemory.pdf", false, false);
+    }
 
+    public static void chapter6()
+    {
         /* CHAPTER 6. Bookmarks */
         Console.WriteLine("***** CHAPTER 6. Bookmarks");
         int pdf17 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2527,10 +2543,16 @@ class Program
         int tocpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_tableOfContents(tocpdf, netcpdf_timesRoman, 12.0, "Table of Contents", false);
         netcpdf_toFile(tocpdf, "testoutputs/06toc.pdf", false, false);
+    }
 
+    public static void chapter7()
+    {
         /* CHAPTER 7. Presentations */
         /* Not included in the library version. */
+    }
 
+    public static void chapter8()
+    {
         /* CHAPTER 8. Logos, Watermarks and Stamps */
         Console.WriteLine("***** CHAPTER 8. Logos, Watermarks and Stamps");
         int textfile = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2591,7 +2613,10 @@ class Program
         Console.WriteLine("---cpdf_addContent()");
         netcpdf_addContent(content, true, undoc, netcpdf_all(undoc));
         netcpdf_toFile(undoc, "testoutputs/08demo.pdf", false, false);
+    }
 
+    public static void chapter9()
+    {
         /* CHAPTER 9. Multipage facilities */
         Console.WriteLine("***** CHAPTER 9. Multipage facilities");
         int mp = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2629,18 +2654,23 @@ class Program
         Console.WriteLine("---cpdf_padMultipleBefore()");
         netcpdf_padMultipleBefore(mp7, 23);
         netcpdf_toFile(mp7, "testoutputs/09mp7.pdf", false, false);
+    }
 
+    public static void chapter10()
+    {
         /* CHAPTER 10. Annotations */
         Console.WriteLine("***** CHAPTER 10. Annotations");
         Console.WriteLine("---cpdf_annotationsJSON()");
         int annot = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         byte[] annotjson = netcpdf_annotationsJSON(annot);
         Console.WriteLine($"Contains {annotjson.Length} bytes of data");
+    }
 
+    public static void chapter11()
+    {
         /* CHAPTER 11. Document Information and Metadata */
         Console.WriteLine("***** CHAPTER 11. Document Information and Metadata");
         int pdf30 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-
         Console.WriteLine("---cpdf_getVersion()");
         int v = netcpdf_getVersion(pdf30);
         Console.WriteLine($"minor version:{v}");
@@ -2860,7 +2890,10 @@ class Program
         Console.WriteLine("---cpdf_getPageLabelStringForPage()");
         string pl = netcpdf_getPageLabelStringForPage(pdf30, 1);
         Console.WriteLine($"Label string is {pl}");
+    }
 
+    public static void chapter12()
+    {
         /* CHAPTER 12. File Attachments */
         Console.WriteLine("***** CHAPTER 12. File Attachments");
         int attachments = netcpdf_fromFile("testinputs/has_attachments.pdf", "");
@@ -2891,7 +2924,10 @@ class Program
         Console.WriteLine("---cpdf_removeAttachedFiles()");
         netcpdf_removeAttachedFiles(attachments);
         netcpdf_toFile(attachments, "testoutputs/12removed_attachments.pdf", false, false);
+    }
 
+    public static void chapter13()
+    {
         /* CHAPTER 13. Images. */
         Console.WriteLine("***** CHAPTER 13. Images");
         Console.WriteLine("---cpdf: get image resolution");
@@ -2908,7 +2944,10 @@ class Program
             Console.WriteLine($"IMAGE: {im_p}, {im_name}, {im_xp}, {im_yp}, {im_xres:00.000000}, {im_yres:00.000000}");
         }
         netcpdf_endGetImageResolution();
+    }
 
+    public static void chapter14()
+    {
         /* CHAPTER 14. Fonts. */
         Console.WriteLine("***** CHAPTER 14. Fonts");
         Console.WriteLine("---cpdf: Get Fonts");
@@ -2930,7 +2969,10 @@ class Program
         netcpdf_toFile(fonts, "testoutputs/14remove_fonts.pdf", false, false);
         Console.WriteLine("---cpdf_copyFont()");
         netcpdf_copyFont(fonts, fonts2, netcpdf_all(fonts), 1, "/Font");
+    }
 
+    public static void chapter15()
+    {
         /* CHAPTER 15. PDF and JSON */
         Console.WriteLine("***** CHAPTER 15. PDF and JSON");
         int jsonpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -2947,8 +2989,10 @@ class Program
         Console.WriteLine("---cpdf_fromJSONMemory()");
         int jfrommem = netcpdf_fromJSONMemory(jbuf);
         netcpdf_toFile(jfrommem, "testoutputs/15fromJSONMemory.pdf", false, false);
+    }
 
-
+    public static void chapter16()
+    {
         /* CHAPTER 16. Optional Content Groups */
         Console.WriteLine("***** CHAPTER 16. Optional Content Groups");
         int ocg = netcpdf_fromFile("testinputs/has_ocgs.pdf", "");
@@ -2965,8 +3009,10 @@ class Program
         netcpdf_OCGRename(ocg, "From", "To");
         Console.WriteLine("---cpdf_OCGOrderAll()");
         netcpdf_OCGOrderAll(ocg);
+    }
 
-
+    public static void chapter17()
+    {
         /* CHAPTER 17. Creating New PDFs */
         Console.WriteLine("***** CHAPTER 17. Creating New PDFs");
         Console.WriteLine("---cpdf_blankDocument()");
@@ -2981,8 +3027,10 @@ class Program
         int ttpdfpaper = netcpdf_textToPDFPaper(netcpdf_a4portrait, netcpdf_timesBoldItalic, 10.0, "../cpdflib-source/cpdflibtest.c");
         Console.WriteLine("---cpdf_textToPDFPaper()");
         netcpdf_toFile(ttpdfpaper, "testoutputs/01ttpdfpaper.pdf", false, false);
+    }
 
-
+    public static void chapter18()
+    {
         /* CHAPTER 18. Miscellaneous */
         Console.WriteLine("***** CHAPTER 18. Miscellaneous");
         int misc = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
@@ -3050,6 +3098,28 @@ class Program
         Console.WriteLine("---cpdf_removeClipping()");
         netcpdf_removeClipping(misc12, netcpdf_all(misc12));
         netcpdf_toFile(misc12, "testoutputs/17removeclipping.pdf", false, false);
+    }
+
+    static void Main(string[] args)
+    {
+        chapter0();
+        chapter1();
+        chapter2();
+        chapter3();
+        chapter5();
+        chapter6();
+        chapter7();
+        chapter8();
+        chapter9();
+        chapter10();
+        chapter11();
+        chapter12();
+        chapter13();
+        chapter14();
+        chapter15();
+        chapter16();
+        chapter17();
+        chapter18();
     }
 }
 }
