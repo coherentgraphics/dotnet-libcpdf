@@ -628,27 +628,42 @@ public class Netcpdf
 
     /* CHAPTER 2. Merging and Splitting */
 
-    public static int netcpdf_mergeSimple(int[] pdfs, int length)
+    public static Pdf netcpdf_mergeSimple(List<Pdf> pdfs, int length)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSimple(int[] pdfs, int length);
-        int res = cpdf_mergeSimple(pdfs, length);
+        List<int> c_pdfs_lst = new List<int>();
+        for (int x = 0; x < pdfs.Count; x++)
+        {
+          c_pdfs_lst.Add(pdfs[x].pdf);
+        }
+        int res = cpdf_mergeSimple(c_pdfs_lst.ToArray(), length);
         checkerror();
-        return res;
+        return new Pdf(res);
     }
 
-    public static int netcpdf_merge(int[] pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts)
+    public static Pdf netcpdf_merge(List<Pdf> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_merge(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts);
-        int res = cpdf_merge(pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
+        List<int> c_pdfs_lst = new List<int>();
+        for (int x = 0; x < pdfs.Count; x++)
+        {
+          c_pdfs_lst.Add(pdfs[x].pdf);
+        }
+        int res = cpdf_merge(c_pdfs_lst.ToArray(), length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
         checkerror();
-        return res;
+        return new Pdf(res);
     }
 
-    public static int netcpdf_mergeSame(List<int> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
+    public static Pdf netcpdf_mergeSame(List<Pdf> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSame(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts, int[] ranges);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int[] c_pdfs = pdfs.ToArray();
+        List<int> c_pdfs_lst = new List<int>();
+        for (int x = 0; x < pdfs.Count; x++)
+        {
+          c_pdfs_lst.Add(pdfs[x].pdf);
+        }
+        int[] c_pdfs = c_pdfs_lst.ToArray();
         List<int> int_ranges = ranges.ConvertAll(range_of_list);
         int[] c_ranges = int_ranges.ToArray();
         int result = cpdf_mergeSame(c_pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0, c_ranges);
@@ -656,7 +671,7 @@ public class Netcpdf
             cpdf_deleteRange(c_ranges[x]);
         }
         checkerror();
-        return result;
+        return new Pdf(result);
     }
 
     public static Pdf netcpdf_selectPages(Pdf pdf, List<int> r)
@@ -2400,12 +2415,12 @@ public class Netcpdf
         List<int> selectrange = netcpdf_range(1, 3);
         Console.WriteLine("---cpdf_mergeSimple()");
         Pdf[] arr = new [] {pdf11, pdf11, pdf11};
-        List<int> arr_list = new List<int> {};
+        List<Pdf> arr_list = new List<Pdf> {};
         arr_list.AddRange(arr);
-        Pdf merged = netcpdf_mergeSimple(arr, arr.Length);
+        Pdf merged = netcpdf_mergeSimple(arr_list, arr.Length);
         netcpdf_toFile(merged, "testoutputs/02merged.pdf", false, true);
         Console.WriteLine("---cpdf_merge()");
-        Pdf merged2 = netcpdf_merge(arr, arr.Length, false, false);
+        Pdf merged2 = netcpdf_merge(arr_list, arr.Length, false, false);
         netcpdf_toFile(merged2, "testoutputs/02merged2.pdf", false, true);
         Console.WriteLine("---cpdf_mergeSame()");
         List<List<int>> ranges = new List<List<int>> {netcpdf_all(pdf11), netcpdf_all(pdf11), netcpdf_all(pdf11)};
