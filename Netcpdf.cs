@@ -131,7 +131,7 @@ public class Netcpdf
         if (!this.disposed)
         {
           [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
-          Console.WriteLine($"**************deleting PDF {this.pdf}");
+          //Console.WriteLine($"**************deleting PDF {this.pdf}");
           cpdf_deletePdf(this.pdf);
           this.pdf = -1;
           disposed = true;
@@ -2386,26 +2386,36 @@ public class Netcpdf
         Console.WriteLine("---cpdf_isLinearized()");
         bool lin = netcpdf_isLinearized("testinputs/cpdfmanual.pdf");
         Console.WriteLine($"islinearized:{(lin ? 1 : 0)}");
-
-        Pdf pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        Pdf pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
-        int[] permissions = new [] {netcpdf_noEdit};
-        Console.WriteLine("---cpdf_toFileEncrypted()");
-        netcpdf_toFileEncrypted(pdf400, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, "testoutputs/01encrypted.pdf");
-        Console.WriteLine("---cpdf_toFileEncryptedExt()");
-        netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
-        Console.WriteLine("---cpdf_hasPermission()");
-        Pdf pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user");
-        bool hasnoedit = netcpdf_hasPermission(pdfenc, netcpdf_noEdit);
-        bool hasnocopy = netcpdf_hasPermission(pdfenc, netcpdf_noCopy);
-        Console.WriteLine($"Haspermission {(hasnoedit ? 1 : 0)}, {(hasnocopy ? 1 : 0)}");
-        Console.WriteLine("---cpdf_encryptionKind()");
-        int enckind = netcpdf_encryptionKind(pdfenc);
-        Console.WriteLine($"encryption kind is {enckind}");
+        using (Pdf pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", ""))
+        using (Pdf pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", ""))
+        {
+            int[] permissions = new [] {netcpdf_noEdit};
+            Console.WriteLine("---cpdf_toFileEncrypted()");
+            netcpdf_toFileEncrypted(pdf400, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, "testoutputs/01encrypted.pdf");
+            Console.WriteLine("---cpdf_toFileEncryptedExt()");
+            netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
+            Console.WriteLine("---cpdf_hasPermission()");
+        }
+        using (Pdf pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user"))
+        {
+            bool hasnoedit = netcpdf_hasPermission(pdfenc, netcpdf_noEdit);
+            bool hasnocopy = netcpdf_hasPermission(pdfenc, netcpdf_noCopy);
+            Console.WriteLine($"Haspermission {(hasnoedit ? 1 : 0)}, {(hasnocopy ? 1 : 0)}");
+            Console.WriteLine("---cpdf_encryptionKind()");
+            int enckind = netcpdf_encryptionKind(pdfenc);
+            Console.WriteLine($"encryption kind is {enckind}");
+        }
         Console.WriteLine("---cpdf_decryptPdf()");
         netcpdf_decryptPdf(pdf10, "");
         Console.WriteLine("---cpdf_decryptPdfOwner()");
         netcpdf_decryptPdfOwner(pdf10, "");
+        frommem.Dispose();
+        frommemlazy.Dispose();
+        pdf.Dispose();
+        pdf2.Dispose();
+        pdf3.Dispose();
+        pdf4.Dispose();
+        pdf10.Dispose();
     }
 
     public static void chapter2()
@@ -2573,6 +2583,7 @@ public class Netcpdf
         netcpdf_setBookmarkText(0, "New bookmark!");
         netcpdf_endSetBookmarkInfo(pdf17);
         netcpdf_toFile(pdf17, "testoutputs/06newmarks.pdf", false, false);
+        pdf17.Dispose();
         Console.WriteLine("---cpdf_getBookmarksJSON()");
         Pdf marksjson = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         byte[] marksdata = netcpdf_getBookmarksJSON(marksjson);
@@ -2580,10 +2591,12 @@ public class Netcpdf
         Console.WriteLine("---cpdf_setBookmarksJSON()");
         netcpdf_setBookmarksJSON(marksjson, marksdata);
         netcpdf_toFile(marksjson, "testoutputs/06jsonmarks.pdf", false, false);
+        marksjson.Dispose();
         Console.WriteLine("---cpdf_tableOfContents()");
         Pdf tocpdf = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         netcpdf_tableOfContents(tocpdf, netcpdf_timesRoman, 12.0, "Table of Contents", false);
         netcpdf_toFile(tocpdf, "testoutputs/06toc.pdf", false, false);
+        tocpdf.Dispose();
     }
 
     public static void chapter7()
@@ -2627,6 +2640,7 @@ public class Netcpdf
         Console.WriteLine("---cpdf_removeText()");
         netcpdf_removeText(textfile, netcpdf_all(textfile));
         netcpdf_toFile(textfile, "testoutputs/08removed_text.pdf", false, false);
+        textfile.Dispose();
         Console.WriteLine("---cpdf_textWidth()");
         int w = netcpdf_textWidth(netcpdf_timesRoman, "What is the width of this?");
         Pdf stamp = netcpdf_fromFile("testinputs/logo.pdf", "");
@@ -2641,12 +2655,17 @@ public class Netcpdf
         netcpdf_stampExtended(stamp, stampee, stamp_range, true, true, spos, true);
         netcpdf_toFile(stamp, "testoutputs/08stamp_after.pdf", false, false);
         netcpdf_toFile(stampee, "testoutputs/08stampee_after.pdf", false, false);
+        stamp.Dispose();
+        stampee.Dispose();
         Pdf c1 = netcpdf_fromFile("testinputs/logo.pdf", "");
         Pdf c2 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Console.WriteLine("---cpdf_combinePages()");
         Pdf c3 = netcpdf_combinePages(c1, c2);
         netcpdf_toFile(c3, "testoutputs/08c3after.pdf", false, false);
         Console.WriteLine("---cpdf_stampAsXObject()");
+        c1.Dispose();
+        c2.Dispose();
+        c3.Dispose();
         Pdf undoc = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", "");
         Pdf ulogo = netcpdf_fromFile("testinputs/logo.pdf", "");
         string name = netcpdf_stampAsXObject(undoc, netcpdf_all(undoc), ulogo);
@@ -2654,6 +2673,8 @@ public class Netcpdf
         Console.WriteLine("---cpdf_addContent()");
         netcpdf_addContent(content, true, undoc, netcpdf_all(undoc));
         netcpdf_toFile(undoc, "testoutputs/08demo.pdf", false, false);
+        undoc.Dispose();
+        ulogo.Dispose();
     }
 
     public static void chapter9()
@@ -3171,6 +3192,7 @@ public class Netcpdf
         chapter1();
         chapter2();
         chapter3();
+        chapter4();
         chapter5();
         chapter6();
         chapter7();
@@ -3185,7 +3207,6 @@ public class Netcpdf
         chapter16();
         chapter17();
         chapter18();
-        netcpdf_onExit();
     }
 }
 }
