@@ -505,7 +505,6 @@ public class Netcpdf
         return l;
     }
 
-
     public static int range_of_list(List<int> l)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
@@ -598,17 +597,17 @@ public class Netcpdf
         checkerror();
     }
 
-    public static void netcpdf_toFileEncrypted(Pdf pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
+    public static void netcpdf_toFileEncrypted(Pdf pdf, int encryption_method, List<int> permissions, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
-        cpdf_toFileEncrypted(pdf.pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
+        cpdf_toFileEncrypted(pdf.pdf, encryption_method, permissions.ToArray(), permissions.Count, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
         checkerror();
     }
 
-    public static void netcpdf_toFileEncryptedExt(Pdf pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
+    public static void netcpdf_toFileEncryptedExt(Pdf pdf, int encryption_method, List<int> permissions, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
-        cpdf_toFileEncryptedExt(pdf.pdf, encryption_method, permissions, permission_length, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
+        cpdf_toFileEncryptedExt(pdf.pdf, encryption_method, permissions.ToArray(), permissions.Count, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
         checkerror();
     }
 
@@ -629,7 +628,7 @@ public class Netcpdf
 
     /* CHAPTER 2. Merging and Splitting */
 
-    public static Pdf netcpdf_mergeSimple(List<Pdf> pdfs, int length)
+    public static Pdf netcpdf_mergeSimple(List<Pdf> pdfs)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSimple(int[] pdfs, int length);
         List<int> c_pdfs_lst = new List<int>();
@@ -637,12 +636,12 @@ public class Netcpdf
         {
           c_pdfs_lst.Add(pdfs[x].pdf);
         }
-        int res = cpdf_mergeSimple(c_pdfs_lst.ToArray(), length);
+        int res = cpdf_mergeSimple(c_pdfs_lst.ToArray(), pdfs.Count);
         checkerror();
         return new Pdf(res);
     }
 
-    public static Pdf netcpdf_merge(List<Pdf> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts)
+    public static Pdf netcpdf_merge(List<Pdf> pdfs, bool retain_numbering, bool remove_duplicate_fonts)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_merge(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts);
         List<int> c_pdfs_lst = new List<int>();
@@ -650,12 +649,12 @@ public class Netcpdf
         {
           c_pdfs_lst.Add(pdfs[x].pdf);
         }
-        int res = cpdf_merge(c_pdfs_lst.ToArray(), length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
+        int res = cpdf_merge(c_pdfs_lst.ToArray(), pdfs.Count, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
         checkerror();
         return new Pdf(res);
     }
 
-    public static Pdf netcpdf_mergeSame(List<Pdf> pdfs, int length, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
+    public static Pdf netcpdf_mergeSame(List<Pdf> pdfs, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSame(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts, int[] ranges);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
@@ -667,7 +666,7 @@ public class Netcpdf
         int[] c_pdfs = c_pdfs_lst.ToArray();
         List<int> int_ranges = ranges.ConvertAll(range_of_list);
         int[] c_ranges = int_ranges.ToArray();
-        int result = cpdf_mergeSame(c_pdfs, length, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0, c_ranges);
+        int result = cpdf_mergeSame(c_pdfs, pdfs.Count, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0, c_ranges);
         for (int x = 0; x < c_ranges.Length; x++) {
             cpdf_deleteRange(c_ranges[x]);
         }
@@ -1247,7 +1246,7 @@ public class Netcpdf
         return res;
     }
 
-    public static string netcpdf_getSubject (Pdf pdf)
+    public static string netcpdf_getSubject(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
         string res = Marshal.PtrToStringAuto(cpdf_getSubject(pdf.pdf));
@@ -2389,11 +2388,11 @@ public class Netcpdf
         using (Pdf pdf400 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", ""))
         using (Pdf pdf401 = netcpdf_fromFile("testinputs/cpdflibmanual.pdf", ""))
         {
-            int[] permissions = new [] {netcpdf_noEdit};
+            List<int> permissions = new List<int> {netcpdf_noEdit};
             Console.WriteLine("---cpdf_toFileEncrypted()");
-            netcpdf_toFileEncrypted(pdf400, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, "testoutputs/01encrypted.pdf");
+            netcpdf_toFileEncrypted(pdf400, netcpdf_pdf40bit, permissions, "owner", "user", false, false, "testoutputs/01encrypted.pdf");
             Console.WriteLine("---cpdf_toFileEncryptedExt()");
-            netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, permissions.Length, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
+            netcpdf_toFileEncryptedExt(pdf401, netcpdf_pdf40bit, permissions, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
             Console.WriteLine("---cpdf_hasPermission()");
         }
         using (Pdf pdfenc = netcpdf_fromFile("testoutputs/01encrypted.pdf", "user"))
@@ -2429,16 +2428,16 @@ public class Netcpdf
             Pdf[] arr = new [] {pdf11, pdf11, pdf11};
             List<Pdf> arr_list = new List<Pdf> {};
             arr_list.AddRange(arr);
-            Pdf merged = netcpdf_mergeSimple(arr_list, arr.Length);
+            Pdf merged = netcpdf_mergeSimple(arr_list);
             netcpdf_toFile(merged, "testoutputs/02merged.pdf", false, true);
             merged.Dispose();
             Console.WriteLine("---cpdf_merge()");
-            Pdf merged2 = netcpdf_merge(arr_list, arr.Length, false, false);
+            Pdf merged2 = netcpdf_merge(arr_list, false, false);
             netcpdf_toFile(merged2, "testoutputs/02merged2.pdf", false, true);
             merged2.Dispose();
             Console.WriteLine("---cpdf_mergeSame()");
             List<List<int>> ranges = new List<List<int>> {netcpdf_all(pdf11), netcpdf_all(pdf11), netcpdf_all(pdf11)};
-            Pdf merged3 = netcpdf_mergeSame(arr_list, arr.Length, false, false, ranges);
+            Pdf merged3 = netcpdf_mergeSame(arr_list, false, false, ranges);
             netcpdf_toFile(merged3, "testoutputs/02merged3.pdf", false, false);
             merged3.Dispose();
             Console.WriteLine("---cpdf_selectPages()");
