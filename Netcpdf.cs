@@ -172,7 +172,7 @@ public class Netcpdf
     public static string netcpdf_version()
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
-        string s = Marshal.PtrToStringAuto(cpdf_version());
+        string s = Marshal.PtrToStringUTF8(cpdf_version());
         checkerror();
         return s;
     }
@@ -200,7 +200,7 @@ public class Netcpdf
     public static string netcpdf_lastErrorString()
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_fLastErrorString();
-        return Marshal.PtrToStringAuto(cpdf_fLastErrorString());
+        return Marshal.PtrToStringUTF8(cpdf_fLastErrorString());
     }
 
     public static void netcpdf_clearError()
@@ -271,7 +271,7 @@ public class Netcpdf
     public static string netcpdf_enumeratePDFsInfo(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_enumeratePDFsInfo(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_enumeratePDFsInfo(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_enumeratePDFsInfo(n));
         checkerror();
         return res;
     }
@@ -355,7 +355,7 @@ public class Netcpdf
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(r);
-        string s = Marshal.PtrToStringAuto(cpdf_stringOfPagespec(pdf.pdf, rn));
+        string s = Marshal.PtrToStringUTF8(cpdf_stringOfPagespec(pdf.pdf, rn));
         cpdf_deleteRange(rn);
         checkerror();
         return s;
@@ -936,7 +936,7 @@ public class Netcpdf
     public static string netcpdf_getBookmarkText(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getBookmarkText(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getBookmarkText(n));
         checkerror();
         return res;
     }
@@ -1121,7 +1121,7 @@ public class Netcpdf
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_stampAsXObject(int pdf, int range, int stamp_pdf);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
-        string s = Marshal.PtrToStringAuto(cpdf_stampAsXObject(pdf.pdf, rn, stamp_pdf.pdf));
+        string s = Marshal.PtrToStringUTF8(cpdf_stampAsXObject(pdf.pdf, rn, stamp_pdf.pdf));
         cpdf_deleteRange(rn);
         checkerror();
         return s;
@@ -1233,7 +1233,7 @@ public class Netcpdf
     public static string netcpdf_getTitle(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitle(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getTitle(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getTitle(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1241,7 +1241,7 @@ public class Netcpdf
     public static string netcpdf_getAuthor(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthor(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getAuthor(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getAuthor(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1249,7 +1249,7 @@ public class Netcpdf
     public static string netcpdf_getSubject(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getSubject(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getSubject(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1257,7 +1257,7 @@ public class Netcpdf
     public static string netcpdf_getKeywords(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywords(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getKeywords(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getKeywords(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1265,7 +1265,7 @@ public class Netcpdf
     public static string netcpdf_getCreator(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreator(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getCreator(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getCreator(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1273,7 +1273,7 @@ public class Netcpdf
     public static string netcpdf_getProducer(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducer(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getProducer(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getProducer(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1281,7 +1281,7 @@ public class Netcpdf
     public static string netcpdf_getCreationDate(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDate(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getCreationDate(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getCreationDate(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1289,7 +1289,7 @@ public class Netcpdf
     public static string netcpdf_getModificationDate(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDate(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getModificationDate(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getModificationDate(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1297,7 +1297,7 @@ public class Netcpdf
     public static string netcpdf_getTitleXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitleXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getTitleXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getTitleXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1305,7 +1305,7 @@ public class Netcpdf
     public static string netcpdf_getAuthorXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthorXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getAuthorXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getAuthorXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1313,7 +1313,7 @@ public class Netcpdf
     public static string netcpdf_getSubjectXMP (Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubjectXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getSubjectXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getSubjectXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1321,7 +1321,7 @@ public class Netcpdf
     public static string netcpdf_getKeywordsXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywordsXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getKeywordsXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getKeywordsXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1329,7 +1329,7 @@ public class Netcpdf
     public static string netcpdf_getCreatorXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreatorXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getCreatorXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getCreatorXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1337,7 +1337,7 @@ public class Netcpdf
     public static string netcpdf_getProducerXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducerXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getProducerXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getProducerXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1345,7 +1345,7 @@ public class Netcpdf
     public static string netcpdf_getCreationDateXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDateXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getCreationDateXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getCreationDateXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1353,7 +1353,7 @@ public class Netcpdf
     public static string netcpdf_getModificationDateXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDateXMP(int pdf);
-        string res = Marshal.PtrToStringAuto(cpdf_getModificationDateXMP(pdf.pdf));
+        string res = Marshal.PtrToStringUTF8(cpdf_getModificationDateXMP(pdf.pdf));
         checkerror();
         return res;
     }
@@ -1480,7 +1480,7 @@ public class Netcpdf
     public static string netcpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset);
-        string res = Marshal.PtrToStringAuto(cpdf_dateStringOfComponents(y, m, d, h, min, sec, hour_offset, minute_offset));
+        string res = Marshal.PtrToStringUTF8(cpdf_dateStringOfComponents(y, m, d, h, min, sec, hour_offset, minute_offset));
         checkerror();
         return res;
     }
@@ -1745,7 +1745,7 @@ public class Netcpdf
     public static string netcpdf_getPageLabelStringForPage(Pdf pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelStringForPage(int pdf, int pagenumber);
-        string res = Marshal.PtrToStringAuto(cpdf_getPageLabelStringForPage(pdf.pdf, pagenumber));
+        string res = Marshal.PtrToStringUTF8(cpdf_getPageLabelStringForPage(pdf.pdf, pagenumber));
         checkerror();
         return res;
     }
@@ -1769,7 +1769,7 @@ public class Netcpdf
     public static string netcpdf_getPageLabelPrefix(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelPrefix(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getPageLabelPrefix(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getPageLabelPrefix(n));
         checkerror();
         return res;
     }
@@ -1852,7 +1852,7 @@ public class Netcpdf
     public static string netcpdf_getAttachmentName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentName(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getAttachmentName(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getAttachmentName(n));
         checkerror();
         return res;
     }
@@ -1906,7 +1906,7 @@ public class Netcpdf
     public static string netcpdf_getImageResolutionImageName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getImageResolutionImageName(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getImageResolutionImageName(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getImageResolutionImageName(n));
         checkerror();
         return res;
     }
@@ -1978,7 +1978,7 @@ public class Netcpdf
     public static string netcpdf_getFontName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getFontName(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getFontName(n));
         checkerror();
         return res;
     }
@@ -1986,7 +1986,7 @@ public class Netcpdf
     public static string netcpdf_getFontType(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getFontType(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getFontType(n));
         checkerror();
         return res;
     }
@@ -1994,7 +1994,7 @@ public class Netcpdf
     public static string netcpdf_getFontEncoding(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_getFontEncoding(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_getFontEncoding(n));
         checkerror();
         return res;
     }
@@ -2072,7 +2072,7 @@ public class Netcpdf
     public static string netcpdf_OCGListEntry(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
-        string res = Marshal.PtrToStringAuto(cpdf_OCGListEntry(n));
+        string res = Marshal.PtrToStringUTF8(cpdf_OCGListEntry(n));
         checkerror();
         return res;
     }
