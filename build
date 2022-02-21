@@ -1,3 +1,2 @@
-cp ../cpdflib-source/libcpdf.so /usr/local/lib/libcpdf.so
 dotnet build --arch arm64
-cp bin/Debug/net6.0/dotnet-libcpdf.dll /usr/local/lib/Netcpdf.dll
+cp ../cpdflib-source/libcpdf.so bin/Debug/net6.0/osx-arm64/
