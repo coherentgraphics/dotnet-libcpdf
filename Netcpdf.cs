@@ -3,13 +3,13 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
-namespace Netcpdf
+namespace CoherentGraphics
 {
-public class Netcpdf
+public class Cpdf
 {
 #pragma warning disable 414
 
-    static int a0portrait = 0;
+
     static int a1portrait = 1;
     static int a2portrait = 2;
     static int a3portrait = 3;
