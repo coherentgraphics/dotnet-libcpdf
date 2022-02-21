@@ -10,53 +10,53 @@ public class Cpdf
 #pragma warning disable 414
 
 
-    static int a1portrait = 1;
-    static int a2portrait = 2;
-    static int a3portrait = 3;
-    static int a4portrait = 4;
-    static int a5portrait = 5;
-    static int a0landscape = 6;
-    static int a1landscape = 7;
-    static int a2landscape = 8;
-    static int a3landscape = 9;
-    static int a4landscape = 10;
-    static int a5landscape = 11;
-    static int usletterportrait = 12;
-    static int usletterlandscape = 13;
-    static int uslegalportrait = 14;
-    static int uslegallandscape = 15;
+    public static int a1portrait = 1;
+    public static int a2portrait = 2;
+    public static int a3portrait = 3;
+    public static int a4portrait = 4;
+    public static int a5portrait = 5;
+    public static int a0landscape = 6;
+    public static int a1landscape = 7;
+    public static int a2landscape = 8;
+    public static int a3landscape = 9;
+    public static int a4landscape = 10;
+    public static int a5landscape = 11;
+    public static int usletterportrait = 12;
+    public static int usletterlandscape = 13;
+    public static int uslegalportrait = 14;
+    public static int uslegallandscape = 15;
 
-    static int noEdit = 0;
-    static int noPrint = 1;
-    static int noCopy = 2;
-    static int noAnnot = 3;
-    static int noForms = 4;
-    static int noExtract = 5;
-    static int noAssemble = 6;
-    static int noHqPrint = 7;
+    public static int noEdit = 0;
+    public static int noPrint = 1;
+    public static int noCopy = 2;
+    public static int noAnnot = 3;
+    public static int noForms = 4;
+    public static int noExtract = 5;
+    public static int noAssemble = 6;
+    public static int noHqPrint = 7;
 
-    static int pdf40bit = 0;
-    static int pdf128bit = 1;
-    static int aes128bitfalse = 2;
-    static int aes128bittrue = 3;
-    static int aes256bitfalse = 4;
-    static int aes256bittrue = 5;
-    static int aes256bitisofalse = 6;
-    static int aes256bitisotrue = 7;
+    public static int pdf40bit = 0;
+    public static int pdf128bit = 1;
+    public static int aes128bitfalse = 2;
+    public static int aes128bittrue = 3;
+    public static int aes256bitfalse = 4;
+    public static int aes256bittrue = 5;
+    public static int aes256bitisofalse = 6;
+    public static int aes256bitisotrue = 7;
 
-    static int posCentre = 0;
-    static int posLeft = 1;
-    static int posRight = 2;
-    static int top = 3;
-    static int topLeft = 4;
-    static int topRight = 5;
-    static int left = 6;
-    static int bottomLeft = 7;
-    static int bottom = 8;
-    static int bottomRight = 9;
-    static int right = 10;
-    static int diagonal = 11;
-    static int reverseDiagonal = 12;
+    public static int posCentre = 0;
+    public static int posLeft = 1;
+    public static int posRight = 2;
+    public static int top = 3;
+    public static int topLeft = 4;
+    public static int topRight = 5;
+    public static int left = 6;
+    public static int bottomLeft = 7;
+    public static int bottom = 8;
+    public static int bottomRight = 9;
+    public static int right = 10;
+    public static int diagonal = 11;
+    public static int reverseDiagonal = 12;
 
     public struct position
     {
@@ -72,76 +72,76 @@ public class Cpdf
         }
     }
 
-    static int timesRoman = 0;
-    static int timesBold = 1;
-    static int timesItalic = 2;
-    static int timesBoldItalic = 3;
-    static int helvetica = 4;
-    static int helveticaBold = 5;
-    static int helveticaOblique = 6;
-    static int helveticaBoldOblique = 7;
-    static int courier = 8;
-    static int courierBold = 9;
-    static int courierOblique = 10;
-    static int courierBoldOblique = 11;
+    public static int timesRoman = 0;
+    public static int timesBold = 1;
+    public static int timesItalic = 2;
+    public static int timesBoldItalic = 3;
+    public static int helvetica = 4;
+    public static int helveticaBold = 5;
+    public static int helveticaOblique = 6;
+    public static int helveticaBoldOblique = 7;
+    public static int courier = 8;
+    public static int courierBold = 9;
+    public static int courierOblique = 10;
+    public static int courierBoldOblique = 11;
 
-    static int leftJustify = 0;
-    static int CentreJustify = 1;
-    static int RightJustify = 2;
+    public static int leftJustify = 0;
+    public static int CentreJustify = 1;
+    public static int RightJustify = 2;
 
-    static int singlePage = 0;
-    static int oneColumn = 1;
-    static int twoColumnLeft = 2;
-    static int twoColumnRight = 3;
-    static int twoPageLeft = 4;
-    static int twoPageRight = 5;
+    public static int singlePage = 0;
+    public static int oneColumn = 1;
+    public static int twoColumnLeft = 2;
+    public static int twoColumnRight = 3;
+    public static int twoPageLeft = 4;
+    public static int twoPageRight = 5;
 
-    static int useNone = 0;
-    static int useOutlines = 1;
-    static int useThumbs = 2;
-    static int useOC = 3;
-    static int useAttachments = 4;
+    public static int useNone = 0;
+    public static int useOutlines = 1;
+    public static int useThumbs = 2;
+    public static int useOC = 3;
+    public static int useAttachments = 4;
 
-    static int decimalArabic = 0;
-    static int uppercaseRoman = 1;
-    static int lowercaseRoman = 2;
-    static int uppercaseLetters = 4;
-    static int lowercaseLetters = 5;
+    public static int decimalArabic = 0;
+    public static int uppercaseRoman = 1;
+    public static int lowercaseRoman = 2;
+    public static int uppercaseLetters = 4;
+    public static int lowercaseLetters = 5;
 
 #pragma warning restore 414
 
     public class Pdf: IDisposable
     {
-      public int pdf = -1;
-      private bool disposed = false;
+        public int pdf = -1;
+        private bool disposed = false;
 
-      public Pdf(int pdf)
-      {
-        this.pdf = pdf;
-      }
-
-      public void Dispose()
-      {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-      }
-
-      protected virtual void Dispose(bool disposing)
-      {
-        if (!this.disposed)
+        public Pdf(int pdf)
         {
-          [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
-          //Console.WriteLine($"**************deleting PDF {this.pdf}");
-          cpdf_deletePdf(this.pdf);
-          this.pdf = -1;
-          disposed = true;
+            this.pdf = pdf;
         }
-      }
 
-      ~Pdf()
-      {
-        Dispose(disposing: false);
-      }
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                [DllImport("libcpdf.so")] static extern void cpdf_deletePdf(int pdf);
+                //Console.WriteLine($"**************deleting PDF {this.pdf}");
+                cpdf_deletePdf(this.pdf);
+                this.pdf = -1;
+                disposed = true;
+            }
+        }
+
+        ~Pdf()
+        {
+            Dispose(disposing: false);
+        }
     }
     public class CPDFError : Exception
     {
@@ -634,7 +634,7 @@ public class Cpdf
         List<int> c_pdfs_lst = new List<int>();
         for (int x = 0; x < pdfs.Count; x++)
         {
-          c_pdfs_lst.Add(pdfs[x].pdf);
+            c_pdfs_lst.Add(pdfs[x].pdf);
         }
         int res = cpdf_mergeSimple(c_pdfs_lst.ToArray(), pdfs.Count);
         checkerror();
@@ -647,7 +647,7 @@ public class Cpdf
         List<int> c_pdfs_lst = new List<int>();
         for (int x = 0; x < pdfs.Count; x++)
         {
-          c_pdfs_lst.Add(pdfs[x].pdf);
+            c_pdfs_lst.Add(pdfs[x].pdf);
         }
         int res = cpdf_merge(c_pdfs_lst.ToArray(), pdfs.Count, retain_numbering ? 1 : 0, remove_duplicate_fonts ? 1 : 0);
         checkerror();
@@ -661,7 +661,7 @@ public class Cpdf
         List<int> c_pdfs_lst = new List<int>();
         for (int x = 0; x < pdfs.Count; x++)
         {
-          c_pdfs_lst.Add(pdfs[x].pdf);
+            c_pdfs_lst.Add(pdfs[x].pdf);
         }
         int[] c_pdfs = c_pdfs_lst.ToArray();
         List<int> int_ranges = ranges.ConvertAll(range_of_list);
@@ -2280,932 +2280,8 @@ public class Cpdf
         return databytes;
     }
 
-    public static void chapter0()
-    {
-        /* CHAPTER 0. Preliminaries */
-        Console.WriteLine("***** CHAPTER 0. Preliminaries");
-        Console.WriteLine("---cpdf_startup()");
-        startup();
-        Console.WriteLine("---cpdf_version()");
-        Console.WriteLine("version = {0}", version());
-        Console.WriteLine("---cpdf_setFast()");
-        setFast();
-        Console.WriteLine("---cpdf_setSlow()");
-        setSlow();
-        Console.WriteLine("---cpdf_clearError()");
-        clearError();
-    }
-
-    public static void chapter1()
-    {
-        /* CHAPTER 1. Basics */
-        Console.WriteLine("***** CHAPTER 1. Basics");
-        Console.WriteLine("---cpdf_fromFile()");
-        Pdf pdf = fromFile("testinputs/cpdflibmanual.pdf", "");
-        Console.WriteLine("---cpdf_fromFileLazy()");
-        Pdf pdf2 = fromFileLazy("testinputs/cpdflibmanual.pdf", "");
-        Console.WriteLine("---cpdf_toMemory()");
-        byte[] mempdf = toMemory(pdf, false, false);
-        Console.WriteLine("---cpdf_fromMemory()");
-        Pdf frommem = fromMemory(mempdf, "");
-        toFile(frommem, "testoutputs/01fromMemory.pdf", false, false);
-        Console.WriteLine("---cpdf_fromMemoryLazy()");
-        IntPtr ptr = Marshal.AllocHGlobal(mempdf.Length);
-        Marshal.Copy(mempdf, 0, ptr, mempdf.Length);
-        Pdf frommemlazy = fromMemoryLazy(ptr, mempdf.Length, "");
-        toFile(frommemlazy, "testoutputs/01fromMemoryLazy.pdf", false, false);
-        Pdf pdf3 = blankDocument(153.5, 234.2, 50);
-        Pdf pdf4 = blankDocumentPaper(a4landscape, 50);
-        Console.WriteLine("---cpdf: enumerate PDFs");
-        int n = startEnumeratePDFs();
-        for (int x = 0; x < n; x++)
-        {
-            int key = enumeratePDFsKey(x);
-            string info = enumeratePDFsInfo(x);
-        }
-        endEnumeratePDFs();
-        Console.WriteLine("---cpdf_ptOfIn()");
-        Console.WriteLine($"One inch is {ptOfIn(1.0):0.000000} points");
-        Console.WriteLine("---cpdf_ptOfCm()");
-        Console.WriteLine($"One centimetre is {ptOfCm(1.0):0.000000} points");
-        Console.WriteLine("---cpdf_ptOfMm()");
-        Console.WriteLine($"One millimetre is {ptOfMm(1.0):0.000000} points");
-        Console.WriteLine("---cpdf_inOfPt()");
-        Console.WriteLine($"One point is {inOfPt(1.0):0.000000} inches");
-        Console.WriteLine("---cpdf_cmOfPt()");
-        Console.WriteLine($"One point is {cmOfPt(1.0):0.000000} centimetres");
-        Console.WriteLine("---cpdf_mmOfPt()");
-        Console.WriteLine($"One point is {mmOfPt(1.0):0.000000} millimetres");
-        Console.WriteLine("---cpdf_range()");
-        List<int> _range = range(1, 10);
-        Console.WriteLine("---cpdf_all()");
-        List<int> _all = all(pdf3);
-        Console.WriteLine("---cpdf_even()");
-        List<int> _even = even(_all);
-        Console.WriteLine("---cpdf_odd()");
-        List<int> _odd = odd(_all);
-        Console.WriteLine("---cpdf_rangeUnion()");
-        List<int> union = rangeUnion(_even, _odd);
-        Console.WriteLine("---cpdf_difference()");
-        List<int> diff = difference(_even, _odd);
-        Console.WriteLine("---cpdf_removeDuplicates()");
-        List<int> revdup = removeDuplicates(_even);
-        Console.WriteLine("---cpdf_rangeLength()");
-        int length = rangeLength(_even);
-        Console.WriteLine("---cpdf_rangeGet()");
-        int rangeget = rangeGet(_even, 1);
-        Console.WriteLine("---cpdf_rangeAdd()");
-        List<int> rangeadd = rangeAdd(_even, 20);
-        Console.WriteLine("---cpdf_isInRange()");
-        bool isin = isInRange(_even, 2);
-        Console.WriteLine("---cpdf_parsePagespec()");
-        List<int> r = parsePagespec(pdf3, "1-5");
-        Console.WriteLine("---cpdf_validatePagespec()");
-        bool valid = validatePagespec("1-4,5,6");
-        Console.WriteLine($"Validating pagespec gives {(valid ? 1 : 0)}");
-        Console.WriteLine("---cpdf_stringOfPagespec()");
-        string ps = stringOfPagespec(pdf3, r);
-        Console.WriteLine($"String of pagespec is {ps}");
-        Console.WriteLine("---cpdf_blankRange()");
-        List<int> b = blankRange();
-        Pdf pdf10 = fromFile("testinputs/cpdflibmanual.pdf", "");
-        Console.WriteLine("---cpdf_pages()");
-        int _pages = pages(pdf10);
-        Console.WriteLine($"Pages = {_pages}");
-        Console.WriteLine("---cpdf_pagesFast()");
-        int pagesfast = pagesFast("", "testinputs/cpdflibmanual.pdf");
-        Console.WriteLine($"Pages = {_pages}");
-        Console.WriteLine("---cpdf_toFile()");
-        toFile(pdf10, "testoutputs/01tofile.pdf", false, false);
-        Console.WriteLine("---cpdf_toFileExt()");
-        toFileExt(pdf10, "testoutputs/01tofileext.pdf", false, true, true, true, true);
-        Console.WriteLine("---cpdf_isEncrypted()");
-        bool isenc = isEncrypted(pdf10);
-        Console.WriteLine($"isencrypted:{(isenc ? 1 : 0)}");
-        Console.WriteLine("---cpdf_isLinearized()");
-        bool lin = isLinearized("testinputs/cpdfmanual.pdf");
-        Console.WriteLine($"islinearized:{(lin ? 1 : 0)}");
-        using (Pdf pdf400 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pdf401 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            List<int> permissions = new List<int> {noEdit};
-            Console.WriteLine("---cpdf_toFileEncrypted()");
-            toFileEncrypted(pdf400, pdf40bit, permissions, "owner", "user", false, false, "testoutputs/01encrypted.pdf");
-            Console.WriteLine("---cpdf_toFileEncryptedExt()");
-            toFileEncryptedExt(pdf401, pdf40bit, permissions, "owner", "user", false, false, true, true, true, "testoutputs/01encryptedext.pdf");
-            Console.WriteLine("---cpdf_hasPermission()");
-        }
-        using (Pdf pdfenc = fromFile("testoutputs/01encrypted.pdf", "user"))
-        {
-            bool hasnoedit = hasPermission(pdfenc, noEdit);
-            bool hasnocopy = hasPermission(pdfenc, noCopy);
-            Console.WriteLine($"Haspermission {(hasnoedit ? 1 : 0)}, {(hasnocopy ? 1 : 0)}");
-            Console.WriteLine("---cpdf_encryptionKind()");
-            int enckind = encryptionKind(pdfenc);
-            Console.WriteLine($"encryption kind is {enckind}");
-        }
-        Console.WriteLine("---cpdf_decryptPdf()");
-        decryptPdf(pdf10, "");
-        Console.WriteLine("---cpdf_decryptPdfOwner()");
-        decryptPdfOwner(pdf10, "");
-        frommem.Dispose();
-        frommemlazy.Dispose();
-        pdf.Dispose();
-        pdf2.Dispose();
-        pdf3.Dispose();
-        pdf4.Dispose();
-        pdf10.Dispose();
-    }
-
-    public static void chapter2()
-    {
-        /* CHAPTER 2. Merging and Splitting */
-        Console.WriteLine("***** CHAPTER 2. Merging and Splitting");
-        using (Pdf pdf11 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            List<int> selectrange = range(1, 3);
-            Console.WriteLine("---cpdf_mergeSimple()");
-            Pdf[] arr = new [] {pdf11, pdf11, pdf11};
-            List<Pdf> arr_list = new List<Pdf> {};
-            arr_list.AddRange(arr);
-            Pdf merged = mergeSimple(arr_list);
-            toFile(merged, "testoutputs/02merged.pdf", false, true);
-            merged.Dispose();
-            Console.WriteLine("---cpdf_merge()");
-            Pdf merged2 = merge(arr_list, false, false);
-            toFile(merged2, "testoutputs/02merged2.pdf", false, true);
-            merged2.Dispose();
-            Console.WriteLine("---cpdf_mergeSame()");
-            List<List<int>> ranges = new List<List<int>> {all(pdf11), all(pdf11), all(pdf11)};
-            Pdf merged3 = mergeSame(arr_list, false, false, ranges);
-            toFile(merged3, "testoutputs/02merged3.pdf", false, false);
-            merged3.Dispose();
-            Console.WriteLine("---cpdf_selectPages()");
-            Pdf pdf12 = selectPages(pdf11, selectrange);
-            toFile(pdf12, "testoutputs/02selected.pdf", false, false);
-            pdf12.Dispose();
-        }
-    }
-
-    public static void chapter3()
-    {
-        /* CHAPTER 3. Pages */
-        Console.WriteLine("***** CHAPTER 3. Pages");
-        using (Pdf pagespdf1 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf2 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf3 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf4 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf5 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf6 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf7 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf8 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf9 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf10 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf11 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf12 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf13 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf14 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf15 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf16 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf17 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf18 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf pagespdf19 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_scalePages()");
-            scalePages(pagespdf1, all(pagespdf1), 1.5, 1.8);
-            toFile(pagespdf1, "testoutputs/03scalepages.pdf", false, false);
-            Console.WriteLine("---cpdf_scaleToFit()");
-            scaleToFit(pagespdf2, all(pagespdf2), 1.5, 1.8, 0.9);
-            toFile(pagespdf2, "testoutputs/03scaletofit.pdf", false, false);
-            Console.WriteLine("---cpdf_scaleToFitPaper()");
-            scaleToFitPaper(pagespdf3, all(pagespdf3), a4portrait, 0.8);
-            toFile(pagespdf3, "testoutputs/03scaletofitpaper.pdf", false, false);
-            Console.WriteLine("---cpdf_scaleContents()");
-            position position = new position (topLeft, 20.0, 20.0);
-            scaleContents(pagespdf4, all(pagespdf4), position, 2.0);
-            toFile(pagespdf4, "testoutputs/03scalecontents.pdf", false, false);
-            Console.WriteLine("---cpdf_shiftContents()");
-            shiftContents(pagespdf5, all(pagespdf5), 1.5, 1.25);
-            toFile(pagespdf5, "testoutputs/03shiftcontents.pdf", false, false);
-            Console.WriteLine("---cpdf_rotate()");
-            rotate(pagespdf6, all(pagespdf6), 90);
-            toFile(pagespdf6, "testoutputs/03rotate.pdf", false, false);
-            Console.WriteLine("---cpdf_rotateBy()");
-            rotateBy(pagespdf7, all(pagespdf7), 90);
-            toFile(pagespdf7, "testoutputs/03rotateby.pdf", false, false);
-            Console.WriteLine("---cpdf_rotateContents()");
-            rotateContents(pagespdf8, all(pagespdf8), 35.0);
-            toFile(pagespdf8, "testoutputs/03rotatecontents.pdf", false, false);
-            Console.WriteLine("---cpdf_upright()");
-            upright(pagespdf9, all(pagespdf9));
-            toFile(pagespdf9, "testoutputs/03upright.pdf", false, false);
-            Console.WriteLine("---cpdf_hFlip()");
-            hFlip(pagespdf10, all(pagespdf10));
-            toFile(pagespdf10, "testoutputs/03hflip.pdf", false, false);
-            Console.WriteLine("---cpdf_vFlip()");
-            vFlip(pagespdf11, all(pagespdf11));
-            toFile(pagespdf11, "testoutputs/03vflip.pdf", false, false);
-            Console.WriteLine("---cpdf_crop()");
-            crop(pagespdf12, all(pagespdf12), 0.0, 0.0, 400.0, 500.0);
-            toFile(pagespdf12, "testoutputs/03crop.pdf", false, false);
-            Console.WriteLine("---cpdf_trimMarks()");
-            trimMarks(pagespdf13, all(pagespdf13));
-            toFile(pagespdf13, "testoutputs/03trim_marks.pdf", false, false);
-            Console.WriteLine("---cpdf_showBoxes()");
-            showBoxes(pagespdf14, all(pagespdf14));
-            toFile(pagespdf14, "testoutputs/03show_boxes.pdf", false, false);
-            Console.WriteLine("---cpdf_hardBox()");
-            hardBox(pagespdf15, all(pagespdf15), "/MediaBox");
-            toFile(pagespdf15, "testoutputs/03hard_box.pdf", false, false);
-            Console.WriteLine("---cpdf_removeCrop()");
-            removeCrop(pagespdf16, all(pagespdf16));
-            toFile(pagespdf16, "testoutputs/03remove_crop.pdf", false, false);
-            Console.WriteLine("---cpdf_removeTrim()");
-            removeTrim(pagespdf17, all(pagespdf17));
-            toFile(pagespdf17, "testoutputs/03remove_trim.pdf", false, false);
-            Console.WriteLine("---cpdf_removeArt()");
-            removeArt(pagespdf18, all(pagespdf18));
-            toFile(pagespdf18, "testoutputs/03remove_art.pdf", false, false);
-            Console.WriteLine("---cpdf_removeBleed()");
-            removeBleed(pagespdf19, all(pagespdf19));
-            toFile(pagespdf19, "testoutputs/03remove_bleed.pdf", false, false);
-        }
-    }
-
-    public static void chapter4()
-    {
-        /* CHAPTER 4. Encryption */
-        /* Encryption covered under Chapter 1 in cpdflib. */
-    }
-
-    public static void chapter5()
-    {
-        /* CHAPTER 5. Compression */
-        Console.WriteLine("***** CHAPTER 5. Compression");
-        using (Pdf pdf16 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_compress()");
-            compress(pdf16);
-            toFile(pdf16, "testoutputs/05compressed.pdf", false, false);
-            Console.WriteLine("---cpdf_decompress()");
-            decompress(pdf16);
-            toFile(pdf16, "testoutputs/05decompressed.pdf", false, false);
-            Console.WriteLine("---cpdf_squeezeInMemory()");
-            squeezeInMemory(pdf16);
-            toFile(pdf16, "testoutputs/05squeezedinmemory.pdf", false, false);
-        }
-    }
-
-    public static void chapter6()
-    {
-        /* CHAPTER 6. Bookmarks */
-        Console.WriteLine("***** CHAPTER 6. Bookmarks");
-        Pdf pdf17 = fromFile("testinputs/cpdflibmanual.pdf", "");
-        Console.WriteLine("---cpdf: get bookmarks");
-        startGetBookmarkInfo(pdf17);
-        int nb = numberBookmarks();
-        Console.WriteLine($"There are {nb} bookmarks");
-        for (int b2 = 0; b2 < nb; b2++)
-        {
-            int level = getBookmarkLevel(b2);
-            int page = getBookmarkPage(pdf17, b2);
-            string text = getBookmarkText(b2);
-            bool open = getBookmarkOpenStatus(b2);
-            Console.WriteLine($"Bookmark at level {level} points to page {page} and has text \"{text}\" and open {(open ? 1 : 0)}");
-        }
-        endGetBookmarkInfo();
-        Console.WriteLine("---cpdf: set bookmarks");
-        startSetBookmarkInfo(1);
-        setBookmarkLevel(0, 0);
-        setBookmarkPage(pdf17, 0, 20);
-        setBookmarkOpenStatus(0, true);
-        setBookmarkText(0, "New bookmark!");
-        endSetBookmarkInfo(pdf17);
-        toFile(pdf17, "testoutputs/06newmarks.pdf", false, false);
-        pdf17.Dispose();
-        Console.WriteLine("---cpdf_getBookmarksJSON()");
-        Pdf marksjson = fromFile("testinputs/cpdflibmanual.pdf", "");
-        byte[] marksdata = getBookmarksJSON(marksjson);
-        Console.WriteLine($"Contains {marksdata.Length} bytes of data");
-        Console.WriteLine("---cpdf_setBookmarksJSON()");
-        setBookmarksJSON(marksjson, marksdata);
-        toFile(marksjson, "testoutputs/06jsonmarks.pdf", false, false);
-        marksjson.Dispose();
-        Console.WriteLine("---cpdf_tableOfContents()");
-        Pdf tocpdf = fromFile("testinputs/cpdflibmanual.pdf", "");
-        tableOfContents(tocpdf, timesRoman, 12.0, "Table of Contents", false);
-        toFile(tocpdf, "testoutputs/06toc.pdf", false, false);
-        tocpdf.Dispose();
-    }
-
-    public static void chapter7()
-    {
-        /* CHAPTER 7. Presentations */
-        /* Not included in the library version. */
-    }
-
-    public static void chapter8()
-    {
-        /* CHAPTER 8. Logos, Watermarks and Stamps */
-        Console.WriteLine("***** CHAPTER 8. Logos, Watermarks and Stamps");
-        Pdf textfile = fromFile("testinputs/cpdflibmanual.pdf", "");
-        Console.WriteLine("---cpdf_addText()");
-        position pos = new position (topLeft, 20.0, 20.0);
-        addText(false,
-                        textfile,
-                        all(textfile),
-                        "Some Text~~~~~~~~~~!",
-                        pos,
-                        1.0,
-                        1,
-                        timesRoman,
-                        20.0,
-                        0.5,
-                        0.5,
-                        0.5,
-                        false,
-                        false,
-                        true,
-                        0.5,
-                        leftJustify,
-                        false,
-                        false,
-                        "",
-                        1.0,
-                        false);
-        Console.WriteLine("---cpdf_addTextSimple()");
-        addTextSimple(textfile, all(textfile), "The text!", pos, timesRoman, 50.0);
-        toFile(textfile, "testoutputs/08added_text.pdf", false, false);
-        Console.WriteLine("---cpdf_removeText()");
-        removeText(textfile, all(textfile));
-        toFile(textfile, "testoutputs/08removed_text.pdf", false, false);
-        textfile.Dispose();
-        Console.WriteLine("---cpdf_textWidth()");
-        int w = textWidth(timesRoman, "What is the width of this?");
-        Pdf stamp = fromFile("testinputs/logo.pdf", "");
-        Pdf stampee = fromFile("testinputs/cpdflibmanual.pdf", "");
-        List<int> stamp_range = all(stamp);
-        Console.WriteLine("---cpdf_stampOn()");
-        stampOn(stamp, stampee, stamp_range);
-        Console.WriteLine("---cpdf_stampUnder()");
-        stampUnder(stamp, stampee, stamp_range);
-        position spos = new position (topLeft, 20.0, 20.0);
-        Console.WriteLine("---cpdf_stampExtended()");
-        stampExtended(stamp, stampee, stamp_range, true, true, spos, true);
-        toFile(stamp, "testoutputs/08stamp_after.pdf", false, false);
-        toFile(stampee, "testoutputs/08stampee_after.pdf", false, false);
-        stamp.Dispose();
-        stampee.Dispose();
-        Pdf c1 = fromFile("testinputs/logo.pdf", "");
-        Pdf c2 = fromFile("testinputs/cpdflibmanual.pdf", "");
-        Console.WriteLine("---cpdf_combinePages()");
-        Pdf c3 = combinePages(c1, c2);
-        toFile(c3, "testoutputs/08c3after.pdf", false, false);
-        Console.WriteLine("---cpdf_stampAsXObject()");
-        c1.Dispose();
-        c2.Dispose();
-        c3.Dispose();
-        Pdf undoc = fromFile("testinputs/cpdflibmanual.pdf", "");
-        Pdf ulogo = fromFile("testinputs/logo.pdf", "");
-        string name = stampAsXObject(undoc, all(undoc), ulogo);
-        string content = $"q 1 0 0 1 100 100 cm {name} Do Q q 1 0 0 1 300 300 cm {name} Do Q q 1 0 0 1 500 500 cm {name} Do Q";
-        Console.WriteLine("---cpdf_addContent()");
-        addContent(content, true, undoc, all(undoc));
-        toFile(undoc, "testoutputs/08demo.pdf", false, false);
-        undoc.Dispose();
-        ulogo.Dispose();
-    }
-
-    public static void chapter9()
-    {
-        /* CHAPTER 9. Multipage facilities */
-        Console.WriteLine("***** CHAPTER 9. Multipage facilities");
-        using (Pdf mp = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp2 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp25 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp26 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp3 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp4 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp5 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp6 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf mp7 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_twoUp()");
-            twoUp(mp);
-            toFile(mp, "testoutputs/09mp.pdf", false, false);
-            Console.WriteLine("---cpdf_twoUpStack()");
-            twoUpStack(mp2);
-            toFile(mp2, "testoutputs/09mp2.pdf", false, false);
-            Console.WriteLine("---cpdf_impose()");
-            impose(mp25, 5.0, 4.0, false, false, false, false, false, 40.0, 20.0, 2.0);
-            toFile(mp25, "testoutputs/09mp25.pdf", false, false);
-            impose(mp26, 2000.0, 1000.0, true, false, false, false, false, 40.0, 20.0, 2.0);
-            toFile(mp26, "testoutputs/09mp26.pdf", false, false);
-            Console.WriteLine("---cpdf_padBefore()");
-            padBefore(mp3, range(1, 10));
-            toFile(mp3, "testoutputs/09mp3.pdf", false, false);
-            Console.WriteLine("---cpdf_padAfter()");
-            padAfter(mp4, range(1, 10));
-            toFile(mp4, "testoutputs/09mp4.pdf", false, false);
-            Console.WriteLine("---cpdf_padEvery()");
-            padEvery(mp5, 5);
-            toFile(mp5, "testoutputs/09mp5.pdf", false, false);
-            Console.WriteLine("---cpdf_padMultiple()");
-            padMultiple(mp6, 10);
-            toFile(mp6, "testoutputs/09mp6.pdf", false, false);
-            Console.WriteLine("---cpdf_padMultipleBefore()");
-            padMultipleBefore(mp7, 23);
-            toFile(mp7, "testoutputs/09mp7.pdf", false, false);
-        }
-    }
-
-    public static void chapter10()
-    {
-        /* CHAPTER 10. Annotations */
-        Console.WriteLine("***** CHAPTER 10. Annotations");
-        Console.WriteLine("---cpdf_annotationsJSON()");
-        using (Pdf annot = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            byte[] annotjson = annotationsJSON(annot);
-            Console.WriteLine($"Contains {annotjson.Length} bytes of data");
-        }
-    }
-
-    public static void chapter11()
-    {
-        /* CHAPTER 11. Document Information and Metadata */
-        Console.WriteLine("***** CHAPTER 11. Document Information and Metadata");
-        using (Pdf pdf30 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_getVersion()");
-            int v = getVersion(pdf30);
-            Console.WriteLine($"minor version:{v}");
-            Console.WriteLine("---cpdf_getMajorVersion()");
-            int v2 = getMajorVersion(pdf30);
-            Console.WriteLine($"major version:{v2}");
-            Console.WriteLine("---cpdf_getTitle()");
-            string title = getTitle(pdf30);
-            Console.WriteLine($"title: {title}");
-            Console.WriteLine("---cpdf_getAuthor()");
-            string author = getAuthor(pdf30);
-            Console.WriteLine($"author: {author}");
-            Console.WriteLine("---cpdf_getSubject()");
-            string subject = getSubject(pdf30);
-            Console.WriteLine($"subject: {subject}");
-            Console.WriteLine("---cpdf_getKeywords()");
-            string keywords = getKeywords(pdf30);
-            Console.WriteLine($"keywords: {keywords}");
-            Console.WriteLine("---cpdf_getCreator()");
-            string creator = getCreator(pdf30);
-            Console.WriteLine($"creator: {creator}");
-            Console.WriteLine("---cpdf_getProducer()");
-            string producer = getProducer(pdf30);
-            Console.WriteLine($"producer: {producer}");
-            Console.WriteLine("---cpdf_getCreationDate()");
-            string creationdate = getCreationDate(pdf30);
-            Console.WriteLine($"creationdate: {creationdate}");
-            Console.WriteLine("---cpdf_getModificationDate()");
-            string modificationdate = getModificationDate(pdf30);
-            Console.WriteLine($"modificationdate: {modificationdate}");
-            Console.WriteLine("---cpdf_getTitleXMP()");
-            string titlexmp = getTitleXMP(pdf30);
-            Console.WriteLine($"titleXMP: {titlexmp}");
-            Console.WriteLine("---cpdf_getAuthorXMP()");
-            string authorxmp = getAuthorXMP(pdf30);
-            Console.WriteLine($"authorXMP: {authorxmp}");
-            Console.WriteLine("---cpdf_getSubjectXMP()");
-            string subjectxmp = getSubjectXMP(pdf30);
-            Console.WriteLine($"subjectXMP: {subjectxmp}");
-            Console.WriteLine("---cpdf_getKeywordsXMP()");
-            string keywordsxmp = getKeywordsXMP(pdf30);
-            Console.WriteLine($"keywordsXMP: {keywordsxmp}");
-            Console.WriteLine("---cpdf_getCreatorXMP()");
-            string creatorxmp = getCreatorXMP(pdf30);
-            Console.WriteLine($"creatorXMP: {creatorxmp}");
-            Console.WriteLine("---cpdf_getProducerXMP()");
-            string producerxmp = getProducerXMP(pdf30);
-            Console.WriteLine($"producerXMP: {producerxmp}");
-            Console.WriteLine("---cpdf_getCreationDateXMP()");
-            string creationdatexmp = getCreationDateXMP(pdf30);
-            Console.WriteLine($"creationdateXMP: {creationdatexmp}");
-            Console.WriteLine("---cpdf_getModificationDateXMP()");
-            string modificationdatexmp = getModificationDateXMP(pdf30);
-            Console.WriteLine($"modificationdateXMP: {modificationdatexmp}");
-            Console.WriteLine("---cpdf_setTitle()");
-            setTitle(pdf30, "title");
-            Console.WriteLine("---cpdf_setAuthor()");
-            setAuthor(pdf30, "author");
-            Console.WriteLine("---cpdf_setSubject()");
-            setSubject(pdf30, "subject");
-            Console.WriteLine("---cpdf_setKeywords()");
-            setKeywords(pdf30, "keywords");
-            Console.WriteLine("---cpdf_setCreator()");
-            setCreator(pdf30, "creator");
-            Console.WriteLine("---cpdf_setProducer()");
-            setProducer(pdf30, "producer");
-            Console.WriteLine("---cpdf_setCreationDate()");
-            setCreationDate(pdf30, "now");
-            Console.WriteLine("---cpdf_setModificationDate()");
-            setModificationDate(pdf30, "now");
-            Console.WriteLine("---cpdf_setTitleXMP()");
-            setTitleXMP(pdf30, "title");
-            Console.WriteLine("---cpdf_setAuthorXMP()");
-            setAuthorXMP(pdf30, "author");
-            Console.WriteLine("---cpdf_setSubjectXMP()");
-            setSubjectXMP(pdf30, "subject");
-            Console.WriteLine("---cpdf_setKeywordsXMP()");
-            setKeywordsXMP(pdf30, "keywords");
-            Console.WriteLine("---cpdf_setCreatorXMP()");
-            setCreatorXMP(pdf30, "creator");
-            Console.WriteLine("---cpdf_setProducerXMP()");
-            setProducerXMP(pdf30, "producer");
-            Console.WriteLine("---cpdf_setCreationDateXMP()");
-            setCreationDateXMP(pdf30, "now");
-            Console.WriteLine("---cpdf_setModificationDateXMP()");
-            setModificationDateXMP(pdf30, "now");
-            toFile(pdf30, "testoutputs/11setinfo.pdf", false, false);
-            int year = 0;
-            int month = 0;
-            int day = 0;
-            int hour = 0;
-            int minute = 0;
-            int second = 0;
-            int hour_offset = 0;
-            int minute_offset = 0;
-            Console.WriteLine("---cpdf_getDateComponents()");
-            getDateComponents("D:20061108125017Z", ref year, ref month, ref day, ref hour, ref minute, ref second, ref hour_offset, ref minute_offset);
-            Console.WriteLine($"D:20061108125017Z = {year}, {month}, {day}, {hour}, {minute}, {second}, {hour_offset}, {minute_offset}");
-            Console.WriteLine("---cpdf_dateStringOfComponents()");
-            string datestr = dateStringOfComponents(year, month, day, hour, minute, second, hour_offset, minute_offset);
-            Console.WriteLine(datestr);
-            Console.WriteLine("---cpdf_getPageRotation()");
-            int rot = getPageRotation(pdf30, 1);
-            Console.WriteLine($"/Rotate on page 1 = {rot}");
-            Console.WriteLine("---cpdf_hasBox()");
-            bool hasbox = hasBox(pdf30, 1, "/CropBox");
-            Console.WriteLine($"hasbox: {(hasbox ? 1 : 0)}");
-            double mb_minx = 0.0;
-            double mb_maxx = 0.0;
-            double mb_miny = 0.0;
-            double mb_maxy = 0.0;
-            double cb_minx = 0.0;
-            double cb_maxx = 0.0;
-            double cb_miny = 0.0;
-            double cb_maxy = 0.0;
-            double tb_minx = 0.0;
-            double tb_maxx = 0.0;
-            double tb_miny = 0.0;
-            double tb_maxy = 0.0;
-            double ab_minx = 0.0;
-            double ab_maxx = 0.0;
-            double ab_miny = 0.0;
-            double ab_maxy = 0.0;
-            double bb_minx = 0.0;
-            double bb_maxx = 0.0;
-            double bb_miny = 0.0;
-            double bb_maxy = 0.0;
-            Console.WriteLine("---cpdf_getMediaBox()");
-            getMediaBox(pdf30, 1, ref mb_minx, ref mb_maxx, ref mb_miny, ref mb_maxy);
-            Console.WriteLine($"Media: {mb_minx:0.000000} {mb_maxx:0.000000} {mb_miny:0.000000} {mb_maxy:0.000000}");
-            Console.WriteLine("---cpdf_getCropBox()");
-            getCropBox(pdf30, 1, ref cb_minx, ref cb_maxx, ref cb_miny, ref cb_maxy);
-            Console.WriteLine($"Crop: {cb_minx:0.000000} {cb_maxx:0.000000} {cb_miny:0.000000} {cb_maxy:0.000000}");
-            Console.WriteLine("---cpdf_getBleedBox()");
-            getBleedBox(pdf30, 1, ref bb_minx, ref bb_maxx, ref bb_miny, ref bb_maxy);
-            Console.WriteLine($"Bleed: {bb_minx:0.000000} {bb_maxx:0.000000} {bb_miny:0.000000} {bb_maxy:0.000000}");
-            Console.WriteLine("---cpdf_getArtBox()");
-            getArtBox(pdf30, 1, ref ab_minx, ref ab_maxx, ref ab_miny, ref ab_maxy);
-            Console.WriteLine($"Art: {ab_minx:0.000000} {ab_maxx:0.000000} {ab_miny:0.000000} {ab_maxy:0.000000}");
-            Console.WriteLine("---cpdf_getTrimBox()");
-            getTrimBox(pdf30, 1, ref tb_minx, ref tb_maxx, ref tb_miny, ref tb_maxy);
-            Console.WriteLine($"Trim: {tb_minx:0.000000} {tb_maxx:0.000000} {tb_miny:0.000000} {tb_maxy:0.000000}");
-            Console.WriteLine("---cpdf_setMediaBox()");
-            setMediabox(pdf30, all(pdf30), 100, 500, 150, 550);
-            Console.WriteLine("---cpdf_setCropBox()");
-            setCropBox(pdf30, all(pdf30), 100, 500, 150, 550);
-            Console.WriteLine("---cpdf_setTrimBox()");
-            setTrimBox(pdf30, all(pdf30), 100, 500, 150, 550);
-            Console.WriteLine("---cpdf_setArtBox()");
-            setArtBox(pdf30, all(pdf30), 100, 500, 150, 550);
-            Console.WriteLine("---cpdf_setBleedBox()");
-            setBleedBox(pdf30, all(pdf30), 100, 500, 150, 550);
-            toFile(pdf30, "testoutputs/11setboxes.pdf", false, false);
-            Console.WriteLine("---cpdf_markTrapped()");
-            markTrapped(pdf30);
-            Console.WriteLine("---cpdf_markTrappedXMP()");
-            markTrappedXMP(pdf30);
-            toFile(pdf30, "testoutputs/11trapped.pdf", false, false);
-            Console.WriteLine("---cpdf_markUntrapped()");
-            markUntrapped(pdf30);
-            Console.WriteLine("---cpdf_markUntrappedXMP()");
-            markUntrappedXMP(pdf30);
-            toFile(pdf30, "testoutputs/11untrapped.pdf", false, false);
-            Console.WriteLine("---cpdf_setPageLayout()");
-            setPageLayout(pdf30, twoColumnLeft);
-            Console.WriteLine("---cpdf_setPageMode()");
-            setPageMode(pdf30, useOutlines);
-            Console.WriteLine("---cpdf_hideToolbar()");
-            hideToolbar(pdf30, true);
-            Console.WriteLine("---cpdf_hideMenubar()");
-            hideMenubar(pdf30, true);
-            Console.WriteLine("---cpdf_hideWindowUi()");
-            hideWindowUi(pdf30, true);
-            Console.WriteLine("---cpdf_fitWindow()");
-            fitWindow(pdf30, true);
-            Console.WriteLine("---cpdf_centerWindow()");
-            centerWindow(pdf30, true);
-            Console.WriteLine("---cpdf_displayDocTitle()");
-            displayDocTitle(pdf30, true);
-            Console.WriteLine("---cpdf_openAtPage()");
-            openAtPage(pdf30, true, 4);
-            toFile(pdf30, "testoutputs/11open.pdf", false, false);
-            Console.WriteLine("---cpdf_setMetadataFromFile()");
-            setMetadataFromFile(pdf30, "testinputs/cpdflibmanual.pdf");
-            toFile(pdf30, "testoutputs/11metadata1.pdf", false, false);
-            Console.WriteLine("---cpdf_setMetadataFromByteArray()");
-            byte[] md = Encoding.ASCII.GetBytes("BYTEARRAY");
-            setMetadataFromByteArray(pdf30, md);
-            toFile(pdf30, "testoutputs/11metadata2.pdf", false, false);
-            Console.WriteLine("---cpdf_getMetadata()");
-            byte[] metadata = getMetadata(pdf30);
-            Console.WriteLine("---cpdf_removeMetadata()");
-            removeMetadata(pdf30);
-            Console.WriteLine("---cpdf_createMetadata()");
-            createMetadata(pdf30);
-            toFile(pdf30, "testoutputs/11metadata3.pdf", false, false);
-            Console.WriteLine("---cpdf_setMetadataDate()");
-            setMetadataDate(pdf30, "now");
-            toFile(pdf30, "testoutputs/11metadata4.pdf", false, false);
-            Console.WriteLine("---cpdf_addPageLabels()");
-            addPageLabels(pdf30, uppercaseRoman, "PREFIX-", 1, all(pdf30), false);
-            Console.WriteLine("---cpdf: get page labels");
-            int pls = startGetPageLabels(pdf30);
-            Console.WriteLine($"There are {pls} labels");
-            for (int plsc = 0; plsc < pls; plsc++)
-            {
-                int style = getPageLabelStyle(plsc);
-                string prefix = getPageLabelPrefix(plsc);
-                int offset = getPageLabelOffset(plsc);
-                int lab_range = getPageLabelRange(plsc);
-                Console.WriteLine($"Page label: {style}, {prefix}, {offset}, {lab_range}");
-            }
-            endGetPageLabels();
-            Console.WriteLine("---cpdf_removePageLabels()");
-            removePageLabels(pdf30);
-            toFile(pdf30, "testoutputs/11pagelabels.pdf", false, false);
-            Console.WriteLine("---cpdf_getPageLabelStringForPage()");
-            string pl = getPageLabelStringForPage(pdf30, 1);
-            Console.WriteLine($"Label string is {pl}");
-        }
-    }
-
-    public static void chapter12()
-    {
-        /* CHAPTER 12. File Attachments */
-        Console.WriteLine("***** CHAPTER 12. File Attachments");
-        using (Pdf attachments = fromFile("testinputs/has_attachments.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_attachFile()");
-            attachFile("testinputs/image.pdf", attachments);
-            Console.WriteLine("---cpdf_attachFileToPage()");
-            attachFileToPage("testinputs/image.pdf", attachments, 1);
-            Console.WriteLine("---cpdf_attachFileFromMemory()");
-            byte[] empty = {};
-            attachFileFromMemory(empty, "metadata.txt", attachments);
-            Console.WriteLine("---cpdf_attachFileToPageFromMemory()");
-            attachFileToPageFromMemory(empty, "metadata.txt", attachments, 1);
-            toFile(attachments, "testoutputs/12with_attachments.pdf", false, false);
-            Console.WriteLine("---cpdf: get attachments");
-            startGetAttachments(attachments);
-            int n_a = numberGetAttachments();
-            Console.WriteLine($"There are {n_a} attachments to get");
-            for (int aa = 0; aa < n_a; aa++)
-            {
-                string a_n = getAttachmentName(aa);
-                Console.WriteLine($"Attachment {aa} is named {a_n}");
-                int a_page = getAttachmentPage(aa);
-                Console.WriteLine($"It is on page {a_page}");
-                byte[] a_data = getAttachmentData(aa);
-                Console.WriteLine($"Contains {a_data.Length} bytes of data");
-            }
-            endGetAttachments();
-            Console.WriteLine("---cpdf_removeAttachedFiles()");
-            removeAttachedFiles(attachments);
-            toFile(attachments, "testoutputs/12removed_attachments.pdf", false, false);
-        }
-    }
-
-    public static void chapter13()
-    {
-        /* CHAPTER 13. Images. */
-        Console.WriteLine("***** CHAPTER 13. Images");
-        Console.WriteLine("---cpdf: get image resolution");
-        using (Pdf image_pdf = fromFile("testinputs/image.pdf", ""))
-        {
-            int im_n = startGetImageResolution(image_pdf, 2.0);
-            for (int im = 0; im < im_n; im++)
-            {
-                int im_p = getImageResolutionPageNumber(im);
-                string im_name = getImageResolutionImageName(im);
-                int im_xp = getImageResolutionXPixels(im);
-                int im_yp = getImageResolutionYPixels(im);
-                double im_xres = getImageResolutionXRes(im);
-                double im_yres = getImageResolutionYRes(im);
-                Console.WriteLine($"IMAGE: {im_p}, {im_name}, {im_xp}, {im_yp}, {im_xres:00.000000}, {im_yres:00.000000}");
-            }
-            endGetImageResolution();
-        }
-    }
-
-    public static void chapter14()
-    {
-        /* CHAPTER 14. Fonts. */
-        Console.WriteLine("***** CHAPTER 14. Fonts");
-        Console.WriteLine("---cpdf: Get Fonts");
-        using (Pdf fonts = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf fonts2 = fromFile("testinputs/frontmatter.pdf", ""))
-        {
-            startGetFontInfo(fonts);
-            int n_fonts = numberFonts();
-            for (int ff = 0; ff < n_fonts; ff++)
-            {
-                int page = getFontPage(ff);
-                string f_name = getFontName(ff);
-                string type = getFontType(ff);
-                string encoding = getFontEncoding(ff);
-                Console.WriteLine("Page {0}, font {1} has type {2} and encoding {3}", page, f_name, type, encoding);
-            }
-            endGetFontInfo();
-            Console.WriteLine("---cpdf_removeFonts()");
-            removeFonts(fonts);
-            toFile(fonts, "testoutputs/14remove_fonts.pdf", false, false);
-            Console.WriteLine("---cpdf_copyFont()");
-            copyFont(fonts, fonts2, all(fonts), 1, "/Font");
-        }
-    }
-
-    public static void chapter15()
-    {
-        /* CHAPTER 15. PDF and JSON */
-        Console.WriteLine("***** CHAPTER 15. PDF and JSON");
-        using (Pdf jsonpdf = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_outputJSON()");
-            outputJSON("testoutputs/15json.json", false, false, false, jsonpdf);
-            outputJSON("testoutputs/15jsonnostream.json", false, true, false, jsonpdf);
-            outputJSON("testoutputs/15jsonparsed.json", true, false, false, jsonpdf);
-            outputJSON("testoutputs/15jsondecomp.json", false, false, true, jsonpdf);
-            Console.WriteLine("---cpdf_fromJSON()");
-            Pdf fromjsonpdf = fromJSON("testoutputs/15jsonparsed.json");
-            toFile(fromjsonpdf, "testoutputs/15fromjson.pdf", false, false);
-            Console.WriteLine("---cpdf_outputJSONMemory()");
-            byte[] jbuf = outputJSONMemory(fromjsonpdf, false, false, false);
-            fromjsonpdf.Dispose();
-            Console.WriteLine("---cpdf_fromJSONMemory()");
-            Pdf jfrommem = fromJSONMemory(jbuf);
-            toFile(jfrommem, "testoutputs/15fromJSONMemory.pdf", false, false);
-            jfrommem.Dispose();
-        }
-    }
-
-    public static void chapter16()
-    {
-        /* CHAPTER 16. Optional Content Groups */
-        Console.WriteLine("***** CHAPTER 16. Optional Content Groups");
-        using (Pdf ocg = fromFile("testinputs/has_ocgs.pdf", ""))
-        {
-          Console.WriteLine("---cpdf: Get OCG List");
-          int n2 = startGetOCGList(ocg);
-          for(int x = 0; x < n2; x++)
-          {
-              Console.WriteLine(OCGListEntry(x));
-          }
-          endGetOCGList();
-          Console.WriteLine("---cpdf_OCGCoalesce()");
-          OCGCoalesce(ocg);
-          Console.WriteLine("---cpdf_OCGRename()");
-          OCGRename(ocg, "From", "To");
-          Console.WriteLine("---cpdf_OCGOrderAll()");
-          OCGOrderAll(ocg);
-        }
-    }
-
-    public static void chapter17()
-    {
-        /* CHAPTER 17. Creating New PDFs */
-        Console.WriteLine("***** CHAPTER 17. Creating New PDFs");
-        Console.WriteLine("---cpdf_blankDocument()");
-        Console.WriteLine("---cpdf_blankDocumentPaper()");
-        using (Pdf new1 = blankDocument(100.0, 200.0, 20))
-        using (Pdf new2 = blankDocumentPaper(a4portrait, 10))
-        {
-            toFile(new1, "testoutputs/01blank.pdf", false, false);
-            toFile(new2, "testoutputs/01blanka4.pdf", false, false);
-        }
-        Console.WriteLine("---cpdf_textToPDF()");
-        Console.WriteLine("---cpdf_textToPDFPaper()");
-        using (Pdf ttpdf = textToPDF(500.0, 600.0, timesItalic, 8.0, "../cpdflib-source/cpdflibtest.c"))
-        using (Pdf ttpdfpaper = textToPDFPaper(a4portrait, timesBoldItalic, 10.0, "../cpdflib-source/cpdflibtest.c"))
-        {
-            toFile(ttpdf, "testoutputs/01ttpdf.pdf", false, false);
-            toFile(ttpdfpaper, "testoutputs/01ttpdfpaper.pdf", false, false);
-        }
-    }
-
-    public static void chapter18()
-    {
-        /* CHAPTER 18. Miscellaneous */
-        Console.WriteLine("***** CHAPTER 18. Miscellaneous");
-        using (Pdf misc = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc2 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc3 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc4 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc5 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc6 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc7 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc8 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc9 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc10 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc11 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc12 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc13 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc14 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc15 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misc16 = fromFile("testinputs/cpdflibmanual.pdf", ""))
-        using (Pdf misclogo = fromFile("testinputs/logo.pdf", ""))
-        {
-            Console.WriteLine("---cpdf_draft()");
-            draft(misc, all(misc), true);
-            toFile(misc, "testoutputs/17draft.pdf", false, false);
-            Console.WriteLine("---cpdf_removeAllText()");
-            removeAllText(misc2, all(misc2));
-            toFile(misc2, "testoutputs/17removealltext.pdf", false, false);
-            Console.WriteLine("---cpdf_blackText()");
-            blackText(misc3, all(misc3));
-            toFile(misc3, "testoutputs/17blacktext.pdf", false, false);
-            Console.WriteLine("---cpdf_blackLines()");
-            blackLines(misc4, all(misc4));
-            toFile(misc4, "testoutputs/17blacklines.pdf", false, false);
-            Console.WriteLine("---cpdf_blackFills()");
-            blackFills(misc5, all(misc5));
-            toFile(misc5, "testoutputs/17blackfills.pdf", false, false);
-            Console.WriteLine("---cpdf_thinLines()");
-            thinLines(misc6, all(misc6), 2.0);
-            toFile(misc6, "testoutputs/17thinlines.pdf", false, false);
-            Console.WriteLine("---cpdf_copyId()");
-            copyId(misclogo, misc7);
-            toFile(misc7, "testoutputs/17copyid.pdf", false, false);
-            Console.WriteLine("---cpdf_removeId()");
-            removeId(misc8);
-            toFile(misc8, "testoutputs/17removeid.pdf", false, false);
-            Console.WriteLine("---cpdf_setVersion()");
-            setVersion(misc9, 1);
-            toFile(misc9, "testoutputs/17setversion.pdf", false, false);
-            Console.WriteLine("---cpdf_setFullVersion()");
-            setFullVersion(misc10, 2, 0);
-            toFile(misc10, "testoutputs/17setfullversion.pdf", false, false);
-            Console.WriteLine("---cpdf_removeDictEntry()");
-            removeDictEntry(misc11, "/Producer");
-            toFile(misc11, "testoutputs/17removedictentry.pdf", false, false);
-            Console.WriteLine("---cpdf_removeDictEntrySearch()");
-            removeDictEntrySearch(misc13, "/Producer", "1");
-            toFile(misc13, "testoutputs/17removedictentrysearch.pdf", false, false);
-            Console.WriteLine("---cpdf_replaceDictEntry()");
-            replaceDictEntry(misc14, "/Producer", "{\"I\" : 1}");
-            toFile(misc14, "testoutputs/17replacedictentry.pdf", false, false);
-            Console.WriteLine("---cpdf_replaceDictEntrySearch()");
-            replaceDictEntrySearch(misc15, "/Producer", "1", "2");
-            toFile(misc15, "testoutputs/17replacedictentrysearch.pdf", false, false);
-            Console.WriteLine("---cpdf_getDictEntries()");
-            byte[] entries = getDictEntries(misc16, "/Producer");
-            Console.WriteLine($"length of entries data = {entries.Length}");
-            Console.WriteLine("---cpdf_removeClipping()");
-            removeClipping(misc12, all(misc12));
-            toFile(misc12, "testoutputs/17removeclipping.pdf", false, false);
-        }
-    }
-
     static void Main(string[] args)
     {
-        chapter0();
-        chapter1();
-        chapter2();
-        chapter3();
-        chapter4();
-        chapter5();
-        chapter6();
-        chapter7();
-        chapter8();
-        chapter9();
-        chapter10();
-        chapter11();
-        chapter12();
-        chapter13();
-        chapter14();
-        chapter15();
-        chapter16();
-        chapter17();
-        chapter18();
     }
 }
 }

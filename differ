@@ -1,3 +1,0 @@
-diff -ua foo ../cpdflib-source/foo
-diff -q testoutputs/ ../cpdflib-source/testoutputs
-diff -ua foo2 ../cpdflib-source/foo2
