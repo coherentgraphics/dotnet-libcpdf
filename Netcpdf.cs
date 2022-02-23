@@ -683,6 +683,9 @@ public class Cpdf
         return (res > 0);
     }
 
+    /// <summary>
+    /// pages(pdf) returns the number of pages in a PDF.
+    /// </summary>
     public static int pages(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_pages(int pdf);
@@ -691,6 +694,11 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// pagesFast(password, filename) returns the number of pages in a given
+    /// PDF, with given user encryption password. It tries to do this as fast as
+    /// possible, without loading the whole file.
+    /// </summary>
     public static int pagesFast(string password, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_pagesFast(string password, string filename);
@@ -699,6 +707,11 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// toFile (pdf, filename, linearize, make_id) writes the file to a given
+    /// filename. If linearize is true, it will be linearized if a linearizer is
+    /// available. If make_id is true, it will be given a new ID.
+    /// </summary>
     public static void toFile(Pdf pdf, string filename, bool linearize, bool make_id)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFile(int pdf, string filename, int linearize, int make_id);
@@ -706,6 +719,16 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// toFileExt (pdf, filename, linearize, make_id, preserve_objstm,
+    /// generate_objstm, compress_objstm) writes the file to a given filename. If
+    /// make_id is true, it will be given a new ID.  If preserve_objstm is true,
+    /// existing object streams will be preserved. If generate_objstm is true,
+    /// object streams will be generated even if not originally present. If
+    /// compress_objstm is true, object streams will be compressed (what we
+    /// usually want). WARNING: the pdf argument will be invalid after this call,
+    /// and should be not be used again.
+    /// </summary>
     public static void toFileExt(Pdf pdf, string filename, bool linearize, bool make_id, bool preserve_objstm, bool generate_objstm, bool compress_objstm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileExt(int pdf, string filename, int linearize, int make_id, int preserve_objstm, int generate_objstm, int compress_objstm);
@@ -713,6 +736,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// toFileMemory (pdf, linearize, make_id) writes a PDF file it
+    /// and returns as an array of bytes.
+    /// </summary>
     public static byte[] toMemory(Pdf pdf, bool linearize, bool makeid)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_toMemory(int pdf, int linearize, int makeid, ref int len);
@@ -726,6 +753,10 @@ public class Cpdf
         return databytes;
     }
 
+    /// <summary>
+    /// isEncrypted(pdf) returns true if a documented is encrypted, false
+    /// otherwise.
+    /// </summary>
     public static bool isEncrypted(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isEncrypted(int pdf);
@@ -734,6 +765,10 @@ public class Cpdf
         return (res > 0);
     }
 
+    /// <summary>
+    /// decryptPdf(pdf, userpw) attempts to decrypt a PDF using the given
+    /// user password. An exception is raised if the decryption fails.
+    /// </summary>
     public static void decryptPdf(Pdf pdf, string userpw)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdf(int pdf, string userpw);
@@ -741,6 +776,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// decryptPdfOwner(pdf, ownerpw) attempts to decrypt a PDF using the
+    /// given owner password. The error code is non-zero if the decryption fails.
+    /// </summary>
     public static void decryptPdfOwner(Pdf pdf, string ownerpw)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decryptPdfOwner(int pdf, string ownerpw);
@@ -748,6 +787,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// toFileEncrypted(pdf, encryption_method, permissions,
+    /// permission_length, owner_password, user password, linearize, makeid,
+    /// filename) writes a file as encrypted.
+    /// </summary>
     public static void toFileEncrypted(Pdf pdf, int encryption_method, List<int> permissions, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
@@ -755,6 +799,12 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// toFileEncryptedExt(pdf, encryption_method, permissions,
+    /// permission_length, owner_password, user_password, linearize, makeid,
+    /// preserve_objstm, generate_objstm, compress_objstm, filename) WARNING: the
+    /// pdf argument will be invalid after this call, and should not be used again.
+    /// </summary>
     public static void toFileEncryptedExt(Pdf pdf, int encryption_method, List<int> permissions, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
@@ -762,6 +812,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// hasPermission(pdf, permission) returns true if the given permission
+    /// (restriction) is present.
+    /// </summary>
     public static bool hasPermission(Pdf pdf, int permission)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasPermission(int pdf, int permission);
@@ -770,6 +824,10 @@ public class Cpdf
         return (res > 0);
     }
 
+    /// <summary>
+    /// encryptionKind(pdf) return the encryption method currently in use on
+    /// a document.
+    /// </summary>
     public static int encryptionKind(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_encryptionKind(int pdf);
