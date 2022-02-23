@@ -143,6 +143,7 @@ public class Cpdf
             Dispose(disposing: false);
         }
     }
+
     public class CPDFError : Exception
     {
         public CPDFError(string error) : base(error)
@@ -157,339 +158,6 @@ public class Cpdf
             clearError();
             throw new CPDFError(lastErrorString());
         }
-    }
-
-    /* CHAPTER 0. Preliminaries */
-
-    public static void startup()
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] argv);
-        IntPtr[] args = {};
-        cpdf_startup(args);
-        checkerror();
-    }
-
-    public static string version()
-    {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
-        string s = Marshal.PtrToStringUTF8(cpdf_version());
-        checkerror();
-        return s;
-    }
-
-    public static void setFast()
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_setFast();
-        cpdf_setFast();
-        checkerror();
-    }
-
-    public static void setSlow()
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_setSlow();
-        cpdf_setSlow();
-        checkerror();
-    }
-
-    public static int lastError()
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_fLastError();
-        return cpdf_fLastError();
-    }
-
-    public static string lastErrorString()
-    {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_fLastErrorString();
-        return Marshal.PtrToStringUTF8(cpdf_fLastErrorString());
-    }
-
-    public static void clearError()
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_clearError();
-        cpdf_clearError();
-    }
-
-    public static void onExit()
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_onExit();
-        cpdf_onExit();
-        checkerror();
-    }
-
-
-    /* CHAPTER 1. Basics */
-
-    public static Pdf fromFile(string filename, string userpw)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
-        int res =  cpdf_fromFile(filename, userpw);
-        checkerror();
-        return new Pdf(res);
-    }
-
-    public static Pdf fromFileLazy(string filename, string userpw)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromFileLazy(string filename, string userpw);
-        int res = cpdf_fromFileLazy(filename, userpw);
-        checkerror();
-        return new Pdf(res);
-    }
-
-    public static Pdf fromMemory(byte[] data, string userpw)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(byte[] data, int length, string userpw);
-        int pdf = cpdf_fromMemory(data, data.Length, userpw);
-        checkerror();
-        return new Pdf(pdf);
-    }
-
-    //For this one, the caller must use AllocHGlobal / Marshal.Copy / FreeHGlobal itself. It must not free the memory until the PDF is also gone.
-    public static Pdf fromMemoryLazy(IntPtr data, int length, string userpw)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_fromMemoryLazy(IntPtr data, int length, string userpw);
-        int pdf = cpdf_fromMemoryLazy(data, length, userpw);
-        checkerror();
-        return new Pdf(pdf);
-    }
-
-    public static int startEnumeratePDFs()
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_startEnumeratePDFs();
-        int res = cpdf_startEnumeratePDFs();
-        checkerror();
-        return res;
-    }
-
-    public static int enumeratePDFsKey(int n)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_enumeratePDFsKey(int n);
-        int res = cpdf_enumeratePDFsKey(n);
-        checkerror();
-        return res;
-    }
-
-    public static string enumeratePDFsInfo(int n)
-    {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_enumeratePDFsInfo(int n);
-        string res = Marshal.PtrToStringUTF8(cpdf_enumeratePDFsInfo(n));
-        checkerror();
-        return res;
-    }
-
-    public static void endEnumeratePDFs()
-    {
-        [DllImport("libcpdf.so")] static extern void cpdf_endEnumeratePDFs();
-        cpdf_endEnumeratePDFs();
-        checkerror();
-    }
-
-    public static double ptOfCm(double i)
-    {
-        [DllImport("libcpdf.so")] static extern double cpdf_ptOfCm(double i);
-        double res = cpdf_ptOfCm(i);
-        checkerror();
-        return res;
-    }
-
-    public static double ptOfMm(double i)
-    {
-        [DllImport("libcpdf.so")] static extern double cpdf_ptOfMm(double i);
-        double res = cpdf_ptOfMm(i);
-        checkerror();
-        return res;
-    }
-
-    public static double ptOfIn(double i)
-    {
-        [DllImport("libcpdf.so")] static extern double cpdf_ptOfIn(double i);
-        double res = cpdf_ptOfIn(i);
-        checkerror();
-        return res;
-    }
-
-    public static double cmOfPt(double i)
-    {
-        [DllImport("libcpdf.so")] static extern double cpdf_cmOfPt(double i);
-        double res = cpdf_cmOfPt(i);
-        checkerror();
-        return res;
-    }
-
-    public static double mmOfPt(double i)
-    {
-        [DllImport("libcpdf.so")] static extern double cpdf_mmOfPt(double i);
-        double res = cpdf_mmOfPt(i);
-        checkerror();
-        return res;
-    }
-
-    public static double inOfPt(double i)
-    {
-        [DllImport("libcpdf.so")] static extern double cpdf_inOfPt(double i);
-        double res = cpdf_inOfPt(i);
-        checkerror();
-        return res;
-    }
-
-    public static List<int> parsePagespec(Pdf pdf, string pagespec)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int r = cpdf_parsePagespec(pdf.pdf, pagespec);
-        List<int> r_out = list_of_range(r);
-        cpdf_deleteRange(r);
-        checkerror();
-        return r_out;
-    }
-
-    public static bool validatePagespec(string pagespec)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
-        int res = cpdf_validatePagespec(pagespec);
-        checkerror();
-        return (res > 0);
-    }
-
-    public static string stringOfPagespec(Pdf pdf, List<int> r)
-    {
-        [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int rn = range_of_list(r);
-        string s = Marshal.PtrToStringUTF8(cpdf_stringOfPagespec(pdf.pdf, rn));
-        cpdf_deleteRange(rn);
-        checkerror();
-        return s;
-    }
-
-    public static List<int> blankRange()
-    {
-        return new List<int>();
-    }
-
-    public static List<int> range(int f, int t)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_range(int f, int t);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int rn = cpdf_range(f, t);
-        List<int> l = list_of_range(rn);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return l;
-    }
-
-    public static List<int> all(Pdf pdf)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_all(int pdf);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int rn = cpdf_all(pdf.pdf);
-        List<int> r = list_of_range(rn);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return r;
-    }
-
-    public static List<int> even(List<int> r_in)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_even(int pdf);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int range_in = range_of_list(r_in);
-        int rn = cpdf_even(range_in);
-        List<int> r = list_of_range(rn);
-        cpdf_deleteRange(rn);
-        cpdf_deleteRange(range_in);
-        checkerror();
-        return r;
-    }
-
-    public static List<int> odd(List<int> r_in)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_odd(int pdf);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int range_in = range_of_list(r_in);
-        int rn = cpdf_odd(range_in);
-        List<int> r = list_of_range(rn);
-        cpdf_deleteRange(rn);
-        cpdf_deleteRange(range_in);
-        checkerror();
-        return r;
-    }
-
-    public static List<int> rangeUnion(List<int> a, List<int> b)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_rangeUnion(int a, int b);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int a_r = range_of_list(a);
-        int b_r = range_of_list(b);
-        int rn = cpdf_rangeUnion(a_r, b_r);
-        List<int> r = list_of_range(rn);
-        cpdf_deleteRange(a_r);
-        cpdf_deleteRange(b_r);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return r;
-    }
-
-    public static List<int> difference(List<int> a, List<int> b)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_difference(int a, int b);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int a_r = range_of_list(a);
-        int b_r = range_of_list(b);
-        int rn = cpdf_difference(a_r, b_r);
-        List<int> r = list_of_range(rn);
-        cpdf_deleteRange(a_r);
-        cpdf_deleteRange(b_r);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return r;
-    }
-
-    public static List<int> removeDuplicates(List<int> a)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_removeDuplicates(int r);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int a_r = range_of_list(a);
-        int rn = cpdf_removeDuplicates(a_r);
-        List<int> r = list_of_range(rn);
-        cpdf_deleteRange(a_r);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return r;
-    }
-
-    public static int rangeLength(List<int> r)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_rangeLength(int r);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int rn = range_of_list(r);
-        int l = cpdf_rangeLength(rn);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return l;
-    }
-
-    public static int rangeGet(List<int> r, int n)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int rn = range_of_list(r);
-        int n_out = cpdf_rangeGet(rn, n);
-        cpdf_deleteRange(rn);
-        checkerror();
-        return n_out;
-    }
-
-    public static List<int> rangeAdd(List<int> r, int page)
-    {
-        [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int page);
-        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
-        int rn = range_of_list(r);
-        int r2 = cpdf_rangeAdd(rn, page);
-        List<int> r_out = list_of_range(r2);
-        cpdf_deleteRange(rn);
-        cpdf_deleteRange(r2);
-        checkerror();
-        return r_out;
     }
 
     public static List<int> list_of_range(int r)
@@ -521,6 +189,489 @@ public class Cpdf
         return r;
     }
 
+    /* CHAPTER 0. Preliminaries */
+
+    /// <summary>
+    /// Initialises the CPDF library. Must be called before any other function.
+    /// </summary>
+    public static void startup()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_startup(IntPtr[] argv);
+        IntPtr[] args = {};
+        cpdf_startup(args);
+        checkerror();
+    }
+
+    /// <summary>
+    /// Returns a string giving the version number of the CPDF library.
+    /// </summary>
+    public static string version()
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_version();
+        string s = Marshal.PtrToStringUTF8(cpdf_version());
+        checkerror();
+        return s;
+    }
+   
+    /// <summary>
+    /// Some operations have a fast mode. The default is 'slow' mode, which works
+    /// even on old-fashioned files. For more details, see section 1.13 of the
+    /// CPDF manual. This function sets the mode to fast globally.
+    /// </summary>
+    public static void setFast()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setFast();
+        cpdf_setFast();
+        checkerror();
+    }
+
+    /// <summary>
+    /// Some operations have a fast mode. The default is 'slow' mode, which works
+    /// even on old-fashioned files. For more details, see section 1.13 of the
+    /// CPDF manual. This functions sets the mode to slow globally.
+    /// </summary>
+    public static void setSlow()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_setSlow();
+        cpdf_setSlow();
+        checkerror();
+    }
+
+    /// <summary>
+    /// Not to be called directly. Errors in .NET cpdf are raised by exceptions.
+    /// </summary>
+    public static int lastError()
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fLastError();
+        return cpdf_fLastError();
+    }
+
+    /// <summary>
+    /// Not to be called directly. Errors in .NET cpdf are raised by exceptions.
+    /// </summary>
+    public static string lastErrorString()
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_fLastErrorString();
+        return Marshal.PtrToStringUTF8(cpdf_fLastErrorString());
+    }
+
+    /// <summary>
+    /// Not to be called directly. Errors in .NET cpdf are raised by exceptions.
+    /// </summary>
+    public static void clearError()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_clearError();
+        cpdf_clearError();
+    }
+
+    /// <summary>
+    /// onExit is a debug function which prints some information about
+    /// resource usage. This can be used to detect if PDFs or ranges are being
+    /// deallocated properly. Contrary to its name, it may be run at any time.
+    /// </summary>
+    public static void onExit()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_onExit();
+        cpdf_onExit();
+        checkerror();
+    }
+
+
+    /* CHAPTER 1. Basics */
+
+    /// <summary>
+    /// fromFile(filename, userpw) loads a PDF file from a given file. Supply
+    /// a user password (possibly blank) in case the file is encrypted. It won't be
+    /// decrypted, but sometimes the password is needed just to load the file.
+    /// </summary>
+    public static Pdf fromFile(string filename, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromFile(string filename, string userpw);
+        int res =  cpdf_fromFile(filename, userpw);
+        checkerror();
+        return new Pdf(res);
+    }
+
+    /// <summary>
+    /// fromFileLazy(pdf, userpw) loads a PDF from a file, doing only minimal
+    /// parsing. The objects will be read and parsed when they are actually
+    /// needed. Use this when the whole file won't be required. Also supply a user
+    /// password (possibly blank) in case the file is encrypted. It won't be
+    /// decrypted, but sometimes the password is needed just to load the file.
+    /// </summary>
+    public static Pdf fromFileLazy(string filename, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromFileLazy(string filename, string userpw);
+        int res = cpdf_fromFileLazy(filename, userpw);
+        checkerror();
+        return new Pdf(res);
+    }
+
+    /// <summary>
+    /// fromMemory(data, userpw) loads a file from memory given any user password.
+    /// </summary>
+    public static Pdf fromMemory(byte[] data, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromMemory(byte[] data, int length, string userpw);
+        int pdf = cpdf_fromMemory(data, data.Length, userpw);
+        checkerror();
+        return new Pdf(pdf);
+    }
+
+    /// <summary>
+    /// fromMemory(data, length, userpw) loads a file from memory, given a
+    /// pointer and a length, and the user password, but lazily like
+    /// fromFileLazy. The caller must use AllocHGlobal / Marshal.Copy / FreeHGlobal
+    /// itself. It must not free the memory until the PDF is also gone.
+    /// </summary>
+    public static Pdf fromMemoryLazy(IntPtr data, int length, string userpw)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_fromMemoryLazy(IntPtr data, int length, string userpw);
+        int pdf = cpdf_fromMemoryLazy(data, length, userpw);
+        checkerror();
+        return new Pdf(pdf);
+    }
+
+    /// <summary>
+    /// To enumerate the list of currently allocated PDFs, call
+    /// startEnumeratePDFs which gives the number, n, of PDFs allocated, then
+    /// enumeratePDFsInfo and enumeratePDFsKey with index numbers from
+    /// 0...(n - 1). Call endEnumeratePDFs to clean up.
+    /// </summary>
+    public static int startEnumeratePDFs()
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_startEnumeratePDFs();
+        int res = cpdf_startEnumeratePDFs();
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// To enumerate the list of currently allocated PDFs, call
+    /// startEnumeratePDFs which gives the number, n, of PDFs allocated, then
+    /// enumeratePDFsInfo and enumeratePDFsKey with index numbers from
+    /// 0...(n - 1). Call endEnumeratePDFs to clean up.
+    /// </summary>
+    public static int enumeratePDFsKey(int n)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_enumeratePDFsKey(int n);
+        int res = cpdf_enumeratePDFsKey(n);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// To enumerate the list of currently allocated PDFs, call
+    /// startEnumeratePDFs which gives the number, n, of PDFs allocated, then
+    /// enumeratePDFsInfo and enumeratePDFsKey with index numbers from
+    /// 0...(n - 1). Call endEnumeratePDFs to clean up.
+    /// </summary>
+    public static string enumeratePDFsInfo(int n)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_enumeratePDFsInfo(int n);
+        string res = Marshal.PtrToStringUTF8(cpdf_enumeratePDFsInfo(n));
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// To enumerate the list of currently allocated PDFs, call
+    /// startEnumeratePDFs which gives the number, n, of PDFs allocated, then
+    /// enumeratePDFsInfo and enumeratePDFsKey with index numbers from
+    /// 0...(n - 1). Call endEnumeratePDFs to clean up.
+    /// </summary>
+    public static void endEnumeratePDFs()
+    {
+        [DllImport("libcpdf.so")] static extern void cpdf_endEnumeratePDFs();
+        cpdf_endEnumeratePDFs();
+        checkerror();
+    }
+
+    /// <summary>
+    /// Convert a figure in centimetres to points (72 points to 1 inch)
+    /// </summary>
+    public static double ptOfCm(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfCm(double i);
+        double res = cpdf_ptOfCm(i);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// Convert a figure in millimetres to points (72 points to 1 inch)
+    /// </summary>
+    public static double ptOfMm(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfMm(double i);
+        double res = cpdf_ptOfMm(i);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// Convert a figure in inches to points (72 points to 1 inch)
+    /// </summary>
+    public static double ptOfIn(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_ptOfIn(double i);
+        double res = cpdf_ptOfIn(i);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// Convert a figure in points to centimetres (72 points to 1 inch)
+    /// </summary>
+    public static double cmOfPt(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_cmOfPt(double i);
+        double res = cpdf_cmOfPt(i);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// Convert a figure in points to millimetres (72 points to 1 inch)
+    /// </summary>
+    public static double mmOfPt(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_mmOfPt(double i);
+        double res = cpdf_mmOfPt(i);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// Convert a figure in points to inches (72 points to 1 inch)
+    /// </summary>
+    public static double inOfPt(double i)
+    {
+        [DllImport("libcpdf.so")] static extern double cpdf_inOfPt(double i);
+        double res = cpdf_inOfPt(i);
+        checkerror();
+        return res;
+    }
+
+    /// <summary>
+    /// parsePagespec(pdf, range) parses a page specification with reference
+    /// to a given PDF (the PDF is supplied so that page ranges which reference
+    /// pages which do not exist are rejected).
+    /// </summary>
+    public static List<int> parsePagespec(Pdf pdf, string pagespec)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_parsePagespec(int pdf, string pagespec);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int r = cpdf_parsePagespec(pdf.pdf, pagespec);
+        List<int> r_out = list_of_range(r);
+        cpdf_deleteRange(r);
+        checkerror();
+        return r_out;
+    }
+
+    /// <summary>
+    /// validatePagespec(range) validates a page specification so far as is
+    /// possible in the absence of the actual document. Result is true if valid.
+    /// </summary>
+    public static bool validatePagespec(string pagespec)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_validatePagespec(string pagespec);
+        int res = cpdf_validatePagespec(pagespec);
+        checkerror();
+        return (res > 0);
+    }
+
+    /// <summary>
+    /// stringOfPagespec(pdf, range) builds a page specification from a page
+    /// range. For example, the range containing 1,2,3,6,7,8 in a document of 8
+    /// pages might yield "1-3,6-end"
+    /// </summary>
+    public static string stringOfPagespec(Pdf pdf, List<int> r)
+    {
+        [DllImport("libcpdf.so")] static extern IntPtr cpdf_stringOfPagespec(int pdf, int r);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        string s = Marshal.PtrToStringUTF8(cpdf_stringOfPagespec(pdf.pdf, rn));
+        cpdf_deleteRange(rn);
+        checkerror();
+        return s;
+    }
+
+    /// <summary>
+    /// blankRange() creates a range with no pages in.
+    /// </summary>
+    public static List<int> blankRange()
+    {
+        return new List<int>();
+    }
+
+    /// <summary>
+    /// range(from, to) builds a range from one page to another inclusive. For
+    /// example, cpdf_range(3,7) gives the range 3,4,5,6,7
+    /// </summary>
+    public static List<int> range(int f, int t)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_range(int f, int t);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = cpdf_range(f, t);
+        List<int> l = list_of_range(rn);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return l;
+    }
+
+    /// <summary>
+    /// all(pdf) is the range containing all the pages in a given document.
+    /// </summary>
+    public static List<int> all(Pdf pdf)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_all(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = cpdf_all(pdf.pdf);
+        List<int> r = list_of_range(rn);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return r;
+    }
+
+    /// <summary>
+    /// even(range) makes a range which contains just the even pages of
+    /// another range.
+    /// </summary>
+    public static List<int> even(List<int> r_in)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_even(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int range_in = range_of_list(r_in);
+        int rn = cpdf_even(range_in);
+        List<int> r = list_of_range(rn);
+        cpdf_deleteRange(rn);
+        cpdf_deleteRange(range_in);
+        checkerror();
+        return r;
+    }
+
+    /// <summary>
+    /// odd(range) makes a range which contains just the odd pages of another
+    /// range.
+    /// </summary>
+    public static List<int> odd(List<int> r_in)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_odd(int pdf);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int range_in = range_of_list(r_in);
+        int rn = cpdf_odd(range_in);
+        List<int> r = list_of_range(rn);
+        cpdf_deleteRange(rn);
+        cpdf_deleteRange(range_in);
+        checkerror();
+        return r;
+    }
+
+    /// <summary>
+    /// rangeUnion(a, b) makes the union of two ranges giving a range
+    /// containing the pages in range a and range b.
+    /// </summary>
+    public static List<int> rangeUnion(List<int> a, List<int> b)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeUnion(int a, int b);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int a_r = range_of_list(a);
+        int b_r = range_of_list(b);
+        int rn = cpdf_rangeUnion(a_r, b_r);
+        List<int> r = list_of_range(rn);
+        cpdf_deleteRange(a_r);
+        cpdf_deleteRange(b_r);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return r;
+    }
+
+    /// <summary>
+    /// cpdf_difference(a, b) makes the difference of two ranges, giving a range
+    /// containing all the pages in a except for those which are also in b.
+    /// </summary>
+    public static List<int> difference(List<int> a, List<int> b)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_difference(int a, int b);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int a_r = range_of_list(a);
+        int b_r = range_of_list(b);
+        int rn = cpdf_difference(a_r, b_r);
+        List<int> r = list_of_range(rn);
+        cpdf_deleteRange(a_r);
+        cpdf_deleteRange(b_r);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return r;
+    }
+
+    /// <summary>
+    /// removeDuplicates(range) deduplicates a range, making a new one.
+    /// </summary>
+    public static List<int> removeDuplicates(List<int> a)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_removeDuplicates(int r);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int a_r = range_of_list(a);
+        int rn = cpdf_removeDuplicates(a_r);
+        List<int> r = list_of_range(rn);
+        cpdf_deleteRange(a_r);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return r;
+    }
+
+    /// <summary>
+    /// rangeLength gives the number of pages in a range.
+    /// </summary>
+    public static int rangeLength(List<int> r)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeLength(int r);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        int l = cpdf_rangeLength(rn);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return l;
+    }
+
+    /// </summary>
+    /// rangeGet(range, n) gets the page number at position n in a range,
+    /// where n runs from 0 to rangeLength - 1.
+    /// </summary>
+    public static int rangeGet(List<int> r, int n)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        int n_out = cpdf_rangeGet(rn, n);
+        cpdf_deleteRange(rn);
+        checkerror();
+        return n_out;
+    }
+
+    /// <summary>
+    /// rangeAdd(range, page) adds the page to a range, if it is not already
+    /// there.
+    /// </summary>
+    public static List<int> rangeAdd(List<int> r, int page)
+    {
+        [DllImport("libcpdf.so")] static extern int cpdf_rangeAdd(int r, int page);
+        [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
+        int rn = range_of_list(r);
+        int r2 = cpdf_rangeAdd(rn, page);
+        List<int> r_out = list_of_range(r2);
+        cpdf_deleteRange(rn);
+        cpdf_deleteRange(r2);
+        checkerror();
+        return r_out;
+    }
+
+    /// <summary>
+    /// isInRange(range, page) returns true if the page is in the range,
+    /// false otherwise.
+    /// </summary>
     public static bool isInRange(List<int> r, int page)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isInRange(int r, int page);
