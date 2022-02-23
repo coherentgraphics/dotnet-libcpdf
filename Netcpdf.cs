@@ -837,6 +837,10 @@ public class Cpdf
 
     /* CHAPTER 2. Merging and Splitting */
 
+    /// <summary>
+    /// mergeSimple(pdfs, length) given a list of PDFs,
+    /// merges the files into a new one, which is returned.
+    /// </summary>
     public static Pdf mergeSimple(List<Pdf> pdfs)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSimple(int[] pdfs, int length);
@@ -850,6 +854,12 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// merge(pdfs, retain_numbering, remove_duplicate_fonts) merges the
+    /// PDFs. If retain_numbering is true page labels are not rewritten. If
+    /// remove_duplicate_fonts is true, duplicate fonts are merged. This is useful
+    /// when the source documents for merging originate from the same source.
+    /// </summary>
     public static Pdf merge(List<Pdf> pdfs, bool retain_numbering, bool remove_duplicate_fonts)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_merge(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts);
@@ -863,6 +873,13 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// mergeSame(pdfs, retain_numbering, remove_duplicate_fonts,
+    /// ranges) is the same as merge, except that it has an additional
+    /// argument - an array of page ranges. This is used to select the pages to
+    /// pick from each PDF. This avoids duplication of information when multiple
+    /// discrete parts of a source PDF are included.
+    /// </summary>
     public static Pdf mergeSame(List<Pdf> pdfs, bool retain_numbering, bool remove_duplicate_fonts, List<List<int>> ranges)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_mergeSame(int[] pdfs, int length, int retain_numbering, int remove_duplicate_fonts, int[] ranges);
@@ -883,6 +900,10 @@ public class Cpdf
         return new Pdf(result);
     }
 
+    /// <summary>
+    /// selectPages(pdf, range) returns a new document which just those pages
+    /// in the page range.
+    /// </summary>
     public static Pdf selectPages(Pdf pdf, List<int> r)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_selectPages(int pdf, int r);
@@ -895,6 +916,12 @@ public class Cpdf
     }
 
     /* CHAPTER 3. Pages */
+
+    /// <summary>
+    /// scalePages(pdf, range, x scale, y scale) scales the page dimensions
+    /// and content by the given scale, about (0, 0). Other boxes (crop etc. are
+    /// altered as appropriate)
+    /// </summary>
     public static void scalePages(Pdf pdf, List<int> range, double sx, double sy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_scalePages(int pdf, int range, double sx, double sy);
@@ -905,6 +932,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// scaleToFit(pdf, range, width, height, scale) scales the content to fit
+    /// new page dimensions (width x height) multiplied by scale (typically 1.0).
+    /// Other boxes (crop etc. are altered as appropriate)
+    /// </summary>
     public static void scaleToFit(Pdf pdf, List<int> range, double sx, double sy, double scale)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_scaleToFit(int pdf, int range, double sx, double sy, double scale);
@@ -915,6 +947,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// scaleToFitPaper(pdf, range, papersize, scale) scales the page content
+    /// to fit the given page size, possibly multiplied by scale (typically 1.0)
+    /// </summary>
     public static void scaleToFitPaper(Pdf pdf, List<int> range, int pagesize, double scale)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_scaleToFitPaper(int pdf, int range, int pagesize, double scale);
@@ -925,6 +961,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// scaleContents(pdf, range, position, scale) scales the contents of the
+    /// pages in the range about the point given by the cpdf_position, by the
+    /// scale given.
+    /// </summary>
     public static void scaleContents(Pdf pdf, List<int> range, position position, double scale)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_scaleContents(int pdf, int range, position position, double scale);
@@ -935,6 +976,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// shiftContents(pdf, range, dx, dy) shifts the content of the pages in
+    /// the range.
+    /// </summary>
     public static void shiftContents(Pdf pdf, List<int> range, double dx, double dy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_shiftContents(int pdf, int range, double dx, double dy);
@@ -945,6 +990,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// rotate(pdf, range, rotation) changes the viewing rotation to an
+    /// absolute value. Appropriate rotations are 0, 90, 180, 270.
+    /// </summary>
     public static void rotate(Pdf pdf, List<int> range, int rotation)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_rotate(int pdf, int range, int rotation);
@@ -955,6 +1004,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// rotateContents(pdf, range, angle) rotates the content about the
+    /// centre of the page by the given number of degrees, in a clockwise
+    /// direction.
+    /// </summary>
     public static void rotateBy(Pdf pdf, List<int> range, int rotation)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_rotateBy(int pdf, int range, int rotation);
@@ -965,6 +1019,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// rotateContents(pdf, range, angle) rotates the content about the
+    /// centre of the page by the given number of degrees, in a clockwise
+    /// direction.
+    /// </summary>
     public static void rotateContents(Pdf pdf, List<int> range, double angle)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_rotateContents(int pdf, int range, double angle);
@@ -975,6 +1034,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// upright(pdf, range) changes the viewing rotation of the pages in the
+    /// range, counter-rotating the dimensions and content such that there is no
+    /// visual change.
+    /// </summary>
     public static void upright(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_upright(int pdf, int range);
@@ -985,6 +1049,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// hFlip(pdf, range) flips horizontally the pages in the range.
+    /// </summary>
     public static void hFlip(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hFlip(int pdf, int range);
@@ -995,6 +1062,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// vFlip(pdf, range) flips vertically the pages in the range.
+    /// </summary>
     public static void vFlip(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_vFlip(int pdf, int range);
@@ -1005,6 +1075,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// crop(pdf, range, x, y, w, h) crops a page, replacing any existing
+    /// crop box. The dimensions are in points.
+    /// </summary>
     public static void crop(Pdf pdf, List<int> range, double x, double y, double w, double h)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_crop(int pdf, int range, double x, double y, double w, double h);
@@ -1015,6 +1089,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeCrop(pdf, range) removes any crop box from pages in the range.
+    /// </summary>
     public static void removeCrop(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeCrop(int pdf, int range);
@@ -1025,6 +1102,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeTrim(pdf, range) removes any trim box from pages in the range.
+    /// </summary>
     public static void removeTrim(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeTrim(int pdf, int range);
@@ -1035,6 +1115,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeArt(pdf, range) removes any art box from pages in the range.
+    /// </summary>
     public static void removeArt(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeArt(int pdf, int range);
@@ -1045,6 +1128,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeBleed(pdf, range) removes any bleed box from pages in the range.
+    /// </summary>
     public static void removeBleed(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeBleed(int pdf, int range);
@@ -1055,6 +1141,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// trimMarks(pdf, range) adds trim marks to the given pages, if the
+    /// trimbox exists.
+    /// </summary>
     public static void trimMarks(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_trimMarks(int pdf, int range);
@@ -1065,6 +1155,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// cpdf_showBoxes(pdf, range) shows the boxes on the given pages, for debug.
+    /// </summary>
     public static void showBoxes(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_showBoxes(int pdf, int range);
@@ -1075,6 +1168,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// hardBox makes a given box a 'hard box' i.e clips it explicitly.
+    /// </summary>
     public static void hardBox(Pdf pdf, List<int> range, string boxname)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hardBox(int pdf, int range, string boxname);
