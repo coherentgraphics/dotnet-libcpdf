@@ -291,24 +291,26 @@ public class Cpdf
     public static int lowercaseLetters = 5;
 
 #pragma warning restore 414
-
+    
+    ///<summary>PDF document. Use the 'using' keyword, or call Dispose to make sure PDFs are deallocated.</summary>
     public class Pdf: IDisposable
     {
-        public int pdf = -1;
+        internal int pdf = -1;
         private bool disposed = false;
 
-        public Pdf(int pdf)
+        internal Pdf(int pdf)
         {
             this.pdf = pdf;
         }
 
+        ///<summary>Force disposal of the PDF.</summary>
         public void Dispose()
         {
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        internal virtual void Dispose(bool disposing)
         {
             if (!this.disposed)
             {
@@ -320,14 +322,17 @@ public class Cpdf
             }
         }
 
+        ///<summary>Class destructor</summary>
         ~Pdf()
         {
             Dispose(disposing: false);
         }
     }
 
+    /// <summary>Any function in this library may raise the CPDFError exception.</summary>
     public class CPDFError : Exception
     {
+        /// <summary>Construct a CPDFError which carries a string.</summary>
         public CPDFError(string error) : base(error)
         {
         }
