@@ -588,7 +588,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// cpdf_difference(a, b) makes the difference of two ranges, giving a range
+    /// difference(a, b) makes the difference of two ranges, giving a range
     /// containing all the pages in a except for those which are also in b.
     /// </summary>
     public static List<int> difference(List<int> a, List<int> b)
@@ -1156,7 +1156,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// cpdf_showBoxes(pdf, range) shows the boxes on the given pages, for debug.
+    /// showBoxes(pdf, range) shows the boxes on the given pages, for debug.
     /// </summary>
     public static void showBoxes(Pdf pdf, List<int> range)
     {
@@ -1219,6 +1219,12 @@ public class Cpdf
     }
 
     /* CHAPTER 6. Bookmarks */
+
+
+    /// <summary>
+    /// startGetBookmarkInfo(pdf) starts the bookmark retrieval process for a
+    /// given PDF.
+    /// </summary>
     public static void startGetBookmarkInfo(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetBookmarkInfo(int pdf);
@@ -1226,6 +1232,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// numberBookmarks gets the number of bookmarks for the PDF given to
+    /// startGetBookmarkInfo.
+    /// </summary>
     public static int numberBookmarks()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberBookmarks();
@@ -1234,6 +1244,10 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getBookmarkLevel(serial) get bookmark level for the given bookmark
+    /// (0...(n - 1)).
+    /// </summary>
     public static int getBookmarkLevel(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkLevel(int n);
@@ -1242,6 +1256,11 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getBookmarkPage gets the bookmark target page for the given PDF
+    /// (which must be the same as the PDF passed to startSetBookmarkInfo)
+    /// and bookmark (0...(n - 1)).
+    /// </summary>
     public static int getBookmarkPage(Pdf pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkPage(int pdf, int n);
@@ -1250,6 +1269,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getBookmarkText returns the text of bookmark (0...(n - 1)).
+    /// </summary>
     public static string getBookmarkText(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarkText(int n);
@@ -1258,6 +1280,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getBookmarkOpenStatus(pdf) is true if the bookmark is open.
+    /// </summary>
     public static bool getBookmarkOpenStatus(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getBookmarkOpenStatus(int n);
@@ -1265,7 +1290,10 @@ public class Cpdf
         checkerror();
         return (res > 0);
     }
-
+    
+    /// <summary>
+    /// endGetBookmarkInfo ends the bookmark retrieval process, cleaning up.
+    /// </summary>
     public static void endGetBookmarkInfo()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetBookmarkInfo();
@@ -1273,6 +1301,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// startGetBookmarkInfo(n) start the bookmark setting process for n
+    /// bookmarks.
+    /// </summary>
     public static void startSetBookmarkInfo(int nummarks)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startSetBookmarkInfo(int nummarks);
@@ -1280,6 +1312,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setBookmarkLevel(n, level) set bookmark level for the given bookmark
+    /// (0...(n - 1)).
+    /// </summary>
     public static void setBookmarkLevel(int n, int level)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkLevel(int n, int level);
@@ -1287,6 +1323,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setBookmarkPage(pdf, bookmark, targetpage) sets the bookmark target
+    /// page for the given PDF (which must be the same as the PDF to be passed to
+    /// endSetBookmarkInfo) and bookmark (0...(n - 1)).
+    /// </summary>
     public static void setBookmarkPage(Pdf pdf, int n, int targetpage)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkPage(int pdf, int n, int targetpage);
@@ -1294,6 +1335,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setBookmarkText(n, text) sets the text of bookmark (0...(n - 1)).
+    /// </summary>
     public static void setBookmarkOpenStatus(int n, bool status)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkOpenStatus(int n, int status);
@@ -1301,6 +1345,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setBookmarkText(n, text) sets the text of bookmark (0...(n - 1)).
+    /// </summary>
     public static void setBookmarkText(int n, string text)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarkText(int n, string text);
@@ -1308,6 +1355,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// endSetBookmarkInfo(pdf) end the bookmark setting process, writing the
+    /// bookmarks to the given PDF.
+    /// </summary>
     public static void endSetBookmarkInfo(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endSetBookmarkInfo(int pdf);
@@ -1315,6 +1366,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// getBookmarksJSON(pdf) returns the bookmark data in JSON format.
+    /// </summary>
     static public byte[] getBookmarksJSON(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getBookmarksJSON(int pdf, ref int len);
@@ -1328,6 +1382,9 @@ public class Cpdf
         return databytes;
     }
 
+    /// <summary>
+    /// setBookmarksJSON(pdf, data) sets the bookmarks from JSON bookmark data.
+    /// </summary>
     public static void setBookmarksJSON(Pdf pdf, byte[] data)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBookmarksJSON(int pdf, byte[] data, int length);
@@ -1335,6 +1392,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// tableOfContents(pdf, font, fontsize, title, bookmark) typesets a table
+    /// of contents from existing bookmarks and prepends it to the document. If
+    /// bookmark is set, the table of contents gets its own bookmark.
+    /// </summary>
     public static void tableOfContents(Pdf pdf, int font, double fontsize, string title, bool bookmark)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark);
@@ -1347,6 +1409,11 @@ public class Cpdf
 
     /* CHAPTER 8. Logos, Watermarks and Stamps */
 
+    /// <summary>
+    /// stampOn(stamp_pdf, pdf, range) stamps stamp_pdf on top of all the
+    /// pages in the document which are in the range. The stamp is placed with its
+    /// origin at the origin of the target document.
+    /// </summary>
     public static void stampOn(Pdf stamp_pdf, Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_stampOn(int stamp_pdf, int pdf, int range);
@@ -1357,6 +1424,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// stampUnder(stamp_pdf, pdf, range) stamps stamp_pdf under all the
+    /// pages in the document which are in the range. The stamp is placed with its
+    /// origin at the origin of the target document.
+    /// </summary>
     public static void stampUnder(Pdf stamp_pdf, Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_stampUnder(int stamp_pdf, int pdf, int range);
@@ -1367,6 +1439,14 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// stampExtended(pdf, pdf2, range, isover, scale_stamp_to_fit, pos,
+    /// relative_to_cropbox) is a stamping function with extra features. - isover
+    /// true, pdf goes over pdf2, isover false, pdf goes under pdf2 -
+    /// scale_stamp_to_fit scales the stamp to fit the page - pos gives the
+    /// position to put the stamp - relative_to_cropbox: if true, pos is relative
+    /// to cropbox not mediabox.
+    /// </summary>
     public static void stampExtended(Pdf pdf, Pdf pdf2, List<int> range, bool isover, bool scale_stamp_to_fit, position position, bool relative_to_cropbox)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_stampExtended(int pdf, int pdf2, int range, int isover, int scale_stamp_to_fit, position position, int relative_to_cropbox);
@@ -1377,6 +1457,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// combinePages(under, over) combines the PDFs page-by-page, putting
+    /// each page of 'over' over each page of 'under'.
+    /// </summary>
     public static Pdf combinePages(Pdf under, Pdf over)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_combinePages(int under, int over);
@@ -1405,6 +1489,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeText(pdf, range) will remove any text added by libcpdf from the
+    /// given pages.
+    /// </summary>
     public static void removeText(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeText(int pdf, int range);
@@ -1415,6 +1503,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Return the width of a given string in the given font in thousandths of a
+    /// point.
+    /// </summary>
     public static int textWidth(int font, string text)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
@@ -1423,6 +1515,11 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// addContent(content, before, pdf, range) adds page content before (if
+    /// true) or after (if false) the existing content to pages in the given range
+    /// in the given PDF.
+    /// </summary>
     public static void addContent(string content, bool before, Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_addContent(string content, int before, int pdf, int range);
@@ -1433,6 +1530,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// stampAsXObject(pdf, range, stamp_pdf) stamps stamp_pdf onto the pages
+    /// in the given range in pdf as a shared Form XObject. The name of the
+    /// newly-created XObject is returned.
+    /// </summary>
     public static string stampAsXObject(Pdf pdf, List<int> range, Pdf stamp_pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_stampAsXObject(int pdf, int range, int stamp_pdf);
@@ -1445,6 +1547,15 @@ public class Cpdf
     }
 
     /* CHAPTER 9. Multipage facilities */
+
+    /// <summary>
+    /// impose(pdf, x, y, fit, columns, rtl, btt, center, margin, spacing,
+    /// linewidth) imposes a PDF. There are two modes: imposing x * y, or imposing
+    /// to fit a page of size x * y. This is controlled by fit. Columns imposes by
+    /// columns rather than rows. rtl is right-to-left, btt bottom-to-top. Center is
+    /// unused for now. Margin is the margin around the output, spacing the spacing
+    /// between imposed inputs.
+    /// </summary>
     static public void impose(Pdf pdf, double x, double y, bool fit, bool columns, bool rtl, bool btt, bool center, double margin, double spacing, double linewidth)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_impose(int pdf, double x, double y, int fit, int columns, int rtl, int btt, int center, double margin, double spacing, double linewidth);
@@ -1452,6 +1563,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Impose a document two up. twoUp does so by retaining the existing
+    /// page size, scaling pages down. twoUpStack does so by doubling the
+    /// page size, to fit two pages on one.
+    /// </summary>
     static public void twoUp(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_twoUp(int pdf);
@@ -1459,6 +1575,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Impose a document two up. twoUp does so by retaining the existing
+    /// page size, scaling pages down. twoUpStack does so by doubling the
+    /// page size, to fit two pages on one.
+    /// </summary>
     static public void twoUpStack(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_twoUpStack(int pdf);
@@ -1466,6 +1587,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// padBefore(pdf, range) adds a blank page before each page in the given
+    /// range.
+    /// </summary>
     static public void padBefore(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padBefore(int pdf, int range);
@@ -1476,6 +1601,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// padAfter(pdf, range) adds a blank page after each page in the given
+    /// range.
+    /// </summary>
     static public void padAfter(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padAfter(int pdf, int range);
@@ -1486,6 +1615,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// pageEvery(pdf, n) adds a blank page after every n pages.
+    /// </summary>
     static public void padEvery(Pdf pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padEvery(int pdf, int n);
@@ -1493,6 +1625,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// padMultiple(pdf, n) adds pages at the end to pad the file to a
+    /// multiple of n pages in length.
+    /// </summary>
     static public void padMultiple(Pdf pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padMultiple(int pdf, int n);
@@ -1500,6 +1636,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// padMultiple(pdf, n) adds pages at the beginning to pad the file to a
+    /// multiple of n pages in length.
+    /// </summary>
     static public void padMultipleBefore(Pdf pdf, int n)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_padMultipleBefore(int pdf, int n);
@@ -1508,6 +1648,10 @@ public class Cpdf
     }
 
     /* CHAPTER 10. Annotations */
+
+    /// <summary>
+    /// Return the annotations from a PDF in JSON format
+    /// </summary>
     static public byte[] annotationsJSON(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_annotationsJSON(int pdf, ref int len);
@@ -1523,6 +1667,10 @@ public class Cpdf
 
     /* CHAPTER 11. Document Information and Metadata */
 
+    /// <summary>
+    /// isLinearized(filename) finds out if a document is linearized as
+    /// quickly as possible without loading it.
+    /// </summary>
     public static bool isLinearized(string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_isLinearized(string filename);
@@ -1531,6 +1679,9 @@ public class Cpdf
         return (res > 0);
     }
 
+    /// <summary>
+    /// getVersion(pdf) returns the minor version number of a document.
+    /// </summary>
     public static int getVersion(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getVersion(int pdf);
@@ -1539,6 +1690,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getMajorVersion(pdf) returns the minor version number of a document.
+    /// </summary>
     public static int getMajorVersion(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getMajorVersion(int pdf);
@@ -1547,6 +1701,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getTitle(pdf) returns the title of a document.
+    /// </summary>
     public static string getTitle(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitle(int pdf);
@@ -1555,6 +1712,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getAuthor(pdf) returns the author of a document.
+    /// </summary>
     public static string getAuthor(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthor(int pdf);
@@ -1563,6 +1723,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getSubject(pdf) returns the subject of a document.
+    /// </summary>
     public static string getSubject(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubject(int pdf);
@@ -1571,6 +1734,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getKeywords(pdf) returns the keywords of a document.
+    /// </summary>
     public static string getKeywords(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywords(int pdf);
@@ -1579,6 +1745,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getCreator(pdf) returns the creator of a document.
+    /// </summary>
     public static string getCreator(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreator(int pdf);
@@ -1587,6 +1756,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getProducer(pdf) returns the producer of a document.
+    /// </summary>
     public static string getProducer(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducer(int pdf);
@@ -1595,6 +1767,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getCreationDate(pdf) returns the creation date of a document.
+    /// </summary>
     public static string getCreationDate(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDate(int pdf);
@@ -1603,6 +1778,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getModificationDate(pdf) returns the modification date of a document.
+    /// </summary>
     public static string getModificationDate(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDate(int pdf);
@@ -1611,6 +1789,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getTitleXMP(pdf) returns the XMP title of a document.
+    /// </summary>
     public static string getTitleXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getTitleXMP(int pdf);
@@ -1619,6 +1800,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getAuthorXMP(pdf) returns the XMP author of a document.
+    /// </summary>
     public static string getAuthorXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAuthorXMP(int pdf);
@@ -1627,6 +1811,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getSubjectXMP(pdf) returns the XMP subject of a document.
+    /// </summary>
     public static string getSubjectXMP (Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getSubjectXMP(int pdf);
@@ -1635,6 +1822,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getKeywordsXMP(pdf) returns the XMP keywords of a document.
+    /// </summary>
     public static string getKeywordsXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getKeywordsXMP(int pdf);
@@ -1643,6 +1833,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getCreatorXMP(pdf) returns the XMP creator of a document.
+    /// </summary>
     public static string getCreatorXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreatorXMP(int pdf);
@@ -1651,6 +1844,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getProducerXMP(pdf) returns the XMP producer of a document.
+    /// </summary>
     public static string getProducerXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getProducerXMP(int pdf);
@@ -1659,6 +1855,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getCreationDateXMP(pdf) returns the XMP creation date of a document.
+    /// </summary>
     public static string getCreationDateXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getCreationDateXMP(int pdf);
@@ -1667,6 +1866,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getModificationDateXMP(pdf) returns the XMP modification date of a document.
+    /// </summary>
     public static string getModificationDateXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getModificationDateXMP(int pdf);
@@ -1675,6 +1877,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// setTitle(pdf) sets the title of a document.
+    /// </summary>
     public static void setTitle(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setTitle(int pdf, string s);
@@ -1682,6 +1887,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setAuthor(pdf) sets the author of a document.
+    /// </summary>
     public static void setAuthor(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setAuthor(int pdf, string s);
@@ -1689,6 +1897,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setSubject(pdf) sets the subject of a document.
+    /// </summary>
     public static void setSubject(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setSubject(int pdf, string s);
@@ -1696,6 +1907,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setKeywords(pdf) sets the keywords of a document.
+    /// </summary>
     public static void setKeywords(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setKeywords(int pdf, string s);
@@ -1703,6 +1917,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setCreator(pdf) sets the creator of a document.
+    /// </summary>
     public static void setCreator(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreator(int pdf, string s);
@@ -1710,6 +1927,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setProducer(pdf) sets the producer of a document.
+    /// </summary>
     public static void setProducer(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setProducer(int pdf, string s);
@@ -1717,6 +1937,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setCreationDate(pdf) sets the creation date of a document.
+    /// </summary>
     public static void setCreationDate(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreationDate(int pdf, string s);
@@ -1724,6 +1947,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setModificationDate(pdf) sets the modification date of a document.
+    /// </summary>
     public static void setModificationDate(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setModificationDate(int pdf, string s);
@@ -1731,6 +1957,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setTitleXMP(pdf) sets the XMP title of a document.
+    /// </summary>
     public static void setTitleXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setTitleXMP(int pdf, string s);
@@ -1738,6 +1967,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setAuthorXMP(pdf) sets the XMP author of a document.
+    /// </summary>
     public static void setAuthorXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setAuthorXMP(int pdf, string s);
@@ -1745,6 +1977,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setSubjectXMP(pdf) sets the XMP subject of a document.
+    /// </summary>
     public static void setSubjectXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setSubjectXMP(int pdf, string s);
@@ -1752,6 +1987,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setKeywordsXMP(pdf) sets the XMP keywords of a document.
+    /// </summary>
     public static void setKeywordsXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setKeywordsXMP(int pdf, string s);
@@ -1759,6 +1997,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setCreatorXMP(pdf) sets the XMP creator of a document.
+    /// </summary>
     public static void setCreatorXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreatorXMP(int pdf, string s);
@@ -1766,6 +2007,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setProducerXMP(pdf) sets the XMP producer of a document.
+    /// </summary>
     public static void setProducerXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setProducerXMP(int pdf, string s);
@@ -1773,6 +2017,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setCreationDateXMP(pdf) sets the XMP creation date of a document.
+    /// </summary>
     public static void setCreationDateXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCreationDateXMP(int pdf, string s);
@@ -1780,6 +2027,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setModificationDateXMP(pdf) sets the XMP modification date of a document.
+    /// </summary>
     public static void setModificationDateXMP(Pdf pdf, string s)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setModificationDateXMP(int pdf, string s);
@@ -1787,6 +2037,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// getDateComponents(datestring, year, month, day, hour, minute, second,
+    /// hour_offset, minute_offset) returns the components from a PDF date string.
+    /// </summary>
     public static void getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset);
@@ -1794,6 +2048,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// dateStringOfComponents(year, month, day, hour, minute, second,
+    /// hour_offset, minute_offset) builds a PDF date string from individual
+    /// components.
+    /// </summary>
     public static string dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset);
@@ -1802,6 +2061,10 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// getPageRotation(pdf, pagenumber) gets the viewing rotation for a
+    /// given page.
+    /// </summary>
     public static int getPageRotation(Pdf pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageRotation(int pdf, int pagenumber);
@@ -1810,6 +2073,10 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// hasBox(pdf, pagenumber, boxname) returns true, if that page has the
+    /// given box. E.g "/CropBox".
+    /// </summary>
     public static bool hasBox(Pdf pdf, int pagenumber, string boxname)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasBox(int pdf, int pagenumber, string boxname);
@@ -1818,6 +2085,11 @@ public class Cpdf
         return (res > 0);
     }
 
+    /// <summary>
+    /// These functions get a box given the document, page number, min x, max x,
+    /// min y, max y in points. Only succeeds if such a box exists, as checked by
+    /// hasBox.
+    /// </summary>
     public static void getMediaBox(Pdf pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getMediaBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
@@ -1825,6 +2097,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions get a box given the document, page number, min x, max x,
+    /// min y, max y in points. Only succeeds if such a box exists, as checked by
+    /// hasBox.
+    /// </summary>
     public static void getCropBox(Pdf pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getCropBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
@@ -1832,6 +2109,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions get a box given the document, page number, min x, max x,
+    /// min y, max y in points. Only succeeds if such a box exists, as checked by
+    /// hasBox.
+    /// </summary>
     public static void getTrimBox(Pdf pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getTrimBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
@@ -1839,6 +2121,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions get a box given the document, page number, min x, max x,
+    /// min y, max y in points. Only succeeds if such a box exists, as checked by
+    /// hasBox.
+    /// </summary>
     public static void getArtBox(Pdf pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getArtBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
@@ -1846,6 +2133,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions get a box given the document, page number, min x, max x,
+    /// min y, max y in points. Only succeeds if such a box exists, as checked by
+    /// hasBox.
+    /// </summary>
     public static void getBleedBox(Pdf pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_getBleedBox(int pdf, int pagenumber, ref double minx, ref double maxx, ref double miny, ref double maxy);
@@ -1853,6 +2145,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions set a box given the document, page range, min x, max x,
+    /// min y, max y in points.
+    /// </summary>
     public static void setMediabox(Pdf pdf, List<int> range, double minx, double maxx, double miny, double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMediabox(int pdf, int r, double minx, double maxx, double miny, double maxy);
@@ -1863,6 +2159,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions set a box given the document, page range, min x, max x,
+    /// min y, max y in points.
+    /// </summary>
     public static void setCropBox(Pdf pdf, List<int> range, double minx, double maxx, double miny, double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setCropBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
@@ -1873,6 +2173,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions set a box given the document, page range, min x, max x,
+    /// min y, max y in points.
+    /// </summary>
     public static void setTrimBox(Pdf pdf, List<int> range, double minx, double maxx, double miny, double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setTrimBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
@@ -1883,6 +2187,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions set a box given the document, page range, min x, max x,
+    /// min y, max y in points.
+    /// </summary>
     public static void setArtBox(Pdf pdf, List<int> range, double minx, double maxx, double miny, double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setArtBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
@@ -1893,6 +2201,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// These functions set a box given the document, page range, min x, max x,
+    /// min y, max y in points.
+    /// </summary>
     public static void setBleedBox(Pdf pdf, List<int> range, double minx, double maxx, double miny, double maxy)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setBleedBox(int pdf, int r, double minx, double maxx, double miny, double maxy);
@@ -1903,6 +2215,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// markTrapped(pdf) marks a document as trapped.
+    /// </summary>
     public static void markTrapped(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markTrapped(int pdf);
@@ -1910,6 +2225,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// markUntrapped(pdf) marks a document as untrapped.
+    /// </summary>
     public static void markUntrapped(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markUntrapped(int pdf);
@@ -1917,6 +2235,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// markTrappedXMP(pdf) marks a document as trapped in XMP metadata.
+    /// </summary>
     public static void markTrappedXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markTrappedXMP(int pdf);
@@ -1924,6 +2245,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// markUntrappedXMP(pdf) marks a document as untrapped in XMP metadata.
+    /// </summary>
     public static void markUntrappedXMP(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_markUntrappedXMP(int pdf);
@@ -1931,6 +2255,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setPageLayout(pdf, layout) sets the page layout for a document.
+    /// </summary>
     public static void setPageLayout(Pdf pdf, int layout)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
@@ -1938,6 +2265,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setPageMode(pdf, mode) sets the page mode for a document.
+    /// </summary>
     public static void setPageMode(Pdf pdf, int mode)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setPageMode(int pdf, int mode);
@@ -1945,6 +2275,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// hideToolbar(pdf, flag) sets the hide toolbar flag.
+    /// </summary>
     public static void hideToolbar(Pdf pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hideToolbar(int pdf, int flag);
@@ -1952,6 +2285,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// hideMenubar(pdf, flag) sets the hide menubar flag.
+    /// </summary>
     public static void hideMenubar(Pdf pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hideMenubar(int pdf, int flag);
@@ -1959,6 +2295,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// hideWindowUi(pdf, flag) sets the hide window UI flag.
+    /// </summary>
     public static void hideWindowUi(Pdf pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_hideWindowUi(int pdf, int flag);
@@ -1966,6 +2305,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// fitWindow(pdf, flag) sets the fit window flag.
+    /// </summary>
     public static void fitWindow(Pdf pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_fitWindow(int pdf, int flag);
@@ -1973,6 +2315,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// centerWindow(pdf, flag) sets the center window flag.
+    /// </summary>
     public static void centerWindow(Pdf pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_centerWindow(int pdf, int flag);
@@ -1980,6 +2325,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// displayDocTitle(pdf, flag) sets the display doc title flag.
+    /// </summary>
     public static void displayDocTitle(Pdf pdf, bool flag)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_displayDocTitle(int pdf, int flag);
@@ -1987,6 +2335,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// openAtPage(pdf, fit, pagenumber) sets the PDF to open, possibly with
+    /// zoom-to-fit, at the given page number.
+    /// </summary>
     public static void openAtPage(Pdf pdf, bool fit, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_openAtPage(int pdf, int fit, int pagenumber);
@@ -1994,6 +2346,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setMetadataFromFile(pdf, filename) set the XMP metadata of a
+    /// document, given a file name.
+    /// </summary>
     public static void setMetadataFromFile(Pdf pdf, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromFile(int pdf, string filename);
@@ -2001,6 +2357,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setMetadataFromByteArray(pdf, data) set the XMP metadata from
+    /// an array of bytes.
+    /// </summary>
     public static void setMetadataFromByteArray(Pdf pdf, byte[] data)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataFromByteArray(int pdf, byte[] data, int length);
@@ -2008,6 +2368,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeMetadata(pdf) removes the XMP metadata from a document.
+    /// </summary>
     public static void removeMetadata(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeMetadata(int pdf);
@@ -2015,6 +2378,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// createMetadata(pdf) builds fresh metadata as best it can from
+    /// existing metadata in the document.
+    /// </summary>
     public static byte[] getMetadata(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getMetadata(int pdf, ref int len);
@@ -2028,6 +2395,10 @@ public class Cpdf
         return databytes;
     }
 
+    /// <summary>
+    /// createMetadata(pdf) builds fresh metadata as best it can from
+    /// existing metadata in the document.
+    /// </summary>
     public static void createMetadata(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_createMetadata(int pdf);
@@ -2035,6 +2406,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setMetadataDate(pdf, date) sets the metadata date for a PDF. The date
+    /// is given in PDF date format -- cpdf will convert it to XMP format. The
+    /// date 'now' means now.
+    /// </summary>
     public static void setMetadataDate(Pdf pdf, string date)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
@@ -2042,6 +2418,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Add page labels. addPageLabels(pdf, style, prefix, offset, range, progress).
+    /// The prefix is prefix text for each label. The range is the page range the
+    /// labels apply to. Offset can be used to shift the numbering up or down.
+    /// </summary>
     public static void addPageLabels(Pdf pdf, int style, string prefix, int offset, List<int> range, bool progress)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int offset, int range, int progress);
@@ -2052,6 +2433,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removePageLabels(pdf) removes the page labels from the document.
+    /// </summary>
     public static void removePageLabels(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removePageLabels(int pdf);
@@ -2059,6 +2443,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// getPageLabelStringForPage(pdf, page number) calculates the full label
+    /// string for a given page, and returns it.
+    /// </summary>
     public static string getPageLabelStringForPage(Pdf pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelStringForPage(int pdf, int pagenumber);
@@ -2067,6 +2455,25 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// there are, then use these serial numbers to get the style, prefix, offset
+    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    ///
+    /// For example, a document might have five pages of introduction with roman
+    /// numerals, followed by the rest of the pages in decimal arabic, numbered from
+    /// one:
+    ///
+    /// labelstyle = LowercaseRoman
+    /// labelprefix = ""
+    /// startpage = 1
+    /// startvalue = 1
+    ///
+    /// labelstyle = DecimalArabic
+    /// labelprefix = ""
+    /// startpage = 6
+    /// startvalue = 1
+    /// </summary>
     public static int startGetPageLabels(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_startGetPageLabels(int pdf);
@@ -2075,6 +2482,25 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// there are, then use these serial numbers to get the style, prefix, offset
+    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    ///
+    /// For example, a document might have five pages of introduction with roman
+    /// numerals, followed by the rest of the pages in decimal arabic, numbered from
+    /// one:
+    ///
+    /// labelstyle = LowercaseRoman
+    /// labelprefix = ""
+    /// startpage = 1
+    /// startvalue = 1
+    ///
+    /// labelstyle = DecimalArabic
+    /// labelprefix = ""
+    /// startpage = 6
+    /// startvalue = 1
+    /// </summary>
     public static int getPageLabelStyle(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelStyle(int n);
@@ -2083,6 +2509,25 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// there are, then use these serial numbers to get the style, prefix, offset
+    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    ///
+    /// For example, a document might have five pages of introduction with roman
+    /// numerals, followed by the rest of the pages in decimal arabic, numbered from
+    /// one:
+    ///
+    /// labelstyle = LowercaseRoman
+    /// labelprefix = ""
+    /// startpage = 1
+    /// startvalue = 1
+    ///
+    /// labelstyle = DecimalArabic
+    /// labelprefix = ""
+    /// startpage = 6
+    /// startvalue = 1
+    /// </summary>
     public static string getPageLabelPrefix(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getPageLabelPrefix(int n);
@@ -2091,6 +2536,25 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// there are, then use these serial numbers to get the style, prefix, offset
+    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    ///
+    /// For example, a document might have five pages of introduction with roman
+    /// numerals, followed by the rest of the pages in decimal arabic, numbered from
+    /// one:
+    ///
+    /// labelstyle = LowercaseRoman
+    /// labelprefix = ""
+    /// startpage = 1
+    /// startvalue = 1
+    ///
+    /// labelstyle = DecimalArabic
+    /// labelprefix = ""
+    /// startpage = 6
+    /// startvalue = 1
+    /// </summary>
     public static int getPageLabelOffset(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelOffset(int n);
@@ -2099,6 +2563,25 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// there are, then use these serial numbers to get the style, prefix, offset
+    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    ///
+    /// For example, a document might have five pages of introduction with roman
+    /// numerals, followed by the rest of the pages in decimal arabic, numbered from
+    /// one:
+    ///
+    /// labelstyle = LowercaseRoman
+    /// labelprefix = ""
+    /// startpage = 1
+    /// startvalue = 1
+    ///
+    /// labelstyle = DecimalArabic
+    /// labelprefix = ""
+    /// startpage = 6
+    /// startvalue = 1
+    /// </summary>
     public static int getPageLabelRange(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getPageLabelRange(int n);
@@ -2107,6 +2590,25 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// there are, then use these serial numbers to get the style, prefix, offset
+    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    ///
+    /// For example, a document might have five pages of introduction with roman
+    /// numerals, followed by the rest of the pages in decimal arabic, numbered from
+    /// one:
+    ///
+    /// labelstyle = LowercaseRoman
+    /// labelprefix = ""
+    /// startpage = 1
+    /// startvalue = 1
+    ///
+    /// labelstyle = DecimalArabic
+    /// labelprefix = ""
+    /// startpage = 6
+    /// startvalue = 1
+    /// </summary>
     public static void endGetPageLabels()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetPageLabels();
