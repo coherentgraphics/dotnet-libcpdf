@@ -192,7 +192,7 @@ public class Cpdf
     /* CHAPTER 0. Preliminaries */
 
     /// <summary>
-    /// Initialises the CPDF library. Must be called before any other function.
+    /// Initialises the library. Must be called before any other function.
     /// </summary>
     public static void startup()
     {
@@ -507,7 +507,7 @@ public class Cpdf
 
     /// <summary>
     /// range(from, to) builds a range from one page to another inclusive. For
-    /// example, cpdf_range(3,7) gives the range 3,4,5,6,7
+    /// example, range(3,7) gives the range 3,4,5,6,7
     /// </summary>
     public static List<int> range(int f, int t)
     {
@@ -963,7 +963,7 @@ public class Cpdf
 
     /// <summary>
     /// scaleContents(pdf, range, position, scale) scales the contents of the
-    /// pages in the range about the point given by the cpdf_position, by the
+    /// pages in the range about the point given by the position, by the
     /// scale given.
     /// </summary>
     public static void scaleContents(Pdf pdf, List<int> range, position position, double scale)
@@ -2456,9 +2456,9 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// Get page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
-    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
@@ -2483,9 +2483,9 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// Get page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
-    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
@@ -2510,9 +2510,9 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// Get page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
-    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
@@ -2537,9 +2537,9 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// Get page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
-    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
@@ -2564,9 +2564,9 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// Get page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
-    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
@@ -2591,9 +2591,9 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call cpdf_startGetPageLabels to find out how many
+    /// Get page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
-    /// and start value (note not a range). Call cpdf_endGetPageLabels to clean up.
+    /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
