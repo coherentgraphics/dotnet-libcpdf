@@ -3068,6 +3068,11 @@ public class Cpdf
     }
 
     /* CHAPTER 16. Optional Content Groups */
+
+    /// <summary>
+    /// Begin retrieving optional content group names. The serial number 0..<n - 1>
+    /// is returned.
+    /// </summary>
     public static int startGetOCGList(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_startGetOCGList(int pdf);
@@ -3076,6 +3081,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Retrieve an OCG name, given its serial number 0..<n - 1>.
+    /// </summary>
     public static string OCGListEntry(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_OCGListEntry(int n);
@@ -3084,6 +3092,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// End retrieval of optional content group names.
+    /// </summary>
     public static void endGetOCGList()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetOCGList();
@@ -3091,6 +3102,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// OCGRename(pdf, from, to) will rename an optional content group.
+    /// </summary>
     public static void OCGRename(Pdf pdf, string name_from, string name_to)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_OCGRename(int pdf, string name_from, string name_to);
@@ -3098,6 +3112,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Ensure that every optional content group appears in the OCG order list.
+    /// </summary>
     public static void OCGOrderAll(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_OCGOrderAll(int pdf);
@@ -3105,6 +3122,12 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Coalesce optional content groups. For example, if we merge or stamp two
+    /// files both with an OCG called "Layer 1", we will have two different optional
+    /// content groups. This function will merge the two into a single optional
+    /// content group.
+    /// </summary>
     public static void OCGCoalesce(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_OCGCoalesce(int pdf);
@@ -3114,6 +3137,13 @@ public class Cpdf
 
 
     /* CHAPTER 17. Creating New PDFs */
+
+
+    /// <summary>
+    /// blankDocument(width, height, num_pages) creates a blank document with
+    /// pages of the given width (in points), height (in points), and number of
+    /// pages.
+    /// </summary>
     public static Pdf blankDocument(double w, double h, int pages)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocument(double w, double h, int pages);
@@ -3122,6 +3152,10 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// blankDocumentPaper(papersize, num_pages) makes a blank document given
+    /// a page size and number of pages.
+    /// </summary>
     public static Pdf blankDocumentPaper(int papersize, int pages)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
@@ -3130,6 +3164,11 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// textToPDF(w, h, font, fontsize, filename) typesets a UTF8 text file
+    /// ragged right on a page of size w * h in points in the given font and font
+    /// size.
+    /// </summary>
     public static Pdf textToPDF(double w, double h, int font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDF(double w, double h, int font, double fontsize, string filename);
@@ -3138,6 +3177,10 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// textToPDF(papersize font, fontsize, filename) typesets a UTF8 text file
+    /// ragged right on a page of the given size in the given font and font size.
+    /// </summary>
     public static Pdf textToPDFPaper(int papersize, int font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename);
@@ -3148,6 +3191,11 @@ public class Cpdf
 
 
     /* CHAPTER 18. Miscellaneous */
+ 
+    /// <summary>
+    /// draft(pdf, range, boxes) removes images on the given pages, replacing
+    /// them with crossed boxes if 'boxes' is true.
+    /// </summary>
     public static void draft(Pdf pdf, List<int> range, bool boxes)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_draft(int pdf, int range, int boxes);
@@ -3158,6 +3206,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeAllText(pdf, range) removes all text from the given pages in a
+    /// given document.
+    /// </summary>
     public static void removeAllText(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeAllText(int pdf, int range);
@@ -3168,6 +3220,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// blackText(pdf, range) blackens all text on the given pages.
+    /// </summary>
     public static void blackText(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_blackText(int pdf, int range);
@@ -3178,6 +3233,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// blackLines(pdf, range) blackens all lines on the given pages.
+    /// </summary>
     public static void blackLines(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_blackLines(int pdf, int range);
@@ -3188,6 +3246,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// blackFills(pdf, range) blackens all fills on the given pages.
+    /// </summary>
     public static void blackFills(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_blackFills(int pdf, int range);
@@ -3198,6 +3259,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary> 
+    /// thinLines(pdf, range, min_thickness) thickens every line less than
+    /// min_thickness to min_thickness. Thickness given in points.
+    /// </summary>
     public static void thinLines(Pdf pdf, List<int> range, double min_thickness)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_thinLines(int pdf, int range, double min_thickness);
@@ -3208,6 +3273,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// copyId(from, to) copies the /ID from one document to another.
+    /// </summary>
     public static void copyId(Pdf pdf_from, Pdf pdf_to)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_copyId(int pdf_from, int pdf_to);
@@ -3215,6 +3283,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeId(pdf) removes a document's /ID.
+    /// </summary>
     public static void removeId(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeId(int pdf);
@@ -3222,6 +3293,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setVersion(pdf, version) sets the minor version number of a document.
+    /// </summary>
     public static void setVersion(Pdf pdf, int version)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setVersion(int pdf, int version);
@@ -3229,6 +3303,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// setFullVersion(pdf, major_version, minor_version) sets the full version
+    /// number of a document.
+    /// </summary>
     public static void setFullVersion(Pdf pdf, int major, int minor)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setFullVersion(int pdf, int major, int minor);
@@ -3236,6 +3314,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeDictEntry(pdf, key) removes any dictionary entry with the given
+    /// key anywhere in the document.
+    /// </summary>
     public static void removeDictEntry(Pdf pdf, string key)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntry(int pdf, string key);
@@ -3243,6 +3325,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeDictEntrySearch(pdf, key, seachterm) removes any dictionary entry
+    /// with the given key whose value matches the given search term.
+    /// </summary>
     public static void removeDictEntrySearch(Pdf pdf, string key, string searchterm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeDictEntrySearch(int pdf, string key, string searchterm);
@@ -3250,6 +3336,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// replaceDictEntry(pdf, key, newvalue) replaces the value associated with
+    /// the given key.
+    /// </summary>
     public static void replaceDictEntry(Pdf pdf, string key, string newvalue)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_replaceDictEntry(int pdf, string key, string newvalue);
@@ -3257,6 +3347,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// replaceDictEntry(pdf, key, newvalue, searchterm) replaces the value
+    /// associated with the given key if the existing value matches the search term.
+    /// </summary>
     public static void replaceDictEntrySearch(Pdf pdf, string key, string newvalue, string searchterm)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_replaceDictEntrySearch(int pdf, string key, string newvalue, string searchterm);
@@ -3264,6 +3358,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeClipping(pdf, range) removes all clipping from pages in the
+    /// given range.
+    /// </summary>
     public static void removeClipping(Pdf pdf, List<int> range)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeClipping(int pdf, int range);
@@ -3274,6 +3372,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// getDictEntries(pdf, key, length) returns a JSON array containing any
+    /// and all values associated with the given key, and fills in its length.
+    /// </summary>
     public static byte[] getDictEntries(Pdf pdf, string key)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getDictEntries(int pdf, string key, ref int retlen);
@@ -3285,10 +3387,6 @@ public class Cpdf
         cpdf_free(data);
         checkerror();
         return databytes;
-    }
-
-    static void Main(string[] args)
-    {
     }
 }
 }
