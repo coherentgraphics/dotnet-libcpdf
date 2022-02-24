@@ -2618,6 +2618,10 @@ public class Cpdf
 
     /* CHAPTER 12. File Attachments */
 
+    /// <summary>
+    /// attachFile(filename, pdf) attaches a file to the pdf. It is attached
+    /// at document level.
+    /// </summary>
     public static void attachFile(string filename, Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFile(string filename, int pdf);
@@ -2625,6 +2629,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary> 
+    /// attachFileToPage(filename, pdf, pagenumber) attaches a file, given
+    /// its file name, pdf, and the page number to which it should be attached.
+    /// <summary>
     public static void attachFileToPage(string filename, Pdf pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPage(string filename, int pdf, int pagenumber);
@@ -2632,6 +2640,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// attachFileFromMemory(memory, filename, pdf) attaches from
+    /// memory, just like attachFile.
+    /// <summary>
     public static void attachFileFromMemory(byte[] data, string name, Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileFromMemory(byte[] data, int length, string name, int pdf);
@@ -2639,6 +2651,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// attachFileToPageFromMemory(memory, filename, pdf, pagenumber)
+    /// attaches from memory, just like attachFileToPage.
+    /// </summary>
     public static void attachFileToPageFromMemory(byte[] data, string name, Pdf pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPageFromMemory(byte[] data, int length, string name, int pdf, int pagenumber);
@@ -2646,6 +2662,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Remove all page- and document-level attachments from a document.
+    /// </summary>
     public static void removeAttachedFiles(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeAttachedFiles(int pdf);
@@ -2653,6 +2672,12 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// List information about attachments. Call startGetAttachments(pdf)
+    /// first, then numberGetAttachments to find out how many there are. Then
+    /// getAttachmentName etc. to return each one 0...(n - 1). Finally, call
+    /// endGetAttachments to clean up.
+    /// </summary>
     public static void startGetAttachments(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetAttachments(int pdf);
@@ -2660,6 +2685,12 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// List information about attachments. Call startGetAttachments(pdf)
+    /// first, then numberGetAttachments to find out how many there are. Then
+    /// getAttachmentName etc. to return each one 0...(n - 1). Finally, call
+    /// endGetAttachments to clean up.
+    /// </summary>
     public static int numberGetAttachments()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberGetAttachments();
@@ -2668,6 +2699,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get the name of an attachment.
+    /// </summary>
     public static string getAttachmentName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentName(int n);
@@ -2676,6 +2710,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get the page number. 0 = document level.
+    /// </summary>
     public static int getAttachmentPage(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getAttachmentPage(int n);
@@ -2684,6 +2721,9 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get the attachment data itself.
+    /// </summary>
     public static byte[] getAttachmentData(int serial)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getAttachmentData(int serial, ref int len);
@@ -2697,6 +2737,9 @@ public class Cpdf
         return databytes;
     }
 
+    /// <summary>
+    /// Clean up after getting attachments.
+    /// </summary>
     public static void endGetAttachments()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetAttachments();
