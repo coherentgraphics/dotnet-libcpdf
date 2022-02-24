@@ -1469,6 +1469,11 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// Add text to the pages in the given range.
+    ///
+    /// addText(metrics, pdf, range, text, position, linespacing, bates, font, fontsize, r, g, b, underneath, relative_to_cropbox, outline, opacity, justification, midline, topline, filename, linewidth, embed_fonts)
+    /// </summary>
     public static void addText(bool metrics, Pdf pdf, List<int> range, string text, position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, bool underneath, bool relative_to_cropbox, bool outline, double opacity, int justification, bool midline, bool topline, string filename, double linewidth, bool embed_fonts)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_addText(int metrics, int pdf, int range, string text, position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts);
@@ -1479,6 +1484,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Add text with most parameters default.
+    ///
+    /// addTextSimple(pdf, range, text, position, font, fontsize)
+    /// </summary>
     public static void addTextSimple(Pdf pdf, List<int> range, string text, position position, int font, double fontsize)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_addTextSimple(int pdf, int range, string text, position position, int font, double fontsize);
