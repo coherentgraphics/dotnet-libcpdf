@@ -5,65 +5,190 @@ using System.Collections.Generic;
 
 namespace CoherentGraphics
 {
+
+///<summary>The Coherent PDF Library for .NET</summary>
 public class Cpdf
 {
 #pragma warning disable 414
 
-
+    /// <summary>A0 portrait paper</summary>
+    public static int a0portrait = 0;
+    
+    /// <summary>A1 portrait paper</summary>
     public static int a1portrait = 1;
+
+    /// <summary>A2 portrait paper</summary>
     public static int a2portrait = 2;
+    
+    /// <summary>A3 portrait paper</summary>
     public static int a3portrait = 3;
+    
+    /// <summary>A4 portrait paper</summary>
     public static int a4portrait = 4;
+    
+    /// <summary>A5 portrait paper</summary>
     public static int a5portrait = 5;
+    
+    /// <summary>A0 landscape paper</summary>
     public static int a0landscape = 6;
+    
+    /// <summary>A1 landscape paper</summary>
     public static int a1landscape = 7;
+    
+    /// <summary>A2 landscape paper</summary>
     public static int a2landscape = 8;
+    
+    /// <summary>A3 landscape paper</summary>
     public static int a3landscape = 9;
+    
+    /// <summary>A4 landscape paper</summary>
     public static int a4landscape = 10;
+    
+    /// <summary>A5 landscape paper</summary>
     public static int a5landscape = 11;
+
+    /// <summary>US Letter portrait paper</summary>
     public static int usletterportrait = 12;
+    
+    /// <summary>US Letter landscape paper</summary>
     public static int usletterlandscape = 13;
+    
+    /// <summary>US Legal portrait paper</summary>
     public static int uslegalportrait = 14;
+    
+    /// <summary>US Legal landscape paper</summary>
     public static int uslegallandscape = 15;
 
+    /// <summary>Cannot edit the document</summary>
     public static int noEdit = 0;
+    
+    /// <summary>Cannot print the document</summary>
     public static int noPrint = 1;
+    
+    /// <summary>Cannot copy the document</summary>
     public static int noCopy = 2;
+    
+    /// <summary>Cannot annotate the document</summary>
     public static int noAnnot = 3;
+    
+    /// <summary>Cannot edit forms in the document</summary>
     public static int noForms = 4;
+    
+    /// <summary>Cannot extract information</summary>
     public static int noExtract = 5;
+    
+    /// <summary>Cannot assemble into a bigger document</summary>
     public static int noAssemble = 6;
+    
+    /// <summary>Cannot print high quality</summary>
     public static int noHqPrint = 7;
 
+    /// <summary>40 bit RC4 encryption</summary>
     public static int pdf40bit = 0;
+    
+    /// <summary>128 bit RC4 encryption</summary>
     public static int pdf128bit = 1;
+    
+    /// <summary>128 bit AES encryption, do not encrypt metadata</summary>
     public static int aes128bitfalse = 2;
+    
+    /// <summary>128 bit AES encryption, encrypt metadata</summary>
     public static int aes128bittrue = 3;
+    
+    /// <summary>Deprecated. Do not use for new files</summary>
     public static int aes256bitfalse = 4;
+    
+    /// <summary>Deprecated. Do not use for new files</summary>
     public static int aes256bittrue = 5;
+    
+    /// <summary>256 bit AES encryption, do not encrypt metadata</summary>
     public static int aes256bitisofalse = 6;
+    
+    /// <summary>256 bit AES encryption, encrypt metadata</summary>
     public static int aes256bitisotrue = 7;
 
+    /// <summary>Absolute centre</summary>
     public static int posCentre = 0;
+
+    /// <summary>Absolute left</summary>
     public static int posLeft = 1;
+
+    /// <summary>Absolute right</summary>
     public static int posRight = 2;
+
+    /// <summary>The top centre of the page</summary>
     public static int top = 3;
+
+    /// <summary>The top left of the page</summary>
     public static int topLeft = 4;
+
+    /// <summary>The top right of the page</summary>
     public static int topRight = 5;
+
+    /// <summary>The left hand side of the page, halfway down</summary>
     public static int left = 6;
+
+    /// <summary>The bottom left of the page</summary>
     public static int bottomLeft = 7;
+
+    /// <summary>The bottom middle of the page</summary>
     public static int bottom = 8;
+
+    /// <summary>The bottom right of the page</summary>
     public static int bottomRight = 9;
+
+    /// <summary>The right hand side of the page, halfway down</summary>
     public static int right = 10;
+
+    /// <summary>Diagonal, bottom left to top right</summary>
     public static int diagonal = 11;
+
+    /// <summary>Diagonal, top left to bottom right</summary>
     public static int reverseDiagonal = 12;
 
+    /// <summary>Positions on the page. Used for scaling about a point, and adding text.
+    /// A cpdf_position is an anchor (above) and zero or one or two parameters.
+    /// posCentre: Two parameters, x and y;
+    /// posLeft: Two parameters, x and y;
+    /// posRight: Two parameters, x and y;
+    /// top: One parameter -- distance from top;
+    /// topLeft: One parameter -- distance from top left;
+    /// topRight: One parameter -- distance from top right;
+    /// left: One parameter -- distance from left middle;
+    /// bottomLeft: One parameter -- distance from bottom left;
+    /// bottom: One parameter -- distance from bottom;
+    /// bottomRight: One parameter -- distance from bottom right;
+    /// right: One parameter -- distance from right;
+    /// diagonal: Zero parameters;
+    /// reverseDiagonal: Zero parameters.</summary>
     public struct position
     {
+        ///<summary>Position anchor</summary>
         public int anchor;
+
+        ///<summary>Parameter one</summary>
         public double coord1;
+
+        ///<summary>Parameter two</summary>
         public double coord2;
 
+        ///<summary>Build a position with zero parameters</summary>
+        public position(int anchor)
+        {
+            this.anchor = anchor;
+            this.coord1 = 0.0;
+            this.coord2 = 0.0;
+        }
+
+        ///<summary>Build a position with one parameter</summary>
+        public position(int anchor, double coord1)
+        {
+            this.anchor = anchor;
+            this.coord1 = coord1;
+            this.coord2 = 0.0;
+        }
+
+        ///<summary>Build a position with two parameters</summary>
         public position(int anchor, double coord1, double coord2)
         {
             this.anchor = anchor;
@@ -72,40 +197,97 @@ public class Cpdf
         }
     }
 
+    ///<summary>Times Roman</summary>
     public static int timesRoman = 0;
+
+    ///<summary>Times Bold</summary>
     public static int timesBold = 1;
+    
+    ///<summary>Times Italic</summary>
     public static int timesItalic = 2;
+    
+    ///<summary>Times Bold Italic</summary>
     public static int timesBoldItalic = 3;
+    
+    ///<summary>Helvetica</summary>
     public static int helvetica = 4;
+    
+    ///<summary>Helvetica Bold</summary>
     public static int helveticaBold = 5;
+    
+    ///<summary>Helvetica Oblique</summary>
     public static int helveticaOblique = 6;
+    
+    ///<summary>Helvetica Bold Oblique</summary>
     public static int helveticaBoldOblique = 7;
+    
+    ///<summary>Courier</summary>
     public static int courier = 8;
+    
+    ///<summary>Courier Bold</summary>
     public static int courierBold = 9;
+    
+    ///<summary>Courier Oblique</summary>
     public static int courierOblique = 10;
+    
+    ///<summary>Courier Bold Oblique</summary>
     public static int courierBoldOblique = 11;
 
+    ///<summary>Left justify</summary>
     public static int leftJustify = 0;
+    
+    ///<summary>Centre justify</summary>
     public static int CentreJustify = 1;
+    
+    ///<summary>Right justify</summary>
     public static int RightJustify = 2;
 
+    ///<summary>Single page</summary>
     public static int singlePage = 0;
+    
+    ///<summary>One column</summary>
     public static int oneColumn = 1;
+    
+    ///<summary>Two column left</summary>
     public static int twoColumnLeft = 2;
+    
+    ///<summary>Two column right</summary>
     public static int twoColumnRight = 3;
+    
+    ///<summary>Two page left</summary>
     public static int twoPageLeft = 4;
+    
+    ///<summary>Two page right</summary>
     public static int twoPageRight = 5;
 
+    ///<summary>Use none</summary>
     public static int useNone = 0;
+    
+    ///<summary>Use outlines</summary>
     public static int useOutlines = 1;
+    
+    ///<summary>Use thumbs</summary>
     public static int useThumbs = 2;
+    
+    ///<summary>Use OC</summary>
     public static int useOC = 3;
+    
+    ///<summary>Use attachments</summary>
     public static int useAttachments = 4;
 
+    ///<summary>1, 2, 3...</summary>
     public static int decimalArabic = 0;
+    
+    ///<summary>I, II, III...</summary>
     public static int uppercaseRoman = 1;
+    
+    ///<summary>i, ii, iii...</summary>
     public static int lowercaseRoman = 2;
+    
+    ///<summary>A, B, C...</summary>
     public static int uppercaseLetters = 4;
+    
+    ///<summary>a, b, c...</summary>
     public static int lowercaseLetters = 5;
 
 #pragma warning restore 414
@@ -151,7 +333,7 @@ public class Cpdf
         }
     }
 
-    public static void checkerror()
+    static void checkerror()
     {
         if (lastError() != 0)
         {
@@ -160,7 +342,7 @@ public class Cpdf
         }
     }
 
-    public static List<int> list_of_range(int r)
+    static List<int> list_of_range(int r)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_rangeLength(int r);
         [DllImport("libcpdf.so")] static extern int cpdf_rangeGet(int r, int n);
@@ -173,7 +355,7 @@ public class Cpdf
         return l;
     }
 
-    public static int range_of_list(List<int> l)
+    static int range_of_list(List<int> l)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         [DllImport("libcpdf.so")] static extern int cpdf_blankRange();
@@ -636,7 +818,7 @@ public class Cpdf
         return l;
     }
 
-    /// </summary>
+    /// <summary>
     /// rangeGet(range, n) gets the page number at position n in a range,
     /// where n runs from 0 to rangeLength - 1.
     /// </summary>
@@ -2642,7 +2824,7 @@ public class Cpdf
     /// <summary> 
     /// attachFileToPage(filename, pdf, pagenumber) attaches a file, given
     /// its file name, pdf, and the page number to which it should be attached.
-    /// <summary>
+    /// </summary>
     public static void attachFileToPage(string filename, Pdf pdf, int pagenumber)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileToPage(string filename, int pdf, int pagenumber);
@@ -2653,7 +2835,7 @@ public class Cpdf
     /// <summary>
     /// attachFileFromMemory(memory, filename, pdf) attaches from
     /// memory, just like attachFile.
-    /// <summary>
+    /// </summary>
     public static void attachFileFromMemory(byte[] data, string name, Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_attachFileFromMemory(byte[] data, int length, string name, int pdf);
@@ -2765,7 +2947,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static int startGetImageResolution(Pdf pdf, double min_required_resolution)
@@ -2782,7 +2964,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static int getImageResolutionPageNumber(int n)
@@ -2799,7 +2981,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static string getImageResolutionImageName(int n)
@@ -2816,7 +2998,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static int getImageResolutionXPixels(int n)
@@ -2833,7 +3015,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static int getImageResolutionYPixels(int n)
@@ -2850,7 +3032,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static double getImageResolutionXRes(int n)
@@ -2867,7 +3049,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static double getImageResolutionYRes(int n)
@@ -2884,7 +3066,7 @@ public class Cpdf
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
-    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// serial number 0..n - 1, to retrieve the data. Finally, call
     /// endGetImageResolution to clean up.
     /// </summary>
     public static void endGetImageResolution()
@@ -2900,9 +3082,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static void startGetFontInfo(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetFontInfo(int pdf);
@@ -2914,9 +3096,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static int numberFonts()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberFonts();
@@ -2929,9 +3111,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static int getFontPage(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getFontPage(int n);
@@ -2944,9 +3126,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static string getFontName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
@@ -2959,9 +3141,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static string getFontType(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
@@ -2974,9 +3156,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static string getFontEncoding(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
@@ -2989,9 +3171,9 @@ public class Cpdf
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
-    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// getFontEncoding giving a serial number 0..n - 1 to
     /// return information. Finally, call endGetFontInfo to clean up.
-    /// <summary>
+    /// </summary>
     public static void endGetFontInfo()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
@@ -3080,7 +3262,7 @@ public class Cpdf
     /* CHAPTER 16. Optional Content Groups */
 
     /// <summary>
-    /// Begin retrieving optional content group names. The serial number 0..<n - 1>
+    /// Begin retrieving optional content group names. The serial number 0..n - 1
     /// is returned.
     /// </summary>
     public static int startGetOCGList(Pdf pdf)
@@ -3092,7 +3274,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieve an OCG name, given its serial number 0..<n - 1>.
+    /// Retrieve an OCG name, given its serial number 0..n - 1.
     /// </summary>
     public static string OCGListEntry(int n)
     {
