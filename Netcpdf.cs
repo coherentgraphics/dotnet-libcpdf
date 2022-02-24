@@ -1185,6 +1185,11 @@ public class Cpdf
     /* Encryption covered under Chapter 1 in cpdflib. */
 
     /* CHAPTER 5. Compression */
+ 
+    /// <summary>
+    /// compress(pdf) compresses any uncompressed streams in the given PDF
+    /// using the Flate algorithm.
+    /// </summary>
     public static void compress(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_compress(int pdf);
@@ -1192,6 +1197,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// decompress(pdf) decompresses any streams in the given PDF, so long as
+    /// the compression method is supported.
+    /// </summary>
     public static void decompress(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_decompress(int pdf);
@@ -1199,6 +1208,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// squeezeToMemory(pdf) squeezes a pdf in memory.
+    /// </summary>
     public static void squeezeInMemory(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_squeezeInMemory(int pdf);
