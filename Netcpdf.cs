@@ -2749,6 +2749,15 @@ public class Cpdf
 
     /* CHAPTER 13. Images. */
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static int startGetImageResolution(Pdf pdf, double min_required_resolution)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_startGetImageResolution(int pdf, double min_required_resolution);
@@ -2757,6 +2766,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static int getImageResolutionPageNumber(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionPageNumber(int n);
@@ -2765,6 +2783,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static string getImageResolutionImageName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getImageResolutionImageName(int n);
@@ -2773,6 +2800,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static int getImageResolutionXPixels(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionXPixels(int n);
@@ -2781,6 +2817,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static int getImageResolutionYPixels(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getImageResolutionYPixels(int n);
@@ -2789,6 +2834,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static double getImageResolutionXRes(int n)
     {
         [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionXRes(int n);
@@ -2797,6 +2851,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static double getImageResolutionYRes(int n)
     {
         [DllImport("libcpdf.so")] static extern double cpdf_getImageResolutionYRes(int n);
@@ -2805,6 +2868,15 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Get image data, including resolution at all points of use. Call
+    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// process of obtaining data on all image uses below min_required_resolution,
+    /// returning the total number. So, to return all image uses, specify a very
+    /// high min_required_resolution. Then, call the other functions giving a
+    /// serial number 0..<total number> - 1, to retrieve the data. Finally, call
+    /// endGetImageResolution to clean up.
+    /// </summary>
     public static void endGetImageResolution()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetImageResolution();
@@ -2814,6 +2886,13 @@ public class Cpdf
 
     /* CHAPTER 14. Fonts. */
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static void startGetFontInfo(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_startGetFontInfo(int pdf);
@@ -2821,6 +2900,13 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static int numberFonts()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_numberFonts();
@@ -2829,6 +2915,13 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static int getFontPage(int n)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_getFontPage(int n);
@@ -2837,6 +2930,13 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static string getFontName(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontName(int n);
@@ -2845,6 +2945,13 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static string getFontType(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontType(int n);
@@ -2853,6 +2960,13 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static string getFontEncoding(int n)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_getFontEncoding(int n);
@@ -2861,6 +2975,13 @@ public class Cpdf
         return res;
     }
 
+    /// <summary>
+    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// call numberFonts to return the number of fonts. For each font, call
+    /// one or more of getFontPage, getFontName, getFontType, and
+    /// getFontEncoding giving a serial number 0..<number of fonts> - 1 to
+    /// return information. Finally, call endGetFontInfo to clean up.
+    /// <summary>
     public static void endGetFontInfo()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_endGetFontInfo();
@@ -2868,6 +2989,9 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// removeFonts(pdf) removes all font data from a file.
+    /// </summary>
     public static void removeFonts(Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_removeFonts(int pdf);
@@ -2875,6 +2999,11 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// copyFont(from, to, range, pagenumber, fontname) copies the given font
+    /// from the given page in the 'from' PDF to every page in the 'to' PDF. The
+    /// new font is stored under its font name.
+    /// </summary>
     public static void copyFont(Pdf docfrom, Pdf docto, List<int> range, int pagenumber, string fontname)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_copyFont(int docfrom, int docto, int range, int pagenumber, string fontname);
@@ -2886,6 +3015,12 @@ public class Cpdf
     }
 
     /* CHAPTER 15. PDF and JSON */
+
+    /// <summary>
+    /// outputJSON(filename, parse_content, no_stream_data, pdf) outputs a PDF
+    /// in JSON format to the given filename. If parse_content is true, page content
+    /// is parsed. If no_stream_data is true, all stream data is suppressed entirely.
+    /// </summary>
     public static void outputJSON(string filename, bool parse_content, bool no_stream_data, bool decompress_streams, Pdf pdf)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_outputJSON(string filename, int parse_content, int no_stream_data, int decompress_streams, int pdf);
@@ -2893,6 +3028,10 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>
+    /// outputJSONMemory(parse_content, no_stream_data, pdf) is like
+    /// outputJSON, but it writes to a byte array in memory.
+    /// </summary>
     public static byte[] outputJSONMemory(Pdf pdf, bool parse_content, bool no_stream_data, bool decompress_streams)
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_outputJSONMemory(int pdf, int parse_content, int no_stream_data, int decompress_streams, ref int len);
@@ -2906,6 +3045,9 @@ public class Cpdf
         return databytes;
     }
 
+    /// <summary>
+    /// Load a PDF from a JSON file given its filename.
+    /// </summary>
     public static Pdf fromJSON(string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromJSON(string filename);
@@ -2914,6 +3056,9 @@ public class Cpdf
         return new Pdf(res);
     }
 
+    /// <summary>
+    /// Load a PDF from a JSON file in memory
+    /// </summary>
     public static Pdf fromJSONMemory(byte[] data)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fromJSONMemory(byte[] data, int length);
