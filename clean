@@ -5,3 +5,4 @@ rm -f foo foo2 foo.diff
 rm -rf testoutputs/*.pdf testoutputs/*.json testoutputs/*.txt
 rm -f *.orig
 rm -rf docfx_project/_site
+make clean
