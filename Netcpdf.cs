@@ -2850,7 +2850,7 @@ public class Cpdf
     }
 
     /// <remarks><para>CHAPTER 12. File Attachments</para></remarks>
-    private void dummych0()
+    private void dummych12()
     {
     }
 
@@ -3313,7 +3313,7 @@ public class Cpdf
     }
 
     /// <remarks><para>CHAPTER 16. Optional Content Groups</para></remarks>
-    private void dummych0()
+    private void dummych16()
     {
     }
 
