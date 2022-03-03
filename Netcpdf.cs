@@ -376,7 +376,10 @@ public class Cpdf
         return r;
     }
 
-    /* CHAPTER 0. Preliminaries */
+    /// <remarks><para>CHAPTER 0. Preliminaries</para></remarks>
+    private void dummych0()
+    {
+    }
 
     /// <summary>
     /// Initialises the library. Must be called before any other function.
@@ -464,7 +467,10 @@ public class Cpdf
     }
 
 
-    /* CHAPTER 1. Basics */
+    /// <remarks><para>CHAPTER 1. Basics</para></remarks>
+    private void dummych1()
+    {
+    }
 
     /// <summary>
     /// fromFile(filename, userpw) loads a PDF file from a given file. Supply
@@ -1022,7 +1028,10 @@ public class Cpdf
         return res;
     }
 
-    /* CHAPTER 2. Merging and Splitting */
+    /// <remarks><para>CHAPTER 2. Merging and Splitting</para></remarks>
+    private void dummych2()
+    {
+    }
 
     /// <summary>
     /// mergeSimple(pdfs, length) given a list of PDFs,
@@ -1102,7 +1111,10 @@ public class Cpdf
         return new Pdf(res);
     }
 
-    /* CHAPTER 3. Pages */
+    /// <remarks><para>CHAPTER 3. Pages</para></remarks>
+    private void dummych3()
+    {
+    }
 
     /// <summary>
     /// scalePages(pdf, range, x scale, y scale) scales the page dimensions
@@ -1368,10 +1380,16 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 4. Encryption */
-    /* Encryption covered under Chapter 1 in cpdflib. */
+    /// <remarks><para>CHAPTER 4. Encryption</para></remarks>
+    /// <summary>Encryption covered under Chapter 1 in cpdflib.</summary>
+    private void dummych4()
+    {
+    }
 
-    /* CHAPTER 5. Compression */
+    /// <remarks><para>CHAPTER 5. Compression</para></remarks>
+    private void dummych5()
+    {
+    }
  
     /// <summary>
     /// compress(pdf) compresses any uncompressed streams in the given PDF
@@ -1405,7 +1423,10 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 6. Bookmarks */
+    /// <remarks><para>CHAPTER 6. Bookmarks</para></remarks>
+    private void dummych6()
+    {
+    }
 
 
     /// <summary>
@@ -1591,10 +1612,16 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 7. Presentations */
-    /* Not included in the library version. */
+    /// <remarks><para>CHAPTER 7. Presentations</para></remarks>
+    /// <summary>Not included in the library version.</summary>
+    private void dummych7()
+    {
+    }
 
-    /* CHAPTER 8. Logos, Watermarks and Stamps */
+    /// <remarks><para>CHAPTER 8. Logos, Watermarks and Stamps</para></remarks>
+    private void dummych8()
+    {
+    }
 
     /// <summary>
     /// stampOn(stamp_pdf, pdf, range) stamps stamp_pdf on top of all the
@@ -1743,7 +1770,10 @@ public class Cpdf
         return s;
     }
 
-    /* CHAPTER 9. Multipage facilities */
+    /// <remarks><para>CHAPTER 9. Multipage facilities</para></remarks>
+    private void dummych9()
+    {
+    }
 
     /// <summary>
     /// impose(pdf, x, y, fit, columns, rtl, btt, center, margin, spacing,
@@ -1844,7 +1874,10 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 10. Annotations */
+    /// <remarks><para>CHAPTER 10. Annotations</para></remarks>
+    private void dummych10()
+    {
+    }
 
     /// <summary>
     /// Return the annotations from a PDF in JSON format
@@ -1862,7 +1895,10 @@ public class Cpdf
         return databytes;
     }
 
-    /* CHAPTER 11. Document Information and Metadata */
+    /// <remarks><para>CHAPTER 11. Document Information and Metadata</para></remarks>
+    private void dummych11()
+    {
+    }
 
     /// <summary>
     /// isLinearized(filename) finds out if a document is linearized as
@@ -2813,7 +2849,10 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 12. File Attachments */
+    /// <remarks><para>CHAPTER 12. File Attachments</para></remarks>
+    private void dummych0()
+    {
+    }
 
     /// <summary>
     /// attachFile(filename, pdf) attaches a file to the pdf. It is attached
@@ -2944,7 +2983,10 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 13. Images. */
+    /// <remarks><para>CHAPTER 13. Images.</para></remarks>
+    private void dummych13()
+    {
+    }
 
     /// <summary>
     /// Get image data, including resolution at all points of use. Call
@@ -3081,7 +3123,10 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 14. Fonts. */
+    /// <remarks><para>CHAPTER 14. Fonts.</para></remarks>
+    private void dummych14()
+    {
+    }
 
     /// <summary>
     /// Retrieving font information. First, call startGetFontInfo(pdf). Now
@@ -3211,7 +3256,10 @@ public class Cpdf
         checkerror();
     }
 
-    /* CHAPTER 15. PDF and JSON */
+    /// <remarks><para>CHAPTER 15. PDF and JSON</para></remarks>
+    private void dummych15()
+    {
+    }
 
     /// <summary>
     /// outputJSON(filename, parse_content, no_stream_data, pdf) outputs a PDF
@@ -3264,7 +3312,10 @@ public class Cpdf
         return new Pdf(pdf);
     }
 
-    /* CHAPTER 16. Optional Content Groups */
+    /// <remarks><para>CHAPTER 16. Optional Content Groups</para></remarks>
+    private void dummych0()
+    {
+    }
 
     /// <summary>
     /// Begin retrieving optional content group names. The serial number 0..n - 1
@@ -3333,8 +3384,10 @@ public class Cpdf
     }
 
 
-    /* CHAPTER 17. Creating New PDFs */
-
+    /// <remarks><para>CHAPTER 17. Creating New PDFs</para></remarks>
+    public static void dummych17()
+    {
+    }
 
     /// <summary>
     /// blankDocument(width, height, num_pages) creates a blank document with
@@ -3387,7 +3440,10 @@ public class Cpdf
     }
 
 
-    /* CHAPTER 18. Miscellaneous */
+    /// <remarks><para>CHAPTER 18. Miscellaneous</para></remarks>
+    public static void dummych18()
+    {
+    }
  
     /// <summary>
     /// draft(pdf, range, boxes) removes images on the given pages, replacing
