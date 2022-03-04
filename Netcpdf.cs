@@ -9,104 +9,87 @@ namespace CoherentGraphics
 ///<summary>The Coherent PDF Library for .NET</summary>
 public class Cpdf
 {
+    /// <summary>Built-in paper sizes</summary>
+    public enum Papersize
+    {
+      /// <summary>A0 Portrait paper</summary>
+      A0portrait,
+      /// <summary>A1 Portrait paper</summary>
+      A1portrait,
+      /// <summary>A2 Portrait paper</summary>
+      A2portrait,
+      /// <summary>A3 Portrait paper</summary>
+      A3portrait,
+      /// <summary>A4 Portrait paper</summary>
+      A4portrait,
+      /// <summary>A5 Portrait paper</summary>
+      A5portrait,
+      /// <summary>A0 Landscape paper</summary>
+      A0landscape,
+      /// <summary>A1 Landscape paper</summary>
+      A1landscape,
+      /// <summary>A2 Landscape paper</summary>
+      A2landscape,
+      /// <summary>A3 Landscape paper</summary>
+      A3landscape,
+      /// <summary>A4 Landscape paper</summary>
+      A4landscape,
+      /// <summary>A5 Landscape paper</summary>
+      A5landscape,
+      /// <summary>US Letter Portrait paper</summary>
+      Usletterportrait,
+      /// <summary>US Letter Landscape paper</summary>
+      Usletterlandscape,
+      /// <summary>US Legal Portrait paper</summary>
+      Uslegalportrait,
+      /// <summary>US Legal Landscape paper</summary>
+      Uslegallandscape
+    }
+ 
+    /// <summary>Permissions</summary>
+    public enum Permission
+    {
+      /// <summary>Cannot edit the document</summary>
+      NoEdit,
+      /// <summary>Cannot print the document</summary>
+      NoPrint,
+      /// <summary>Cannot copy the document</summary>
+      NoCopy,
+      /// <summary>Cannot annotate the document</summary>
+      NoAnnot,
+      /// <summary>Cannot edit forms in the document</summary>
+      NoForms,
+      /// <summary>Cannot extract information</summary>
+      NoExtract,
+      /// <summary>Cannot assemble into a bigger document</summary>
+      NoAssemble,
+      /// <summary>Cannot print high quality</summary>
+      NoHqPrint
+    }
+
+
+    /// <summary>Encryption methods</summary>
+    public enum Encryption
+    {
+      /// <summary>40 bit RC4 encryption</summary>
+      Pdf40bit,
+      /// <summary>128 bit RC4 encryption</summary>
+      Pdf128bit,
+      /// <summary>128 bit AES encryption, do not encrypt metadata</summary>
+      Aes128bitfalse,
+      /// <summary>128 bit AES encryption, encrypt metadata</summary>
+      Aes128bittrue,
+      /// <summary>Deprecated. Do not use for new files</summary>
+      Aes256bitfalse,
+      /// <summary>Deprecated. Do not use for new files</summary>
+      Aes256bittrue,
+      /// <summary>256 bit AES encryption, do not encrypt metadata</summary>
+      Aes256bitisofalse,
+      /// <summary>256 bit AES encryption, encrypt metadata</summary>
+      Aes256bitiosotrue,
+    }
+
 #pragma warning disable 414
-
-    /// <summary>A0 portrait paper</summary>
-    public static int a0portrait = 0;
-    
-    /// <summary>A1 portrait paper</summary>
-    public static int a1portrait = 1;
-
-    /// <summary>A2 portrait paper</summary>
-    public static int a2portrait = 2;
-    
-    /// <summary>A3 portrait paper</summary>
-    public static int a3portrait = 3;
-    
-    /// <summary>A4 portrait paper</summary>
-    public static int a4portrait = 4;
-    
-    /// <summary>A5 portrait paper</summary>
-    public static int a5portrait = 5;
-    
-    /// <summary>A0 landscape paper</summary>
-    public static int a0landscape = 6;
-    
-    /// <summary>A1 landscape paper</summary>
-    public static int a1landscape = 7;
-    
-    /// <summary>A2 landscape paper</summary>
-    public static int a2landscape = 8;
-    
-    /// <summary>A3 landscape paper</summary>
-    public static int a3landscape = 9;
-    
-    /// <summary>A4 landscape paper</summary>
-    public static int a4landscape = 10;
-    
-    /// <summary>A5 landscape paper</summary>
-    public static int a5landscape = 11;
-
-    /// <summary>US Letter portrait paper</summary>
-    public static int usletterportrait = 12;
-    
-    /// <summary>US Letter landscape paper</summary>
-    public static int usletterlandscape = 13;
-    
-    /// <summary>US Legal portrait paper</summary>
-    public static int uslegalportrait = 14;
-    
-    /// <summary>US Legal landscape paper</summary>
-    public static int uslegallandscape = 15;
-
-    /// <summary>Cannot edit the document</summary>
-    public static int noEdit = 0;
-    
-    /// <summary>Cannot print the document</summary>
-    public static int noPrint = 1;
-    
-    /// <summary>Cannot copy the document</summary>
-    public static int noCopy = 2;
-    
-    /// <summary>Cannot annotate the document</summary>
-    public static int noAnnot = 3;
-    
-    /// <summary>Cannot edit forms in the document</summary>
-    public static int noForms = 4;
-    
-    /// <summary>Cannot extract information</summary>
-    public static int noExtract = 5;
-    
-    /// <summary>Cannot assemble into a bigger document</summary>
-    public static int noAssemble = 6;
-    
-    /// <summary>Cannot print high quality</summary>
-    public static int noHqPrint = 7;
-
-    /// <summary>40 bit RC4 encryption</summary>
-    public static int pdf40bit = 0;
-    
-    /// <summary>128 bit RC4 encryption</summary>
-    public static int pdf128bit = 1;
-    
-    /// <summary>128 bit AES encryption, do not encrypt metadata</summary>
-    public static int aes128bitfalse = 2;
-    
-    /// <summary>128 bit AES encryption, encrypt metadata</summary>
-    public static int aes128bittrue = 3;
-    
-    /// <summary>Deprecated. Do not use for new files</summary>
-    public static int aes256bitfalse = 4;
-    
-    /// <summary>Deprecated. Do not use for new files</summary>
-    public static int aes256bittrue = 5;
-    
-    /// <summary>256 bit AES encryption, do not encrypt metadata</summary>
-    public static int aes256bitisofalse = 6;
-    
-    /// <summary>256 bit AES encryption, encrypt metadata</summary>
-    public static int aes256bitisotrue = 7;
-
     /// <summary>Absolute centre</summary>
     public static int posCentre = 0;
 
@@ -1150,12 +1133,12 @@ public class Cpdf
     /// scaleToFitPaper(pdf, range, papersize, scale) scales the page content
     /// to fit the given page size, possibly multiplied by scale (typically 1.0)
     /// </summary>
-    public static void scaleToFitPaper(Pdf pdf, List<int> range, int pagesize, double scale)
+    public static void scaleToFitPaper(Pdf pdf, List<int> range, Papersize papersize, double scale)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_scaleToFitPaper(int pdf, int range, int pagesize, double scale);
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleToFitPaper(int pdf, int range, int papersize, double scale);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
-        cpdf_scaleToFitPaper(pdf.pdf, rn, pagesize, scale);
+        cpdf_scaleToFitPaper(pdf.pdf, rn, (int) papersize, scale);
         cpdf_deleteRange(rn);
         checkerror();
     }
@@ -3406,10 +3389,10 @@ public class Cpdf
     /// blankDocumentPaper(papersize, num_pages) makes a blank document given
     /// a page size and number of pages.
     /// </summary>
-    public static Pdf blankDocumentPaper(int papersize, int pages)
+    public static Pdf blankDocumentPaper(Papersize papersize, int pages)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_blankDocumentPaper(int papersize, int pages);
-        int res = cpdf_blankDocumentPaper(papersize, pages);
+        int res = cpdf_blankDocumentPaper((int) papersize, pages);
         checkerror();
         return new Pdf(res);
     }
@@ -3431,10 +3414,10 @@ public class Cpdf
     /// textToPDF(papersize font, fontsize, filename) typesets a UTF8 text file
     /// ragged right on a page of the given size in the given font and font size.
     /// </summary>
-    public static Pdf textToPDFPaper(int papersize, int font, double fontsize, string filename)
+    public static Pdf textToPDFPaper(Papersize papersize, int font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename);
-        int res = cpdf_textToPDFPaper(papersize, font, fontsize, filename);
+        int res = cpdf_textToPDFPaper((int) papersize, font, fontsize, filename);
         checkerror();
         return new Pdf(res);
     }
