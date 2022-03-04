@@ -376,7 +376,7 @@ public class Cpdf
         return r;
     }
 
-    /// <remarks><para>CHAPTER 0. Preliminaries</para></remarks>
+    /// <summary>CHAPTER 0. Preliminaries</summary>
     private void dummych0()
     {
     }
@@ -467,7 +467,7 @@ public class Cpdf
     }
 
 
-    /// <remarks><para>CHAPTER 1. Basics</para></remarks>
+    /// <summary>CHAPTER 1. Basics</summary>
     private void dummych1()
     {
     }
@@ -1028,7 +1028,7 @@ public class Cpdf
         return res;
     }
 
-    /// <remarks><para>CHAPTER 2. Merging and Splitting</para></remarks>
+    /// <summary>CHAPTER 2. Merging and Splitting</summary>
     private void dummych2()
     {
     }
@@ -1111,7 +1111,7 @@ public class Cpdf
         return new Pdf(res);
     }
 
-    /// <remarks><para>CHAPTER 3. Pages</para></remarks>
+    /// <summary>CHAPTER 3. Pages</summary>
     private void dummych3()
     {
     }
@@ -1380,13 +1380,13 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 4. Encryption</para></remarks>
+    /// <summary>CHAPTER 4. Encryption</summary>
     /// <summary>Encryption covered under Chapter 1 in cpdflib.</summary>
     private void dummych4()
     {
     }
 
-    /// <remarks><para>CHAPTER 5. Compression</para></remarks>
+    /// <summary>CHAPTER 5. Compression</summary>
     private void dummych5()
     {
     }
@@ -1423,7 +1423,7 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 6. Bookmarks</para></remarks>
+    /// <summary>CHAPTER 6. Bookmarks</summary>
     private void dummych6()
     {
     }
@@ -1612,13 +1612,13 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 7. Presentations</para></remarks>
+    /// <summary>CHAPTER 7. Presentations</summary>
     /// <summary>Not included in the library version.</summary>
     private void dummych7()
     {
     }
 
-    /// <remarks><para>CHAPTER 8. Logos, Watermarks and Stamps</para></remarks>
+    /// <summary>CHAPTER 8. Logos, Watermarks and Stamps</summary>
     private void dummych8()
     {
     }
@@ -1770,7 +1770,7 @@ public class Cpdf
         return s;
     }
 
-    /// <remarks><para>CHAPTER 9. Multipage facilities</para></remarks>
+    /// <summary>CHAPTER 9. Multipage facilities</summary>
     private void dummych9()
     {
     }
@@ -1874,7 +1874,7 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 10. Annotations</para></remarks>
+    /// <summary>CHAPTER 10. Annotations</summary>
     private void dummych10()
     {
     }
@@ -1895,7 +1895,7 @@ public class Cpdf
         return databytes;
     }
 
-    /// <remarks><para>CHAPTER 11. Document Information and Metadata</para></remarks>
+    /// <summary>CHAPTER 11. Document Information and Metadata</summary>
     private void dummych11()
     {
     }
@@ -2849,7 +2849,7 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 12. File Attachments</para></remarks>
+    /// <summary>CHAPTER 12. File Attachments</summary>
     private void dummych12()
     {
     }
@@ -2983,7 +2983,7 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 13. Images.</para></remarks>
+    /// <summary>CHAPTER 13. Images.</summary>
     private void dummych13()
     {
     }
@@ -3123,7 +3123,7 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 14. Fonts.</para></remarks>
+    /// <summary>CHAPTER 14. Fonts.</summary>
     private void dummych14()
     {
     }
@@ -3256,7 +3256,7 @@ public class Cpdf
         checkerror();
     }
 
-    /// <remarks><para>CHAPTER 15. PDF and JSON</para></remarks>
+    /// <summary>CHAPTER 15. PDF and JSON</summary>
     private void dummych15()
     {
     }
@@ -3312,7 +3312,7 @@ public class Cpdf
         return new Pdf(pdf);
     }
 
-    /// <remarks><para>CHAPTER 16. Optional Content Groups</para></remarks>
+    /// <summary>CHAPTER 16. Optional Content Groups</summary>
     private void dummych16()
     {
     }
@@ -3384,7 +3384,7 @@ public class Cpdf
     }
 
 
-    /// <remarks><para>CHAPTER 17. Creating New PDFs</para></remarks>
+    /// <summary>CHAPTER 17. Creating New PDFs</summary>
     public static void dummych17()
     {
     }
@@ -3440,7 +3440,7 @@ public class Cpdf
     }
 
 
-    /// <remarks><para>CHAPTER 18. Miscellaneous</para></remarks>
+    /// <summary>CHAPTER 18. Miscellaneous</summary>
     public static void dummych18()
     {
     }
