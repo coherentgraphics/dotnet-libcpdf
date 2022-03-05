@@ -89,65 +89,57 @@ public class Cpdf
       Aes256bitiosotrue,
     }
 
-#pragma warning disable 414
-    /// <summary>Absolute centre</summary>
-    public static int posCentre = 0;
+    /// <summary>Position anchors</summary>
+    public enum Anchor
+    {
+      /// <summary>Absolute centre</summary>
+      PosCentre,
+      /// <summary>Absolute left</summary>
+      PosLeft,
+      /// <summary>Absolute right</summary>
+      PosRight,
+      /// <summary>The top centre of the page</summary>
+      Top,
+      /// <summary>The top left of the page</summary>
+      TopLeft,
+      /// <summary>The top right of the page</summary>
+      TopRight,
+      /// <summary>The left hand side of the page, halfway down</summary>
+      Left,
+      /// <summary>The bottom left of the page</summary>
+      BottomLeft,
+      /// <summary>The bottom middle of the page</summary>
+      Bottom,
+      /// <summary>The bottom right of the page</summary>
+      BottomRight,
+      /// <summary>The right hand side of the page, halfway down</summary>
+      Right,
+      /// <summary>Diagonal, bottom left to top right</summary>
+      Diagonal,
+      /// <summary>Diagonal, top left to bottom right</summary>
+      ReverseDiagonal
+    }
 
-    /// <summary>Absolute left</summary>
-    public static int posLeft = 1;
-
-    /// <summary>Absolute right</summary>
-    public static int posRight = 2;
-
-    /// <summary>The top centre of the page</summary>
-    public static int top = 3;
-
-    /// <summary>The top left of the page</summary>
-    public static int topLeft = 4;
-
-    /// <summary>The top right of the page</summary>
-    public static int topRight = 5;
-
-    /// <summary>The left hand side of the page, halfway down</summary>
-    public static int left = 6;
-
-    /// <summary>The bottom left of the page</summary>
-    public static int bottomLeft = 7;
-
-    /// <summary>The bottom middle of the page</summary>
-    public static int bottom = 8;
-
-    /// <summary>The bottom right of the page</summary>
-    public static int bottomRight = 9;
-
-    /// <summary>The right hand side of the page, halfway down</summary>
-    public static int right = 10;
-
-    /// <summary>Diagonal, bottom left to top right</summary>
-    public static int diagonal = 11;
-
-    /// <summary>Diagonal, top left to bottom right</summary>
-    public static int reverseDiagonal = 12;
 
     /// <summary>Positions on the page. Used for scaling about a point, and adding text.
-    /// A cpdf_position is an anchor (above) and zero or one or two parameters.
-    /// posCentre: Two parameters, x and y;
-    /// posLeft: Two parameters, x and y;
-    /// posRight: Two parameters, x and y;
-    /// top: One parameter -- distance from top;
-    /// topLeft: One parameter -- distance from top left;
-    /// topRight: One parameter -- distance from top right;
-    /// left: One parameter -- distance from left middle;
-    /// bottomLeft: One parameter -- distance from bottom left;
-    /// bottom: One parameter -- distance from bottom;
-    /// bottomRight: One parameter -- distance from bottom right;
-    /// right: One parameter -- distance from right;
-    /// diagonal: Zero parameters;
-    /// reverseDiagonal: Zero parameters.</summary>
+    /// A position is an anchor and zero or one or two parameters.
+    /// PosCentre: Two parameters, x and y;
+    /// PosLeft: Two parameters, x and y;
+    /// PosRight: Two parameters, x and y;
+    /// Top: One parameter -- distance from top;
+    /// TopLeft: One parameter -- distance from top left;
+    /// TopRight: One parameter -- distance from top right;
+    /// Left: One parameter -- distance from left middle;
+    /// BottomLeft: One parameter -- distance from bottom left;
+    /// Bottom: One parameter -- distance from bottom;
+    /// BottomRight: One parameter -- distance from bottom right;
+    /// Right: One parameter -- distance from right;
+    /// Diagonal: Zero parameters;
+    /// ReverseDiagonal: Zero parameters.</summary>
     public struct position
     {
         ///<summary>Position anchor</summary>
-        public int anchor;
+        public Anchor anchor;
 
         ///<summary>Parameter one</summary>
         public double coord1;
@@ -156,7 +148,7 @@ public class Cpdf
         public double coord2;
 
         ///<summary>Build a position with zero parameters</summary>
-        public position(int anchor)
+        public position(Anchor anchor)
         {
             this.anchor = anchor;
             this.coord1 = 0.0;
@@ -164,7 +156,7 @@ public class Cpdf
         }
 
         ///<summary>Build a position with one parameter</summary>
-        public position(int anchor, double coord1)
+        public position(Anchor anchor, double coord1)
         {
             this.anchor = anchor;
             this.coord1 = coord1;
@@ -172,7 +164,7 @@ public class Cpdf
         }
 
         ///<summary>Build a position with two parameters</summary>
-        public position(int anchor, double coord1, double coord2)
+        public position(Anchor anchor, double coord1, double coord2)
         {
             this.anchor = anchor;
             this.coord1 = coord1;
@@ -180,100 +172,93 @@ public class Cpdf
         }
     }
 
-    ///<summary>Times Roman</summary>
-    public static int timesRoman = 0;
+    ///<summary>Standard fonts</summary>
+    public enum Font
+    {
+      ///<summary>Times Roman</summary>
+      TimesRoman,
+      ///<summary>Times Bold</summary>
+      TimesBold,
+      ///<summary>Times Italic</summary>
+      TimesItalic,
+      ///<summary>Times Bold Italic</summary>
+      TimesBoldItalic,
+      ///<summary>Helvetica</summary>
+      Helvetica,
+      ///<summary>Helvetica Bold</summary>
+      HelveticaBold,
+      ///<summary>Helvetica Oblique</summary>
+      HelveticaOblique,
+      ///<summary>Helvetica Bold Oblique</summary>
+      HelveticaBoldOblique,
+      ///<summary>Courier</summary>
+      Courier,
+      ///<summary>Courier Bold</summary>
+      CourierBold,
+      ///<summary>Courier Oblique</summary>
+      CourierOblique,
+      ///<summary>Courier Bold Oblique</summary>
+      CourierBoldOblique
+    }
 
-    ///<summary>Times Bold</summary>
-    public static int timesBold = 1;
-    
-    ///<summary>Times Italic</summary>
-    public static int timesItalic = 2;
-    
-    ///<summary>Times Bold Italic</summary>
-    public static int timesBoldItalic = 3;
-    
-    ///<summary>Helvetica</summary>
-    public static int helvetica = 4;
-    
-    ///<summary>Helvetica Bold</summary>
-    public static int helveticaBold = 5;
-    
-    ///<summary>Helvetica Oblique</summary>
-    public static int helveticaOblique = 6;
-    
-    ///<summary>Helvetica Bold Oblique</summary>
-    public static int helveticaBoldOblique = 7;
-    
-    ///<summary>Courier</summary>
-    public static int courier = 8;
-    
-    ///<summary>Courier Bold</summary>
-    public static int courierBold = 9;
-    
-    ///<summary>Courier Oblique</summary>
-    public static int courierOblique = 10;
-    
-    ///<summary>Courier Bold Oblique</summary>
-    public static int courierBoldOblique = 11;
+    ///<summary>Justifications</summary>
+    public enum Jusification
+    {
+      ///<summary>Left justify</summary>
+      LeftJustify,
+      ///<summary>Centre justify</summary>
+      CentreJustify,
+      ///<summary>Right justify</summary>
+      RightJustify
+    }
 
-    ///<summary>Left justify</summary>
-    public static int leftJustify = 0;
-    
-    ///<summary>Centre justify</summary>
-    public static int CentreJustify = 1;
-    
-    ///<summary>Right justify</summary>
-    public static int RightJustify = 2;
+    ///<summary>Layouts</summary>
+    public enum Layout
+    {
+      ///<summary>Single page</summary>
+      SinglePage,
+      ///<summary>One column</summary>
+      OneColumn,
+      ///<summary>Two column left</summary>
+      TwoColumnLeft,
+      ///<summary>Two column right</summary>
+      TwoColumnRight,
+      ///<summary>Two page left</summary>
+      TwoPageLeft,
+      ///<summary>Two page right</summary>
+      TwoPageRight
+    }
 
-    ///<summary>Single page</summary>
-    public static int singlePage = 0;
-    
-    ///<summary>One column</summary>
-    public static int oneColumn = 1;
-    
-    ///<summary>Two column left</summary>
-    public static int twoColumnLeft = 2;
-    
-    ///<summary>Two column right</summary>
-    public static int twoColumnRight = 3;
-    
-    ///<summary>Two page left</summary>
-    public static int twoPageLeft = 4;
-    
-    ///<summary>Two page right</summary>
-    public static int twoPageRight = 5;
+    ///<summary>Page modes</summary>
+    public enum PageMode
+    {
+      ///<summary>Use none</summary>
+      UseNone,
+      ///<summary>Use outlines</summary>
+      UseOutlines,
+      ///<summary>Use thumbs</summary>
+      UseThumbs,
+      ///<summary>Use OC</summary>
+      UseOC,
+      ///<summary>Use attachments</summary>
+      UseAttachments
+    }
 
-    ///<summary>Use none</summary>
-    public static int useNone = 0;
-    
-    ///<summary>Use outlines</summary>
-    public static int useOutlines = 1;
-    
-    ///<summary>Use thumbs</summary>
-    public static int useThumbs = 2;
-    
-    ///<summary>Use OC</summary>
-    public static int useOC = 3;
-    
-    ///<summary>Use attachments</summary>
-    public static int useAttachments = 4;
+    ///<summary>Page label styles</summary>
+    public enum PageLabelStyle
+    {
+      ///<summary>1, 2, 3...</summary>
+      DecimalArabic,
+      ///<summary>I, II, III...</summary>
+      UppercaseRoman,
+      ///<summary>i, ii, iii...</summary>
+      LowercaseRoman,
+      ///<summary>A, B, C...</summary>
+      UppercaseLetters,
+      ///<summary>a, b, c...</summary>
+      LowercaseLetters
+    }
 
-    ///<summary>1, 2, 3...</summary>
-    public static int decimalArabic = 0;
-    
-    ///<summary>I, II, III...</summary>
-    public static int uppercaseRoman = 1;
-    
-    ///<summary>i, ii, iii...</summary>
-    public static int lowercaseRoman = 2;
-    
-    ///<summary>A, B, C...</summary>
-    public static int uppercaseLetters = 4;
-    
-    ///<summary>a, b, c...</summary>
-    public static int lowercaseLetters = 5;
-
-#pragma warning restore 414
     
     ///<summary>PDF document. Use the 'using' keyword, or call Dispose to make sure PDFs are deallocated.</summary>
     public class Pdf: IDisposable
