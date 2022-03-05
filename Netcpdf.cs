@@ -69,7 +69,7 @@ public class Cpdf
 
 
     /// <summary>Encryption methods</summary>
-    public enum Encryption
+    public enum EncryptionMethod
     {
       /// <summary>40 bit RC4 encryption</summary>
       Pdf40bit,
@@ -136,7 +136,7 @@ public class Cpdf
     /// Right: One parameter -- distance from right;
     /// Diagonal: Zero parameters;
     /// ReverseDiagonal: Zero parameters.</summary>
-    public struct position
+    public struct Position
     {
         ///<summary>Position anchor</summary>
         public Anchor anchor;
@@ -148,7 +148,7 @@ public class Cpdf
         public double coord2;
 
         ///<summary>Build a position with zero parameters</summary>
-        public position(Anchor anchor)
+        public Position(Anchor anchor)
         {
             this.anchor = anchor;
             this.coord1 = 0.0;
@@ -156,7 +156,7 @@ public class Cpdf
         }
 
         ///<summary>Build a position with one parameter</summary>
-        public position(Anchor anchor, double coord1)
+        public Position(Anchor anchor, double coord1)
         {
             this.anchor = anchor;
             this.coord1 = coord1;
@@ -164,7 +164,7 @@ public class Cpdf
         }
 
         ///<summary>Build a position with two parameters</summary>
-        public position(Anchor anchor, double coord1, double coord2)
+        public Position(Anchor anchor, double coord1, double coord2)
         {
             this.anchor = anchor;
             this.coord1 = coord1;
@@ -202,7 +202,7 @@ public class Cpdf
     }
 
     ///<summary>Justifications</summary>
-    public enum Jusification
+    public enum Justification
     {
       ///<summary>Left justify</summary>
       LeftJustify,
@@ -953,10 +953,11 @@ public class Cpdf
     /// permission_length, owner_password, user password, linearize, makeid,
     /// filename) writes a file as encrypted.
     /// </summary>
-    public static void toFileEncrypted(Pdf pdf, int encryption_method, List<int> permissions, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
+    public static void toFileEncrypted(Pdf pdf, EncryptionMethod encryption_method, List<Permission> permissions, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncrypted(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, string filename);
-        cpdf_toFileEncrypted(pdf.pdf, encryption_method, permissions.ToArray(), permissions.Count, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
+        int[] perms = Array.ConvertAll(permissions.ToArray(), value => (int) value);
+        cpdf_toFileEncrypted(pdf.pdf, (int) encryption_method, perms, permissions.Count, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, filename);
         checkerror();
     }
 
@@ -966,10 +967,11 @@ public class Cpdf
     /// preserve_objstm, generate_objstm, compress_objstm, filename) WARNING: the
     /// pdf argument will be invalid after this call, and should not be used again.
     /// </summary>
-    public static void toFileEncryptedExt(Pdf pdf, int encryption_method, List<int> permissions, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
+    public static void toFileEncryptedExt(Pdf pdf, EncryptionMethod encryption_method, List<Permission> permissions, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_toFileEncryptedExt(int pdf, int encryption_method, int[] permissions, int permission_length, string ownerpw, string userpw, int linearize, int makeid, int preserve_objstm, int generate_objstm, int compress_objstm, string filename);
-        cpdf_toFileEncryptedExt(pdf.pdf, encryption_method, permissions.ToArray(), permissions.Count, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
+        int[] perms = Array.ConvertAll(permissions.ToArray(), value => (int) value);
+        cpdf_toFileEncryptedExt(pdf.pdf, (int) encryption_method, perms, permissions.Count, ownerpw, userpw, linearize ? 1 : 0, makeid ? 1 : 0, preserve_objstm ? 1 : 0, generate_objstm ? 1 : 0, compress_objstm ? 1 : 0, filename);
         checkerror();
     }
 
@@ -977,10 +979,10 @@ public class Cpdf
     /// hasPermission(pdf, permission) returns true if the given permission
     /// (restriction) is present.
     /// </summary>
-    public static bool hasPermission(Pdf pdf, int permission)
+    public static bool hasPermission(Pdf pdf, Permission permission)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_hasPermission(int pdf, int permission);
-        int res = cpdf_hasPermission(pdf.pdf, permission);
+        int res = cpdf_hasPermission(pdf.pdf, (int) permission);
         checkerror();
         return (res > 0);
     }
@@ -1133,9 +1135,9 @@ public class Cpdf
     /// pages in the range about the point given by the position, by the
     /// scale given.
     /// </summary>
-    public static void scaleContents(Pdf pdf, List<int> range, position position, double scale)
+    public static void scaleContents(Pdf pdf, List<int> range, Position position, double scale)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_scaleContents(int pdf, int range, position position, double scale);
+        [DllImport("libcpdf.so")] static extern void cpdf_scaleContents(int pdf, int range, Position position, double scale);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
         cpdf_scaleContents(pdf.pdf, rn, position, scale);
@@ -1573,10 +1575,10 @@ public class Cpdf
     /// of contents from existing bookmarks and prepends it to the document. If
     /// bookmark is set, the table of contents gets its own bookmark.
     /// </summary>
-    public static void tableOfContents(Pdf pdf, int font, double fontsize, string title, bool bookmark)
+    public static void tableOfContents(Pdf pdf, Font font, double fontsize, string title, bool bookmark)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_tableOfContents(int pdf, int font, double fontsize, string title, int bookmark);
-        cpdf_tableOfContents(pdf.pdf, font, fontsize, title, bookmark ? 1 : 0);
+        cpdf_tableOfContents(pdf.pdf, (int) font, fontsize, title, bookmark ? 1 : 0);
         checkerror();
     }
 
@@ -1629,9 +1631,9 @@ public class Cpdf
     /// position to put the stamp - relative_to_cropbox: if true, pos is relative
     /// to cropbox not mediabox.
     /// </summary>
-    public static void stampExtended(Pdf pdf, Pdf pdf2, List<int> range, bool isover, bool scale_stamp_to_fit, position position, bool relative_to_cropbox)
+    public static void stampExtended(Pdf pdf, Pdf pdf2, List<int> range, bool isover, bool scale_stamp_to_fit, Position position, bool relative_to_cropbox)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_stampExtended(int pdf, int pdf2, int range, int isover, int scale_stamp_to_fit, position position, int relative_to_cropbox);
+        [DllImport("libcpdf.so")] static extern void cpdf_stampExtended(int pdf, int pdf2, int range, int isover, int scale_stamp_to_fit, Position position, int relative_to_cropbox);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
         cpdf_stampExtended(pdf.pdf, pdf2.pdf, rn, isover ? 1 : 0, scale_stamp_to_fit ? 1 : 0, position, relative_to_cropbox ? 1 : 0);
@@ -1656,12 +1658,12 @@ public class Cpdf
     ///
     /// addText(metrics, pdf, range, text, position, linespacing, bates, font, fontsize, r, g, b, underneath, relative_to_cropbox, outline, opacity, justification, midline, topline, filename, linewidth, embed_fonts)
     /// </summary>
-    public static void addText(bool metrics, Pdf pdf, List<int> range, string text, position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, bool underneath, bool relative_to_cropbox, bool outline, double opacity, int justification, bool midline, bool topline, string filename, double linewidth, bool embed_fonts)
+    public static void addText(bool metrics, Pdf pdf, List<int> range, string text, Position position, double linespacing, int bates, Font font, double fontsize, double r, double g, double b, bool underneath, bool relative_to_cropbox, bool outline, double opacity, Justification justification, bool midline, bool topline, string filename, double linewidth, bool embed_fonts)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_addText(int metrics, int pdf, int range, string text, position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts);
+        [DllImport("libcpdf.so")] static extern void cpdf_addText(int metrics, int pdf, int range, string text, Position position, double linespacing, int bates, int font, double fontsize, double r, double g, double b, int underneath, int relative_to_cropbox, int outline, double opacity, int justification, int midline, int topline, string filename, double linewidth, int embed_fonts);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
-        cpdf_addText(metrics ? 1 : 0, pdf.pdf, rn, text, position, linespacing, bates, font, fontsize, r, g, b, underneath ? 1 : 0, relative_to_cropbox ? 1 : 0, outline ? 1 : 0, opacity, justification, midline ? 1 : 0, topline ? 1 : 0, filename, linewidth, embed_fonts ? 1 : 0);
+        cpdf_addText(metrics ? 1 : 0, pdf.pdf, rn, text, position, linespacing, bates, (int) font, fontsize, r, g, b, underneath ? 1 : 0, relative_to_cropbox ? 1 : 0, outline ? 1 : 0, opacity, (int) justification, midline ? 1 : 0, topline ? 1 : 0, filename, linewidth, embed_fonts ? 1 : 0);
         cpdf_deleteRange(rn);
         checkerror();
     }
@@ -1671,12 +1673,12 @@ public class Cpdf
     ///
     /// addTextSimple(pdf, range, text, position, font, fontsize)
     /// </summary>
-    public static void addTextSimple(Pdf pdf, List<int> range, string text, position position, int font, double fontsize)
+    public static void addTextSimple(Pdf pdf, List<int> range, string text, Position position, Font font, double fontsize)
     {
-        [DllImport("libcpdf.so")] static extern void cpdf_addTextSimple(int pdf, int range, string text, position position, int font, double fontsize);
+        [DllImport("libcpdf.so")] static extern void cpdf_addTextSimple(int pdf, int range, string text, Position position, int font, double fontsize);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
-        cpdf_addTextSimple(pdf.pdf, rn, text, position, font, fontsize);
+        cpdf_addTextSimple(pdf.pdf, rn, text, position, (int) font, fontsize);
         cpdf_deleteRange(rn);
         checkerror();
     }
@@ -1699,10 +1701,10 @@ public class Cpdf
     /// Return the width of a given string in the given font in thousandths of a
     /// point.
     /// </summary>
-    public static int textWidth(int font, string text)
+    public static int textWidth(Font font, string text)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textWidth(int font, string text);
-        int res = cpdf_textWidth(font, text);
+        int res = cpdf_textWidth((int) font, text);
         checkerror();
         return res;
     }
@@ -2459,20 +2461,20 @@ public class Cpdf
     /// <summary>
     /// setPageLayout(pdf, layout) sets the page layout for a document.
     /// </summary>
-    public static void setPageLayout(Pdf pdf, int layout)
+    public static void setPageLayout(Pdf pdf, Layout layout)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
-        cpdf_setPageLayout(pdf.pdf, layout);
+        cpdf_setPageLayout(pdf.pdf, (int) layout);
         checkerror();
     }
 
     /// <summary>
     /// setPageMode(pdf, mode) sets the page mode for a document.
     /// </summary>
-    public static void setPageMode(Pdf pdf, int mode)
+    public static void setPageMode(Pdf pdf, PageMode mode)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_setPageMode(int pdf, int mode);
-        cpdf_setPageMode(pdf.pdf, mode);
+        cpdf_setPageMode(pdf.pdf, (int) mode);
         checkerror();
     }
 
@@ -2624,12 +2626,12 @@ public class Cpdf
     /// The prefix is prefix text for each label. The range is the page range the
     /// labels apply to. Offset can be used to shift the numbering up or down.
     /// </summary>
-    public static void addPageLabels(Pdf pdf, int style, string prefix, int offset, List<int> range, bool progress)
+    public static void addPageLabels(Pdf pdf, PageLabelStyle style, string prefix, int offset, List<int> range, bool progress)
     {
         [DllImport("libcpdf.so")] static extern void cpdf_addPageLabels(int pdf, int style, string prefix, int offset, int range, int progress);
         [DllImport("libcpdf.so")] static extern void cpdf_deleteRange(int r);
         int rn = range_of_list(range);
-        cpdf_addPageLabels(pdf.pdf, style, prefix, offset, rn, progress ? 1 : 0);
+        cpdf_addPageLabels(pdf.pdf, (int) style, prefix, offset, rn, progress ? 1 : 0);
         cpdf_deleteRange(rn);
         checkerror();
     }
@@ -3387,10 +3389,10 @@ public class Cpdf
     /// ragged right on a page of size w * h in points in the given font and font
     /// size.
     /// </summary>
-    public static Pdf textToPDF(double w, double h, int font, double fontsize, string filename)
+    public static Pdf textToPDF(double w, double h, Font font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDF(double w, double h, int font, double fontsize, string filename);
-        int res = cpdf_textToPDF(w, h, font, fontsize, filename);
+        int res = cpdf_textToPDF(w, h, (int) font, fontsize, filename);
         checkerror();
         return new Pdf(res);
     }
@@ -3399,10 +3401,10 @@ public class Cpdf
     /// textToPDF(papersize font, fontsize, filename) typesets a UTF8 text file
     /// ragged right on a page of the given size in the given font and font size.
     /// </summary>
-    public static Pdf textToPDFPaper(Papersize papersize, int font, double fontsize, string filename)
+    public static Pdf textToPDFPaper(Papersize papersize, Font font, double fontsize, string filename)
     {
         [DllImport("libcpdf.so")] static extern int cpdf_textToPDFPaper(int papersize, int font, double fontsize, string filename);
-        int res = cpdf_textToPDFPaper((int) papersize, font, fontsize, filename);
+        int res = cpdf_textToPDFPaper((int) papersize, (int) font, fontsize, filename);
         checkerror();
         return new Pdf(res);
     }
