@@ -9,257 +9,6 @@ namespace CoherentGraphics
 ///<summary>The Coherent PDF Library for .NET</summary>
 public class Cpdf
 {
-    /// <summary>Built-in paper sizes</summary>
-    public enum Papersize
-    {
-      /// <summary>A0 Portrait paper</summary>
-      A0portrait,
-      /// <summary>A1 Portrait paper</summary>
-      A1portrait,
-      /// <summary>A2 Portrait paper</summary>
-      A2portrait,
-      /// <summary>A3 Portrait paper</summary>
-      A3portrait,
-      /// <summary>A4 Portrait paper</summary>
-      A4portrait,
-      /// <summary>A5 Portrait paper</summary>
-      A5portrait,
-      /// <summary>A0 Landscape paper</summary>
-      A0landscape,
-      /// <summary>A1 Landscape paper</summary>
-      A1landscape,
-      /// <summary>A2 Landscape paper</summary>
-      A2landscape,
-      /// <summary>A3 Landscape paper</summary>
-      A3landscape,
-      /// <summary>A4 Landscape paper</summary>
-      A4landscape,
-      /// <summary>A5 Landscape paper</summary>
-      A5landscape,
-      /// <summary>US Letter Portrait paper</summary>
-      Usletterportrait,
-      /// <summary>US Letter Landscape paper</summary>
-      Usletterlandscape,
-      /// <summary>US Legal Portrait paper</summary>
-      Uslegalportrait,
-      /// <summary>US Legal Landscape paper</summary>
-      Uslegallandscape
-    }
- 
-    /// <summary>Permissions</summary>
-    public enum Permission
-    {
-      /// <summary>Cannot edit the document</summary>
-      NoEdit,
-      /// <summary>Cannot print the document</summary>
-      NoPrint,
-      /// <summary>Cannot copy the document</summary>
-      NoCopy,
-      /// <summary>Cannot annotate the document</summary>
-      NoAnnot,
-      /// <summary>Cannot edit forms in the document</summary>
-      NoForms,
-      /// <summary>Cannot extract information</summary>
-      NoExtract,
-      /// <summary>Cannot assemble into a bigger document</summary>
-      NoAssemble,
-      /// <summary>Cannot print high quality</summary>
-      NoHqPrint
-    }
-
-
-    /// <summary>Encryption methods</summary>
-    public enum EncryptionMethod
-    {
-      /// <summary>40 bit RC4 encryption</summary>
-      Pdf40bit,
-      /// <summary>128 bit RC4 encryption</summary>
-      Pdf128bit,
-      /// <summary>128 bit AES encryption, do not encrypt metadata</summary>
-      Aes128bitfalse,
-      /// <summary>128 bit AES encryption, encrypt metadata</summary>
-      Aes128bittrue,
-      /// <summary>Deprecated. Do not use for new files</summary>
-      Aes256bitfalse,
-      /// <summary>Deprecated. Do not use for new files</summary>
-      Aes256bittrue,
-      /// <summary>256 bit AES encryption, do not encrypt metadata</summary>
-      Aes256bitisofalse,
-      /// <summary>256 bit AES encryption, encrypt metadata</summary>
-      Aes256bitiosotrue,
-    }
-
-    /// <summary>Position anchors</summary>
-    public enum Anchor
-    {
-      /// <summary>Absolute centre</summary>
-      PosCentre,
-      /// <summary>Absolute left</summary>
-      PosLeft,
-      /// <summary>Absolute right</summary>
-      PosRight,
-      /// <summary>The top centre of the page</summary>
-      Top,
-      /// <summary>The top left of the page</summary>
-      TopLeft,
-      /// <summary>The top right of the page</summary>
-      TopRight,
-      /// <summary>The left hand side of the page, halfway down</summary>
-      Left,
-      /// <summary>The bottom left of the page</summary>
-      BottomLeft,
-      /// <summary>The bottom middle of the page</summary>
-      Bottom,
-      /// <summary>The bottom right of the page</summary>
-      BottomRight,
-      /// <summary>The right hand side of the page, halfway down</summary>
-      Right,
-      /// <summary>Diagonal, bottom left to top right</summary>
-      Diagonal,
-      /// <summary>Diagonal, top left to bottom right</summary>
-      ReverseDiagonal
-    }
-
-
-    /// <summary>Positions on the page. Used for scaling about a point, and adding text.
-    /// A position is an anchor and zero or one or two parameters.
-    /// PosCentre: Two parameters, x and y;
-    /// PosLeft: Two parameters, x and y;
-    /// PosRight: Two parameters, x and y;
-    /// Top: One parameter -- distance from top;
-    /// TopLeft: One parameter -- distance from top left;
-    /// TopRight: One parameter -- distance from top right;
-    /// Left: One parameter -- distance from left middle;
-    /// BottomLeft: One parameter -- distance from bottom left;
-    /// Bottom: One parameter -- distance from bottom;
-    /// BottomRight: One parameter -- distance from bottom right;
-    /// Right: One parameter -- distance from right;
-    /// Diagonal: Zero parameters;
-    /// ReverseDiagonal: Zero parameters.</summary>
-    public struct Position
-    {
-        ///<summary>Position anchor</summary>
-        public Anchor anchor;
-
-        ///<summary>Parameter one</summary>
-        public double coord1;
-
-        ///<summary>Parameter two</summary>
-        public double coord2;
-
-        ///<summary>Build a position with zero parameters</summary>
-        public Position(Anchor anchor)
-        {
-            this.anchor = anchor;
-            this.coord1 = 0.0;
-            this.coord2 = 0.0;
-        }
-
-        ///<summary>Build a position with one parameter</summary>
-        public Position(Anchor anchor, double coord1)
-        {
-            this.anchor = anchor;
-            this.coord1 = coord1;
-            this.coord2 = 0.0;
-        }
-
-        ///<summary>Build a position with two parameters</summary>
-        public Position(Anchor anchor, double coord1, double coord2)
-        {
-            this.anchor = anchor;
-            this.coord1 = coord1;
-            this.coord2 = coord2;
-        }
-    }
-
-    ///<summary>Standard fonts</summary>
-    public enum Font
-    {
-      ///<summary>Times Roman</summary>
-      TimesRoman,
-      ///<summary>Times Bold</summary>
-      TimesBold,
-      ///<summary>Times Italic</summary>
-      TimesItalic,
-      ///<summary>Times Bold Italic</summary>
-      TimesBoldItalic,
-      ///<summary>Helvetica</summary>
-      Helvetica,
-      ///<summary>Helvetica Bold</summary>
-      HelveticaBold,
-      ///<summary>Helvetica Oblique</summary>
-      HelveticaOblique,
-      ///<summary>Helvetica Bold Oblique</summary>
-      HelveticaBoldOblique,
-      ///<summary>Courier</summary>
-      Courier,
-      ///<summary>Courier Bold</summary>
-      CourierBold,
-      ///<summary>Courier Oblique</summary>
-      CourierOblique,
-      ///<summary>Courier Bold Oblique</summary>
-      CourierBoldOblique
-    }
-
-    ///<summary>Justifications</summary>
-    public enum Justification
-    {
-      ///<summary>Left justify</summary>
-      LeftJustify,
-      ///<summary>Centre justify</summary>
-      CentreJustify,
-      ///<summary>Right justify</summary>
-      RightJustify
-    }
-
-    ///<summary>Layouts</summary>
-    public enum Layout
-    {
-      ///<summary>Single page</summary>
-      SinglePage,
-      ///<summary>One column</summary>
-      OneColumn,
-      ///<summary>Two column left</summary>
-      TwoColumnLeft,
-      ///<summary>Two column right</summary>
-      TwoColumnRight,
-      ///<summary>Two page left</summary>
-      TwoPageLeft,
-      ///<summary>Two page right</summary>
-      TwoPageRight
-    }
-
-    ///<summary>Page modes</summary>
-    public enum PageMode
-    {
-      ///<summary>Use none</summary>
-      UseNone,
-      ///<summary>Use outlines</summary>
-      UseOutlines,
-      ///<summary>Use thumbs</summary>
-      UseThumbs,
-      ///<summary>Use OC</summary>
-      UseOC,
-      ///<summary>Use attachments</summary>
-      UseAttachments
-    }
-
-    ///<summary>Page label styles</summary>
-    public enum PageLabelStyle
-    {
-      ///<summary>1, 2, 3...</summary>
-      DecimalArabic,
-      ///<summary>I, II, III...</summary>
-      UppercaseRoman,
-      ///<summary>i, ii, iii...</summary>
-      LowercaseRoman,
-      ///<summary>A, B, C...</summary>
-      UppercaseLetters,
-      ///<summary>a, b, c...</summary>
-      LowercaseLetters
-    }
-
-    
     ///<summary>PDF document. Use the 'using' keyword, or call Dispose to make sure PDFs are deallocated.</summary>
     public class Pdf: IDisposable
     {
@@ -948,6 +697,48 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>Permissions</summary>
+    public enum Permission
+    {
+      /// <summary>Cannot edit the document</summary>
+      NoEdit,
+      /// <summary>Cannot print the document</summary>
+      NoPrint,
+      /// <summary>Cannot copy the document</summary>
+      NoCopy,
+      /// <summary>Cannot annotate the document</summary>
+      NoAnnot,
+      /// <summary>Cannot edit forms in the document</summary>
+      NoForms,
+      /// <summary>Cannot extract information</summary>
+      NoExtract,
+      /// <summary>Cannot assemble into a bigger document</summary>
+      NoAssemble,
+      /// <summary>Cannot print high quality</summary>
+      NoHqPrint
+    }
+
+    /// <summary>Encryption methods</summary>
+    public enum EncryptionMethod
+    {
+      /// <summary>40 bit RC4 encryption</summary>
+      Pdf40bit,
+      /// <summary>128 bit RC4 encryption</summary>
+      Pdf128bit,
+      /// <summary>128 bit AES encryption, do not encrypt metadata</summary>
+      Aes128bitfalse,
+      /// <summary>128 bit AES encryption, encrypt metadata</summary>
+      Aes128bittrue,
+      /// <summary>Deprecated. Do not use for new files</summary>
+      Aes256bitfalse,
+      /// <summary>Deprecated. Do not use for new files</summary>
+      Aes256bittrue,
+      /// <summary>256 bit AES encryption, do not encrypt metadata</summary>
+      Aes256bitisofalse,
+      /// <summary>256 bit AES encryption, encrypt metadata</summary>
+      Aes256bitiosotrue,
+    }
+
     /// <summary>
     /// toFileEncrypted(pdf, encryption_method, permissions,
     /// permission_length, owner_password, user password, linearize, makeid,
@@ -1116,6 +907,43 @@ public class Cpdf
         checkerror();
     }
 
+    /// <summary>Built-in paper sizes</summary>
+    public enum Papersize
+    {
+      /// <summary>A0 Portrait paper</summary>
+      A0portrait,
+      /// <summary>A1 Portrait paper</summary>
+      A1portrait,
+      /// <summary>A2 Portrait paper</summary>
+      A2portrait,
+      /// <summary>A3 Portrait paper</summary>
+      A3portrait,
+      /// <summary>A4 Portrait paper</summary>
+      A4portrait,
+      /// <summary>A5 Portrait paper</summary>
+      A5portrait,
+      /// <summary>A0 Landscape paper</summary>
+      A0landscape,
+      /// <summary>A1 Landscape paper</summary>
+      A1landscape,
+      /// <summary>A2 Landscape paper</summary>
+      A2landscape,
+      /// <summary>A3 Landscape paper</summary>
+      A3landscape,
+      /// <summary>A4 Landscape paper</summary>
+      A4landscape,
+      /// <summary>A5 Landscape paper</summary>
+      A5landscape,
+      /// <summary>US Letter Portrait paper</summary>
+      Usletterportrait,
+      /// <summary>US Letter Landscape paper</summary>
+      Usletterlandscape,
+      /// <summary>US Legal Portrait paper</summary>
+      Uslegalportrait,
+      /// <summary>US Legal Landscape paper</summary>
+      Uslegallandscape
+    }
+    
     /// <summary>
     /// scaleToFitPaper(pdf, range, papersize, scale) scales the page content
     /// to fit the given page size, possibly multiplied by scale (typically 1.0)
@@ -1128,6 +956,88 @@ public class Cpdf
         cpdf_scaleToFitPaper(pdf.pdf, rn, (int) papersize, scale);
         cpdf_deleteRange(rn);
         checkerror();
+    }
+
+    /// <summary>Position anchors</summary>
+    public enum Anchor
+    {
+      /// <summary>Absolute centre</summary>
+      PosCentre,
+      /// <summary>Absolute left</summary>
+      PosLeft,
+      /// <summary>Absolute right</summary>
+      PosRight,
+      /// <summary>The top centre of the page</summary>
+      Top,
+      /// <summary>The top left of the page</summary>
+      TopLeft,
+      /// <summary>The top right of the page</summary>
+      TopRight,
+      /// <summary>The left hand side of the page, halfway down</summary>
+      Left,
+      /// <summary>The bottom left of the page</summary>
+      BottomLeft,
+      /// <summary>The bottom middle of the page</summary>
+      Bottom,
+      /// <summary>The bottom right of the page</summary>
+      BottomRight,
+      /// <summary>The right hand side of the page, halfway down</summary>
+      Right,
+      /// <summary>Diagonal, bottom left to top right</summary>
+      Diagonal,
+      /// <summary>Diagonal, top left to bottom right</summary>
+      ReverseDiagonal
+    }
+
+    /// <summary>Positions on the page. Used for scaling about a point, and adding text.
+    /// A position is an anchor and zero or one or two parameters.
+    /// PosCentre: Two parameters, x and y;
+    /// PosLeft: Two parameters, x and y;
+    /// PosRight: Two parameters, x and y;
+    /// Top: One parameter -- distance from top;
+    /// TopLeft: One parameter -- distance from top left;
+    /// TopRight: One parameter -- distance from top right;
+    /// Left: One parameter -- distance from left middle;
+    /// BottomLeft: One parameter -- distance from bottom left;
+    /// Bottom: One parameter -- distance from bottom;
+    /// BottomRight: One parameter -- distance from bottom right;
+    /// Right: One parameter -- distance from right;
+    /// Diagonal: Zero parameters;
+    /// ReverseDiagonal: Zero parameters.</summary>
+    public struct Position
+    {
+        ///<summary>Position anchor</summary>
+        public Anchor anchor;
+
+        ///<summary>Parameter one</summary>
+        public double coord1;
+
+        ///<summary>Parameter two</summary>
+        public double coord2;
+
+        ///<summary>Build a position with zero parameters</summary>
+        public Position(Anchor anchor)
+        {
+            this.anchor = anchor;
+            this.coord1 = 0.0;
+            this.coord2 = 0.0;
+        }
+
+        ///<summary>Build a position with one parameter</summary>
+        public Position(Anchor anchor, double coord1)
+        {
+            this.anchor = anchor;
+            this.coord1 = coord1;
+            this.coord2 = 0.0;
+        }
+
+        ///<summary>Build a position with two parameters</summary>
+        public Position(Anchor anchor, double coord1, double coord2)
+        {
+            this.anchor = anchor;
+            this.coord1 = coord1;
+            this.coord2 = coord2;
+        }
     }
 
     /// <summary>
@@ -1651,6 +1561,46 @@ public class Cpdf
         int res = cpdf_combinePages(under.pdf, over.pdf);
         checkerror();
         return new Pdf(res);
+    }
+
+    ///<summary>Standard fonts</summary>
+    public enum Font
+    {
+      ///<summary>Times Roman</summary>
+      TimesRoman,
+      ///<summary>Times Bold</summary>
+      TimesBold,
+      ///<summary>Times Italic</summary>
+      TimesItalic,
+      ///<summary>Times Bold Italic</summary>
+      TimesBoldItalic,
+      ///<summary>Helvetica</summary>
+      Helvetica,
+      ///<summary>Helvetica Bold</summary>
+      HelveticaBold,
+      ///<summary>Helvetica Oblique</summary>
+      HelveticaOblique,
+      ///<summary>Helvetica Bold Oblique</summary>
+      HelveticaBoldOblique,
+      ///<summary>Courier</summary>
+      Courier,
+      ///<summary>Courier Bold</summary>
+      CourierBold,
+      ///<summary>Courier Oblique</summary>
+      CourierOblique,
+      ///<summary>Courier Bold Oblique</summary>
+      CourierBoldOblique
+    }
+
+    ///<summary>Justifications</summary>
+    public enum Justification
+    {
+      ///<summary>Left justify</summary>
+      LeftJustify,
+      ///<summary>Centre justify</summary>
+      CentreJustify,
+      ///<summary>Right justify</summary>
+      RightJustify
     }
 
     /// <summary>
@@ -2458,6 +2408,23 @@ public class Cpdf
         checkerror();
     }
 
+    ///<summary>Layouts</summary>
+    public enum Layout
+    {
+      ///<summary>Single page</summary>
+      SinglePage,
+      ///<summary>One column</summary>
+      OneColumn,
+      ///<summary>Two column left</summary>
+      TwoColumnLeft,
+      ///<summary>Two column right</summary>
+      TwoColumnRight,
+      ///<summary>Two page left</summary>
+      TwoPageLeft,
+      ///<summary>Two page right</summary>
+      TwoPageRight
+    }
+
     /// <summary>
     /// setPageLayout(pdf, layout) sets the page layout for a document.
     /// </summary>
@@ -2466,6 +2433,21 @@ public class Cpdf
         [DllImport("libcpdf.so")] static extern void cpdf_setPageLayout(int pdf, int layout);
         cpdf_setPageLayout(pdf.pdf, (int) layout);
         checkerror();
+    }
+
+    ///<summary>Page modes</summary>
+    public enum PageMode
+    {
+      ///<summary>Use none</summary>
+      UseNone,
+      ///<summary>Use outlines</summary>
+      UseOutlines,
+      ///<summary>Use thumbs</summary>
+      UseThumbs,
+      ///<summary>Use OC</summary>
+      UseOC,
+      ///<summary>Use attachments</summary>
+      UseAttachments
     }
 
     /// <summary>
@@ -2619,6 +2601,21 @@ public class Cpdf
         [DllImport("libcpdf.so")] static extern void cpdf_setMetadataDate(int pdf, string date);
         cpdf_setMetadataDate(pdf.pdf, date);
         checkerror();
+    }
+
+    ///<summary>Page label styles</summary>
+    public enum PageLabelStyle
+    {
+      ///<summary>1, 2, 3...</summary>
+      DecimalArabic,
+      ///<summary>I, II, III...</summary>
+      UppercaseRoman,
+      ///<summary>i, ii, iii...</summary>
+      LowercaseRoman,
+      ///<summary>A, B, C...</summary>
+      UppercaseLetters,
+      ///<summary>a, b, c...</summary>
+      LowercaseLetters
     }
 
     /// <summary>
