@@ -147,7 +147,7 @@ public class Cpdf
     /// <summary>
     /// Not to be called directly. Errors in .NET cpdf are raised by exceptions.
     /// </summary>
-    public static int lastError()
+    private static int lastError()
     {
         [DllImport("libcpdf.so")] static extern int cpdf_fLastError();
         return cpdf_fLastError();
@@ -156,7 +156,7 @@ public class Cpdf
     /// <summary>
     /// Not to be called directly. Errors in .NET cpdf are raised by exceptions.
     /// </summary>
-    public static string lastErrorString()
+    private static string lastErrorString()
     {
         [DllImport("libcpdf.so")] static extern IntPtr cpdf_fLastErrorString();
         return Marshal.PtrToStringUTF8(cpdf_fLastErrorString());
@@ -165,14 +165,14 @@ public class Cpdf
     /// <summary>
     /// Not to be called directly. Errors in .NET cpdf are raised by exceptions.
     /// </summary>
-    public static void clearError()
+    private static void clearError()
     {
         [DllImport("libcpdf.so")] static extern void cpdf_clearError();
         cpdf_clearError();
     }
 
     /// <summary>
-    /// onExit is a debug function which prints some information about
+    /// A debug function which prints some information about
     /// resource usage. This can be used to detect if PDFs or ranges are being
     /// deallocated properly. Contrary to its name, it may be run at any time.
     /// </summary>
@@ -190,7 +190,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// fromFile(filename, userpw) loads a PDF file from a given file. Supply
+    /// Loads a PDF file from a given file. Supply
     /// a user password (possibly blank) in case the file is encrypted. It won't be
     /// decrypted, but sometimes the password is needed just to load the file.
     /// </summary>
@@ -203,7 +203,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// fromFileLazy(pdf, userpw) loads a PDF from a file, doing only minimal
+    /// Loads a PDF from a file, doing only minimal
     /// parsing. The objects will be read and parsed when they are actually
     /// needed. Use this when the whole file won't be required. Also supply a user
     /// password (possibly blank) in case the file is encrypted. It won't be
@@ -218,7 +218,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// fromMemory(data, userpw) loads a file from memory given any user password.
+    /// Loads a file from memory given any user password.
     /// </summary>
     public static Pdf fromMemory(byte[] data, string userpw)
     {
@@ -229,7 +229,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// fromMemory(data, length, userpw) loads a file from memory, given a
+    /// Loads a file from memory, given a
     /// pointer and a length, and the user password, but lazily like
     /// fromFileLazy. The caller must use AllocHGlobal / Marshal.Copy / FreeHGlobal
     /// itself. It must not free the memory until the PDF is also gone.
@@ -298,7 +298,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Convert a figure in centimetres to points (72 points to 1 inch)
+    /// Converts a figure in centimetres to points (72 points to 1 inch)
     /// </summary>
     public static double ptOfCm(double i)
     {
@@ -309,7 +309,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Convert a figure in millimetres to points (72 points to 1 inch)
+    /// Converts a figure in millimetres to points (72 points to 1 inch)
     /// </summary>
     public static double ptOfMm(double i)
     {
@@ -320,7 +320,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Convert a figure in inches to points (72 points to 1 inch)
+    /// Converts a figure in inches to points (72 points to 1 inch)
     /// </summary>
     public static double ptOfIn(double i)
     {
@@ -331,7 +331,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Convert a figure in points to centimetres (72 points to 1 inch)
+    /// Converts a figure in points to centimetres (72 points to 1 inch)
     /// </summary>
     public static double cmOfPt(double i)
     {
@@ -342,7 +342,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Convert a figure in points to millimetres (72 points to 1 inch)
+    /// Converts a figure in points to millimetres (72 points to 1 inch)
     /// </summary>
     public static double mmOfPt(double i)
     {
@@ -353,7 +353,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Convert a figure in points to inches (72 points to 1 inch)
+    /// Converts a figure in points to inches (72 points to 1 inch)
     /// </summary>
     public static double inOfPt(double i)
     {
@@ -364,7 +364,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// parsePagespec(pdf, range) parses a page specification with reference
+    /// Parses a page specification with reference
     /// to a given PDF (the PDF is supplied so that page ranges which reference
     /// pages which do not exist are rejected).
     /// </summary>
@@ -380,7 +380,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// validatePagespec(range) validates a page specification so far as is
+    /// Validates a page specification so far as is
     /// possible in the absence of the actual document. Result is true if valid.
     /// </summary>
     public static bool validatePagespec(string pagespec)
@@ -392,7 +392,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// stringOfPagespec(pdf, range) builds a page specification from a page
+    /// Builds a page specification from a page
     /// range. For example, the range containing 1,2,3,6,7,8 in a document of 8
     /// pages might yield "1-3,6-end"
     /// </summary>
@@ -408,7 +408,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// blankRange() creates a range with no pages in.
+    /// Creates a range with no pages in.
     /// </summary>
     public static List<int> blankRange()
     {
@@ -416,7 +416,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// range(from, to) builds a range from one page to another inclusive. For
+    /// Builds a range from one page to another inclusive. For
     /// example, range(3,7) gives the range 3,4,5,6,7
     /// </summary>
     public static List<int> range(int f, int t)
@@ -431,7 +431,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// all(pdf) is the range containing all the pages in a given document.
+    /// The range containing all the pages in a given document.
     /// </summary>
     public static List<int> all(Pdf pdf)
     {
@@ -445,7 +445,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// even(range) makes a range which contains just the even pages of
+    /// Makes a range which contains just the even pages of
     /// another range.
     /// </summary>
     public static List<int> even(List<int> r_in)
@@ -462,7 +462,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// odd(range) makes a range which contains just the odd pages of another
+    /// Makes a range which contains just the odd pages of another
     /// range.
     /// </summary>
     public static List<int> odd(List<int> r_in)
@@ -479,7 +479,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rangeUnion(a, b) makes the union of two ranges giving a range
+    /// Makes the union of two ranges giving a range
     /// containing the pages in range a and range b.
     /// </summary>
     public static List<int> rangeUnion(List<int> a, List<int> b)
@@ -498,7 +498,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// difference(a, b) makes the difference of two ranges, giving a range
+    /// Makes the difference of two ranges, giving a range
     /// containing all the pages in a except for those which are also in b.
     /// </summary>
     public static List<int> difference(List<int> a, List<int> b)
@@ -517,7 +517,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeDuplicates(range) deduplicates a range, making a new one.
+    /// Deduplicates a range, making a new one.
     /// </summary>
     public static List<int> removeDuplicates(List<int> a)
     {
@@ -533,7 +533,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rangeLength gives the number of pages in a range.
+    /// Gives the number of pages in a range.
     /// </summary>
     public static int rangeLength(List<int> r)
     {
@@ -547,7 +547,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rangeGet(range, n) gets the page number at position n in a range,
+    /// Gets the page number at position n in a range,
     /// where n runs from 0 to rangeLength - 1.
     /// </summary>
     public static int rangeGet(List<int> r, int n)
@@ -562,7 +562,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rangeAdd(range, page) adds the page to a range, if it is not already
+    /// Adds the page to a range, if it is not already
     /// there.
     /// </summary>
     public static List<int> rangeAdd(List<int> r, int page)
@@ -579,7 +579,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// isInRange(range, page) returns true if the page is in the range,
+    /// Returns true if the page is in the range,
     /// false otherwise.
     /// </summary>
     public static bool isInRange(List<int> r, int page)
@@ -594,7 +594,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// pages(pdf) returns the number of pages in a PDF.
+    /// Returns the number of pages in a PDF.
     /// </summary>
     public static int pages(Pdf pdf)
     {
@@ -605,8 +605,8 @@ public class Cpdf
     }
 
     /// <summary>
-    /// pagesFast(password, filename) returns the number of pages in a given
-    /// PDF, with given user encryption password. It tries to do this as fast as
+    /// Returns the number of pages in a given
+    /// PDF, with given user password. It tries to do this as fast as
     /// possible, without loading the whole file.
     /// </summary>
     public static int pagesFast(string password, string filename)
@@ -618,7 +618,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// toFile (pdf, filename, linearize, make_id) writes the file to a given
+    /// Writes the file to a given
     /// filename. If linearize is true, it will be linearized if a linearizer is
     /// available. If make_id is true, it will be given a new ID.
     /// </summary>
@@ -630,8 +630,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// toFileExt (pdf, filename, linearize, make_id, preserve_objstm,
-    /// generate_objstm, compress_objstm) writes the file to a given filename. If
+    /// Writes the file to a given filename. If
     /// make_id is true, it will be given a new ID.  If preserve_objstm is true,
     /// existing object streams will be preserved. If generate_objstm is true,
     /// object streams will be generated even if not originally present. If
@@ -647,7 +646,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// toFileMemory (pdf, linearize, make_id) writes a PDF file it
+    /// Writes a PDF file 
     /// and returns as an array of bytes.
     /// </summary>
     public static byte[] toMemory(Pdf pdf, bool linearize, bool makeid)
@@ -664,7 +663,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// isEncrypted(pdf) returns true if a documented is encrypted, false
+    /// Returns true if a documented is encrypted, false
     /// otherwise.
     /// </summary>
     public static bool isEncrypted(Pdf pdf)
@@ -676,7 +675,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// decryptPdf(pdf, userpw) attempts to decrypt a PDF using the given
+    /// Attempts to decrypt a PDF using the given
     /// user password. An exception is raised if the decryption fails.
     /// </summary>
     public static void decryptPdf(Pdf pdf, string userpw)
@@ -687,8 +686,8 @@ public class Cpdf
     }
 
     /// <summary>
-    /// decryptPdfOwner(pdf, ownerpw) attempts to decrypt a PDF using the
-    /// given owner password. The error code is non-zero if the decryption fails.
+    /// Attempts to decrypt a PDF using the
+    /// given owner password. Raises an exception if the decryption fails.
     /// </summary>
     public static void decryptPdfOwner(Pdf pdf, string ownerpw)
     {
@@ -740,9 +739,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// toFileEncrypted(pdf, encryption_method, permissions,
-    /// permission_length, owner_password, user password, linearize, makeid,
-    /// filename) writes a file as encrypted.
+    /// Writes a file as encrypted.
     /// </summary>
     public static void toFileEncrypted(Pdf pdf, EncryptionMethod encryption_method, List<Permission> permissions, string ownerpw, string userpw, bool linearize, bool makeid, string filename)
     {
@@ -753,9 +750,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// toFileEncryptedExt(pdf, encryption_method, permissions,
-    /// permission_length, owner_password, user_password, linearize, makeid,
-    /// preserve_objstm, generate_objstm, compress_objstm, filename) WARNING: the
+    /// Writes a file as encrypted with extra parameters. WARNING: the
     /// pdf argument will be invalid after this call, and should not be used again.
     /// </summary>
     public static void toFileEncryptedExt(Pdf pdf, EncryptionMethod encryption_method, List<Permission> permissions, string ownerpw, string userpw, bool linearize, bool makeid, bool preserve_objstm, bool generate_objstm, bool compress_objstm, string filename)
@@ -767,7 +762,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hasPermission(pdf, permission) returns true if the given permission
+    /// Returns true if the given permission
     /// (restriction) is present.
     /// </summary>
     public static bool hasPermission(Pdf pdf, Permission permission)
@@ -779,7 +774,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// encryptionKind(pdf) return the encryption method currently in use on
+    /// Returns the encryption method currently in use on
     /// a document.
     /// </summary>
     public static int encryptionKind(Pdf pdf)
@@ -795,7 +790,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// mergeSimple(pdfs, length) given a list of PDFs,
+    /// Given a list of PDFs,
     /// merges the files into a new one, which is returned.
     /// </summary>
     public static Pdf mergeSimple(List<Pdf> pdfs)
@@ -812,7 +807,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// merge(pdfs, retain_numbering, remove_duplicate_fonts) merges the
+    /// Merges the
     /// PDFs. If retain_numbering is true page labels are not rewritten. If
     /// remove_duplicate_fonts is true, duplicate fonts are merged. This is useful
     /// when the source documents for merging originate from the same source.
@@ -831,9 +826,8 @@ public class Cpdf
     }
 
     /// <summary>
-    /// mergeSame(pdfs, retain_numbering, remove_duplicate_fonts,
-    /// ranges) is the same as merge, except that it has an additional
-    /// argument - an array of page ranges. This is used to select the pages to
+    /// The same as merge, except that it has an additional
+    /// argument - a list of page ranges. This is used to select the pages to
     /// pick from each PDF. This avoids duplication of information when multiple
     /// discrete parts of a source PDF are included.
     /// </summary>
@@ -858,7 +852,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// selectPages(pdf, range) returns a new document which just those pages
+    /// Returns a new document which just those pages
     /// in the page range.
     /// </summary>
     public static Pdf selectPages(Pdf pdf, List<int> r)
@@ -878,7 +872,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// scalePages(pdf, range, x scale, y scale) scales the page dimensions
+    /// Scales the page dimensions
     /// and content by the given scale, about (0, 0). Other boxes (crop etc. are
     /// altered as appropriate)
     /// </summary>
@@ -893,7 +887,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// scaleToFit(pdf, range, width, height, scale) scales the content to fit
+    /// Scales the content to fit
     /// new page dimensions (width x height) multiplied by scale (typically 1.0).
     /// Other boxes (crop etc. are altered as appropriate)
     /// </summary>
@@ -945,7 +939,7 @@ public class Cpdf
     }
     
     /// <summary>
-    /// scaleToFitPaper(pdf, range, papersize, scale) scales the page content
+    /// Scales the page content
     /// to fit the given page size, possibly multiplied by scale (typically 1.0)
     /// </summary>
     public static void scaleToFitPaper(Pdf pdf, List<int> range, Papersize papersize, double scale)
@@ -1041,7 +1035,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// scaleContents(pdf, range, position, scale) scales the contents of the
+    /// Scales the contents of the
     /// pages in the range about the point given by the position, by the
     /// scale given.
     /// </summary>
@@ -1056,7 +1050,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// shiftContents(pdf, range, dx, dy) shifts the content of the pages in
+    /// Shifts the content of the pages in
     /// the range.
     /// </summary>
     public static void shiftContents(Pdf pdf, List<int> range, double dx, double dy)
@@ -1070,7 +1064,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rotate(pdf, range, rotation) changes the viewing rotation to an
+    /// Changes the viewing rotation to an
     /// absolute value. Appropriate rotations are 0, 90, 180, 270.
     /// </summary>
     public static void rotate(Pdf pdf, List<int> range, int rotation)
@@ -1084,7 +1078,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rotateContents(pdf, range, angle) rotates the content about the
+    /// Rotates the content about the
     /// centre of the page by the given number of degrees, in a clockwise
     /// direction.
     /// </summary>
@@ -1099,7 +1093,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// rotateContents(pdf, range, angle) rotates the content about the
+    /// Rotates the content about the
     /// centre of the page by the given number of degrees, in a clockwise
     /// direction.
     /// </summary>
@@ -1114,7 +1108,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// upright(pdf, range) changes the viewing rotation of the pages in the
+    /// Changes the viewing rotation of the pages in the
     /// range, counter-rotating the dimensions and content such that there is no
     /// visual change.
     /// </summary>
@@ -1129,7 +1123,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hFlip(pdf, range) flips horizontally the pages in the range.
+    /// Flips horizontally the pages in the range.
     /// </summary>
     public static void hFlip(Pdf pdf, List<int> range)
     {
@@ -1142,7 +1136,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// vFlip(pdf, range) flips vertically the pages in the range.
+    /// Flips vertically the pages in the range.
     /// </summary>
     public static void vFlip(Pdf pdf, List<int> range)
     {
@@ -1155,7 +1149,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// crop(pdf, range, x, y, w, h) crops a page, replacing any existing
+    /// Crops a page, replacing any existing
     /// crop box. The dimensions are in points.
     /// </summary>
     public static void crop(Pdf pdf, List<int> range, double x, double y, double w, double h)
@@ -1169,7 +1163,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeCrop(pdf, range) removes any crop box from pages in the range.
+    /// Removes any crop box from pages in the range.
     /// </summary>
     public static void removeCrop(Pdf pdf, List<int> range)
     {
@@ -1182,7 +1176,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeTrim(pdf, range) removes any trim box from pages in the range.
+    /// Removes any trim box from pages in the range.
     /// </summary>
     public static void removeTrim(Pdf pdf, List<int> range)
     {
@@ -1195,7 +1189,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeArt(pdf, range) removes any art box from pages in the range.
+    /// Removes any art box from pages in the range.
     /// </summary>
     public static void removeArt(Pdf pdf, List<int> range)
     {
@@ -1208,7 +1202,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeBleed(pdf, range) removes any bleed box from pages in the range.
+    /// Removes any bleed box from pages in the range.
     /// </summary>
     public static void removeBleed(Pdf pdf, List<int> range)
     {
@@ -1221,7 +1215,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// trimMarks(pdf, range) adds trim marks to the given pages, if the
+    /// Adds trim marks to the given pages, if the
     /// trimbox exists.
     /// </summary>
     public static void trimMarks(Pdf pdf, List<int> range)
@@ -1235,7 +1229,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// showBoxes(pdf, range) shows the boxes on the given pages, for debug.
+    /// Shows the boxes on the given pages, for debug.
     /// </summary>
     public static void showBoxes(Pdf pdf, List<int> range)
     {
@@ -1248,7 +1242,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hardBox makes a given box a 'hard box' i.e clips it explicitly.
+    /// Makes a given box a 'hard box' i.e clips it explicitly.
     /// </summary>
     public static void hardBox(Pdf pdf, List<int> range, string boxname)
     {
@@ -1272,7 +1266,7 @@ public class Cpdf
     }
  
     /// <summary>
-    /// compress(pdf) compresses any uncompressed streams in the given PDF
+    /// Compresses any uncompressed streams in the given PDF
     /// using the Flate algorithm.
     /// </summary>
     public static void compress(Pdf pdf)
@@ -1283,7 +1277,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// decompress(pdf) decompresses any streams in the given PDF, so long as
+    /// Decompresses any streams in the given PDF, so long as
     /// the compression method is supported.
     /// </summary>
     public static void decompress(Pdf pdf)
@@ -1294,7 +1288,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// squeezeToMemory(pdf) squeezes a pdf in memory.
+    /// Squeezes a pdf in memory.
     /// </summary>
     public static void squeezeInMemory(Pdf pdf)
     {
@@ -1310,7 +1304,7 @@ public class Cpdf
 
 
     /// <summary>
-    /// startGetBookmarkInfo(pdf) starts the bookmark retrieval process for a
+    /// Starts the bookmark retrieval process for a
     /// given PDF.
     /// </summary>
     public static void startGetBookmarkInfo(Pdf pdf)
@@ -1321,7 +1315,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// numberBookmarks gets the number of bookmarks for the PDF given to
+    /// Gets the number of bookmarks for the PDF given to
     /// startGetBookmarkInfo.
     /// </summary>
     public static int numberBookmarks()
@@ -1333,7 +1327,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getBookmarkLevel(serial) get bookmark level for the given bookmark
+    /// Gets the bookmark level for the given bookmark
     /// (0...(n - 1)).
     /// </summary>
     public static int getBookmarkLevel(int n)
@@ -1345,7 +1339,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getBookmarkPage gets the bookmark target page for the given PDF
+    /// Gets the bookmark target page for the given PDF
     /// (which must be the same as the PDF passed to startSetBookmarkInfo)
     /// and bookmark (0...(n - 1)).
     /// </summary>
@@ -1358,7 +1352,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getBookmarkText returns the text of bookmark (0...(n - 1)).
+    /// Returns the text of bookmark (0...(n - 1)).
     /// </summary>
     public static string getBookmarkText(int n)
     {
@@ -1369,7 +1363,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getBookmarkOpenStatus(pdf) is true if the bookmark is open.
+    /// True if the bookmark is open.
     /// </summary>
     public static bool getBookmarkOpenStatus(int n)
     {
@@ -1380,7 +1374,7 @@ public class Cpdf
     }
     
     /// <summary>
-    /// endGetBookmarkInfo ends the bookmark retrieval process, cleaning up.
+    /// Ends the bookmark retrieval process, cleaning up.
     /// </summary>
     public static void endGetBookmarkInfo()
     {
@@ -1390,7 +1384,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// startGetBookmarkInfo(n) start the bookmark setting process for n
+    /// Starts the bookmark setting process for n
     /// bookmarks.
     /// </summary>
     public static void startSetBookmarkInfo(int nummarks)
@@ -1401,7 +1395,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setBookmarkLevel(n, level) set bookmark level for the given bookmark
+    /// Set bookmark level for the given bookmark
     /// (0...(n - 1)).
     /// </summary>
     public static void setBookmarkLevel(int n, int level)
@@ -1412,7 +1406,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setBookmarkPage(pdf, bookmark, targetpage) sets the bookmark target
+    /// Sets the bookmark target
     /// page for the given PDF (which must be the same as the PDF to be passed to
     /// endSetBookmarkInfo) and bookmark (0...(n - 1)).
     /// </summary>
@@ -1424,7 +1418,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setBookmarkText(n, text) sets the text of bookmark (0...(n - 1)).
+    /// Sets the open status of bookmark (0...(n - 1)).
     /// </summary>
     public static void setBookmarkOpenStatus(int n, bool status)
     {
@@ -1434,7 +1428,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setBookmarkText(n, text) sets the text of bookmark (0...(n - 1)).
+    /// Sets the text of bookmark (0...(n - 1)).
     /// </summary>
     public static void setBookmarkText(int n, string text)
     {
@@ -1444,7 +1438,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// endSetBookmarkInfo(pdf) end the bookmark setting process, writing the
+    /// Ends the bookmark setting process, writing the
     /// bookmarks to the given PDF.
     /// </summary>
     public static void endSetBookmarkInfo(Pdf pdf)
@@ -1455,7 +1449,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getBookmarksJSON(pdf) returns the bookmark data in JSON format.
+    /// Returns the bookmark data in JSON format.
     /// </summary>
     static public byte[] getBookmarksJSON(Pdf pdf)
     {
@@ -1471,7 +1465,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setBookmarksJSON(pdf, data) sets the bookmarks from JSON bookmark data.
+    /// Sets the bookmarks from JSON bookmark data.
     /// </summary>
     public static void setBookmarksJSON(Pdf pdf, byte[] data)
     {
@@ -1481,7 +1475,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// tableOfContents(pdf, font, fontsize, title, bookmark) typesets a table
+    /// Typesets a table
     /// of contents from existing bookmarks and prepends it to the document. If
     /// bookmark is set, the table of contents gets its own bookmark.
     /// </summary>
@@ -1504,7 +1498,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// stampOn(stamp_pdf, pdf, range) stamps stamp_pdf on top of all the
+    /// Stamps stamp_pdf on top of all the
     /// pages in the document which are in the range. The stamp is placed with its
     /// origin at the origin of the target document.
     /// </summary>
@@ -1519,7 +1513,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// stampUnder(stamp_pdf, pdf, range) stamps stamp_pdf under all the
+    /// Stamps stamp_pdf under all the
     /// pages in the document which are in the range. The stamp is placed with its
     /// origin at the origin of the target document.
     /// </summary>
@@ -1534,8 +1528,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// stampExtended(pdf, pdf2, range, isover, scale_stamp_to_fit, pos,
-    /// relative_to_cropbox) is a stamping function with extra features. - isover
+    /// A stamping function with extra features. - isover
     /// true, pdf goes over pdf2, isover false, pdf goes under pdf2 -
     /// scale_stamp_to_fit scales the stamp to fit the page - pos gives the
     /// position to put the stamp - relative_to_cropbox: if true, pos is relative
@@ -1552,7 +1545,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// combinePages(under, over) combines the PDFs page-by-page, putting
+    /// Combines the PDFs page-by-page, putting
     /// each page of 'over' over each page of 'under'.
     /// </summary>
     public static Pdf combinePages(Pdf under, Pdf over)
@@ -1604,9 +1597,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Add text to the pages in the given range.
-    ///
-    /// addText(metrics, pdf, range, text, position, linespacing, bates, font, fontsize, r, g, b, underneath, relative_to_cropbox, outline, opacity, justification, midline, topline, filename, linewidth, embed_fonts)
+    /// Adds text to the pages in the given range.
     /// </summary>
     public static void addText(bool metrics, Pdf pdf, List<int> range, string text, Position position, double linespacing, int bates, Font font, double fontsize, double r, double g, double b, bool underneath, bool relative_to_cropbox, bool outline, double opacity, Justification justification, bool midline, bool topline, string filename, double linewidth, bool embed_fonts)
     {
@@ -1619,9 +1610,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Add text with most parameters default.
-    ///
-    /// addTextSimple(pdf, range, text, position, font, fontsize)
+    /// Adds text with most parameters default.
     /// </summary>
     public static void addTextSimple(Pdf pdf, List<int> range, string text, Position position, Font font, double fontsize)
     {
@@ -1634,7 +1623,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeText(pdf, range) will remove any text added by libcpdf from the
+    /// Removes any text added by cpdf from the
     /// given pages.
     /// </summary>
     public static void removeText(Pdf pdf, List<int> range)
@@ -1648,7 +1637,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Return the width of a given string in the given font in thousandths of a
+    /// Returns the width of a given string in the given font in thousandths of a
     /// point.
     /// </summary>
     public static int textWidth(Font font, string text)
@@ -1660,7 +1649,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// addContent(content, before, pdf, range) adds page content before (if
+    /// Adds page content before (if
     /// true) or after (if false) the existing content to pages in the given range
     /// in the given PDF.
     /// </summary>
@@ -1675,7 +1664,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// stampAsXObject(pdf, range, stamp_pdf) stamps stamp_pdf onto the pages
+    /// Stamps stamp_pdf onto the pages
     /// in the given range in pdf as a shared Form XObject. The name of the
     /// newly-created XObject is returned.
     /// </summary>
@@ -1696,8 +1685,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// impose(pdf, x, y, fit, columns, rtl, btt, center, margin, spacing,
-    /// linewidth) imposes a PDF. There are two modes: imposing x * y, or imposing
+    /// Imposes a PDF. There are two modes: imposing x * y, or imposing
     /// to fit a page of size x * y. This is controlled by fit. Columns imposes by
     /// columns rather than rows. rtl is right-to-left, btt bottom-to-top. Center is
     /// unused for now. Margin is the margin around the output, spacing the spacing
@@ -1711,8 +1699,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Impose a document two up. twoUp does so by retaining the existing
-    /// page size, scaling pages down. twoUpStack does so by doubling the
+    /// Imposes a document two up. twoUpStack does so by doubling the
     /// page size, to fit two pages on one.
     /// </summary>
     static public void twoUp(Pdf pdf)
@@ -1723,8 +1710,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Impose a document two up. twoUp does so by retaining the existing
-    /// page size, scaling pages down. twoUpStack does so by doubling the
+    /// Impose a document two up. twoUpStack does so by doubling the
     /// page size, to fit two pages on one.
     /// </summary>
     static public void twoUpStack(Pdf pdf)
@@ -1735,7 +1721,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// padBefore(pdf, range) adds a blank page before each page in the given
+    /// Adds a blank page before each page in the given
     /// range.
     /// </summary>
     static public void padBefore(Pdf pdf, List<int> range)
@@ -1749,7 +1735,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// padAfter(pdf, range) adds a blank page after each page in the given
+    /// Adds a blank page after each page in the given
     /// range.
     /// </summary>
     static public void padAfter(Pdf pdf, List<int> range)
@@ -1763,7 +1749,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// pageEvery(pdf, n) adds a blank page after every n pages.
+    /// Adds a blank page after every n pages.
     /// </summary>
     static public void padEvery(Pdf pdf, int n)
     {
@@ -1773,7 +1759,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// padMultiple(pdf, n) adds pages at the end to pad the file to a
+    /// Adds pages at the end to pad the file to a
     /// multiple of n pages in length.
     /// </summary>
     static public void padMultiple(Pdf pdf, int n)
@@ -1784,7 +1770,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// padMultiple(pdf, n) adds pages at the beginning to pad the file to a
+    /// Adds pages at the beginning to pad the file to a
     /// multiple of n pages in length.
     /// </summary>
     static public void padMultipleBefore(Pdf pdf, int n)
@@ -1800,7 +1786,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Return the annotations from a PDF in JSON format
+    /// Returns the annotations from a PDF in JSON format
     /// </summary>
     static public byte[] annotationsJSON(Pdf pdf)
     {
@@ -1821,7 +1807,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// isLinearized(filename) finds out if a document is linearized as
+    /// Finds out if a document is linearized as
     /// quickly as possible without loading it.
     /// </summary>
     public static bool isLinearized(string filename)
@@ -1833,7 +1819,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getVersion(pdf) returns the minor version number of a document.
+    /// Returns the minor version number of a document.
     /// </summary>
     public static int getVersion(Pdf pdf)
     {
@@ -1844,7 +1830,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getMajorVersion(pdf) returns the minor version number of a document.
+    /// Returns the minor version number of a document.
     /// </summary>
     public static int getMajorVersion(Pdf pdf)
     {
@@ -1855,7 +1841,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getTitle(pdf) returns the title of a document.
+    /// Returns the title of a document.
     /// </summary>
     public static string getTitle(Pdf pdf)
     {
@@ -1866,7 +1852,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getAuthor(pdf) returns the author of a document.
+    /// Returns the author of a document.
     /// </summary>
     public static string getAuthor(Pdf pdf)
     {
@@ -1877,7 +1863,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getSubject(pdf) returns the subject of a document.
+    /// Returns the subject of a document.
     /// </summary>
     public static string getSubject(Pdf pdf)
     {
@@ -1888,7 +1874,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getKeywords(pdf) returns the keywords of a document.
+    /// Returns the keywords of a document.
     /// </summary>
     public static string getKeywords(Pdf pdf)
     {
@@ -1899,7 +1885,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getCreator(pdf) returns the creator of a document.
+    /// Returns the creator of a document.
     /// </summary>
     public static string getCreator(Pdf pdf)
     {
@@ -1910,7 +1896,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getProducer(pdf) returns the producer of a document.
+    /// Returns the producer of a document.
     /// </summary>
     public static string getProducer(Pdf pdf)
     {
@@ -1921,7 +1907,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getCreationDate(pdf) returns the creation date of a document.
+    /// Returns the creation date of a document.
     /// </summary>
     public static string getCreationDate(Pdf pdf)
     {
@@ -1932,7 +1918,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getModificationDate(pdf) returns the modification date of a document.
+    /// Returns the modification date of a document.
     /// </summary>
     public static string getModificationDate(Pdf pdf)
     {
@@ -1943,7 +1929,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getTitleXMP(pdf) returns the XMP title of a document.
+    /// Returns the XMP title of a document.
     /// </summary>
     public static string getTitleXMP(Pdf pdf)
     {
@@ -1954,7 +1940,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getAuthorXMP(pdf) returns the XMP author of a document.
+    /// Returns the XMP author of a document.
     /// </summary>
     public static string getAuthorXMP(Pdf pdf)
     {
@@ -1965,7 +1951,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getSubjectXMP(pdf) returns the XMP subject of a document.
+    /// Returns the XMP subject of a document.
     /// </summary>
     public static string getSubjectXMP (Pdf pdf)
     {
@@ -1976,7 +1962,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getKeywordsXMP(pdf) returns the XMP keywords of a document.
+    /// Returns the XMP keywords of a document.
     /// </summary>
     public static string getKeywordsXMP(Pdf pdf)
     {
@@ -1987,7 +1973,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getCreatorXMP(pdf) returns the XMP creator of a document.
+    /// Returns the XMP creator of a document.
     /// </summary>
     public static string getCreatorXMP(Pdf pdf)
     {
@@ -1998,7 +1984,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getProducerXMP(pdf) returns the XMP producer of a document.
+    /// Returns the XMP producer of a document.
     /// </summary>
     public static string getProducerXMP(Pdf pdf)
     {
@@ -2009,7 +1995,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getCreationDateXMP(pdf) returns the XMP creation date of a document.
+    /// Returns the XMP creation date of a document.
     /// </summary>
     public static string getCreationDateXMP(Pdf pdf)
     {
@@ -2020,7 +2006,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getModificationDateXMP(pdf) returns the XMP modification date of a document.
+    /// Returns the XMP modification date of a document.
     /// </summary>
     public static string getModificationDateXMP(Pdf pdf)
     {
@@ -2031,7 +2017,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setTitle(pdf) sets the title of a document.
+    /// Sets the title of a document.
     /// </summary>
     public static void setTitle(Pdf pdf, string s)
     {
@@ -2041,7 +2027,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setAuthor(pdf) sets the author of a document.
+    /// Sets the author of a document.
     /// </summary>
     public static void setAuthor(Pdf pdf, string s)
     {
@@ -2051,7 +2037,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setSubject(pdf) sets the subject of a document.
+    /// Sets the subject of a document.
     /// </summary>
     public static void setSubject(Pdf pdf, string s)
     {
@@ -2061,7 +2047,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setKeywords(pdf) sets the keywords of a document.
+    /// Sets the keywords of a document.
     /// </summary>
     public static void setKeywords(Pdf pdf, string s)
     {
@@ -2071,7 +2057,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setCreator(pdf) sets the creator of a document.
+    /// Sets the creator of a document.
     /// </summary>
     public static void setCreator(Pdf pdf, string s)
     {
@@ -2081,7 +2067,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setProducer(pdf) sets the producer of a document.
+    /// Sets the producer of a document.
     /// </summary>
     public static void setProducer(Pdf pdf, string s)
     {
@@ -2091,7 +2077,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setCreationDate(pdf) sets the creation date of a document.
+    /// Sets the creation date of a document.
     /// </summary>
     public static void setCreationDate(Pdf pdf, string s)
     {
@@ -2101,7 +2087,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setModificationDate(pdf) sets the modification date of a document.
+    /// Sets the modification date of a document.
     /// </summary>
     public static void setModificationDate(Pdf pdf, string s)
     {
@@ -2111,7 +2097,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setTitleXMP(pdf) sets the XMP title of a document.
+    /// Sets the XMP title of a document.
     /// </summary>
     public static void setTitleXMP(Pdf pdf, string s)
     {
@@ -2121,7 +2107,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setAuthorXMP(pdf) sets the XMP author of a document.
+    /// Sets the XMP author of a document.
     /// </summary>
     public static void setAuthorXMP(Pdf pdf, string s)
     {
@@ -2131,7 +2117,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setSubjectXMP(pdf) sets the XMP subject of a document.
+    /// Sets the XMP subject of a document.
     /// </summary>
     public static void setSubjectXMP(Pdf pdf, string s)
     {
@@ -2141,7 +2127,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setKeywordsXMP(pdf) sets the XMP keywords of a document.
+    /// Sets the XMP keywords of a document.
     /// </summary>
     public static void setKeywordsXMP(Pdf pdf, string s)
     {
@@ -2151,7 +2137,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setCreatorXMP(pdf) sets the XMP creator of a document.
+    /// Sets the XMP creator of a document.
     /// </summary>
     public static void setCreatorXMP(Pdf pdf, string s)
     {
@@ -2161,7 +2147,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setProducerXMP(pdf) sets the XMP producer of a document.
+    /// Sets the XMP producer of a document.
     /// </summary>
     public static void setProducerXMP(Pdf pdf, string s)
     {
@@ -2171,7 +2157,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setCreationDateXMP(pdf) sets the XMP creation date of a document.
+    /// Sets the XMP creation date of a document.
     /// </summary>
     public static void setCreationDateXMP(Pdf pdf, string s)
     {
@@ -2181,7 +2167,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setModificationDateXMP(pdf) sets the XMP modification date of a document.
+    /// Sets the XMP modification date of a document.
     /// </summary>
     public static void setModificationDateXMP(Pdf pdf, string s)
     {
@@ -2191,8 +2177,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getDateComponents(datestring, year, month, day, hour, minute, second,
-    /// hour_offset, minute_offset) returns the components from a PDF date string.
+    /// Returns the components from a PDF date string.
     /// </summary>
     public static void getDateComponents(string datestring, ref int year, ref int month, ref int day, ref int hour, ref int minute, ref int second, ref int hour_offset, ref int minute_offset)
     {
@@ -2202,8 +2187,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// dateStringOfComponents(year, month, day, hour, minute, second,
-    /// hour_offset, minute_offset) builds a PDF date string from individual
+    /// Builds a PDF date string from individual
     /// components.
     /// </summary>
     public static string dateStringOfComponents(int y, int m, int d, int h, int min, int sec, int hour_offset, int minute_offset)
@@ -2215,7 +2199,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getPageRotation(pdf, pagenumber) gets the viewing rotation for a
+    /// Gets the viewing rotation for a
     /// given page.
     /// </summary>
     public static int getPageRotation(Pdf pdf, int pagenumber)
@@ -2227,7 +2211,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hasBox(pdf, pagenumber, boxname) returns true, if that page has the
+    /// Returns true, if that page has the
     /// given box. E.g "/CropBox".
     /// </summary>
     public static bool hasBox(Pdf pdf, int pagenumber, string boxname)
@@ -2369,7 +2353,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// markTrapped(pdf) marks a document as trapped.
+    /// Marks a document as trapped.
     /// </summary>
     public static void markTrapped(Pdf pdf)
     {
@@ -2379,7 +2363,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// markUntrapped(pdf) marks a document as untrapped.
+    /// Marks a document as untrapped.
     /// </summary>
     public static void markUntrapped(Pdf pdf)
     {
@@ -2389,7 +2373,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// markTrappedXMP(pdf) marks a document as trapped in XMP metadata.
+    /// Marks a document as trapped in XMP metadata.
     /// </summary>
     public static void markTrappedXMP(Pdf pdf)
     {
@@ -2399,7 +2383,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// markUntrappedXMP(pdf) marks a document as untrapped in XMP metadata.
+    /// Marks a document as untrapped in XMP metadata.
     /// </summary>
     public static void markUntrappedXMP(Pdf pdf)
     {
@@ -2426,7 +2410,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setPageLayout(pdf, layout) sets the page layout for a document.
+    /// Sets the page layout for a document.
     /// </summary>
     public static void setPageLayout(Pdf pdf, Layout layout)
     {
@@ -2451,7 +2435,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setPageMode(pdf, mode) sets the page mode for a document.
+    /// Sets the page mode for a document.
     /// </summary>
     public static void setPageMode(Pdf pdf, PageMode mode)
     {
@@ -2461,7 +2445,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hideToolbar(pdf, flag) sets the hide toolbar flag.
+    /// Sets the hide toolbar flag.
     /// </summary>
     public static void hideToolbar(Pdf pdf, bool flag)
     {
@@ -2471,7 +2455,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hideMenubar(pdf, flag) sets the hide menubar flag.
+    /// Sets the hide menubar flag.
     /// </summary>
     public static void hideMenubar(Pdf pdf, bool flag)
     {
@@ -2481,7 +2465,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// hideWindowUi(pdf, flag) sets the hide window UI flag.
+    /// Sets the hide window UI flag.
     /// </summary>
     public static void hideWindowUi(Pdf pdf, bool flag)
     {
@@ -2491,7 +2475,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// fitWindow(pdf, flag) sets the fit window flag.
+    /// Sets the fit window flag.
     /// </summary>
     public static void fitWindow(Pdf pdf, bool flag)
     {
@@ -2501,7 +2485,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// centerWindow(pdf, flag) sets the center window flag.
+    /// Sets the center window flag.
     /// </summary>
     public static void centerWindow(Pdf pdf, bool flag)
     {
@@ -2511,7 +2495,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// displayDocTitle(pdf, flag) sets the display doc title flag.
+    /// Sets the display doc title flag.
     /// </summary>
     public static void displayDocTitle(Pdf pdf, bool flag)
     {
@@ -2521,7 +2505,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// openAtPage(pdf, fit, pagenumber) sets the PDF to open, possibly with
+    /// Sets the PDF to open, possibly with
     /// zoom-to-fit, at the given page number.
     /// </summary>
     public static void openAtPage(Pdf pdf, bool fit, int pagenumber)
@@ -2532,7 +2516,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setMetadataFromFile(pdf, filename) set the XMP metadata of a
+    /// Sets the XMP metadata of a
     /// document, given a file name.
     /// </summary>
     public static void setMetadataFromFile(Pdf pdf, string filename)
@@ -2543,7 +2527,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setMetadataFromByteArray(pdf, data) set the XMP metadata from
+    /// Sets the XMP metadata from
     /// an array of bytes.
     /// </summary>
     public static void setMetadataFromByteArray(Pdf pdf, byte[] data)
@@ -2554,7 +2538,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeMetadata(pdf) removes the XMP metadata from a document.
+    /// Removes the XMP metadata from a document.
     /// </summary>
     public static void removeMetadata(Pdf pdf)
     {
@@ -2564,8 +2548,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// createMetadata(pdf) builds fresh metadata as best it can from
-    /// existing metadata in the document.
+    /// Returns the XMP metadata from a document.
     /// </summary>
     public static byte[] getMetadata(Pdf pdf)
     {
@@ -2581,7 +2564,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// createMetadata(pdf) builds fresh metadata as best it can from
+    /// Builds fresh metadata as best it can from
     /// existing metadata in the document.
     /// </summary>
     public static void createMetadata(Pdf pdf)
@@ -2592,7 +2575,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setMetadataDate(pdf, date) sets the metadata date for a PDF. The date
+    /// Sets the metadata date for a PDF. The date
     /// is given in PDF date format -- cpdf will convert it to XMP format. The
     /// date 'now' means now.
     /// </summary>
@@ -2619,8 +2602,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Add page labels. addPageLabels(pdf, style, prefix, offset, range, progress).
-    /// The prefix is prefix text for each label. The range is the page range the
+    /// Adds page labels. The prefix is prefix text for each label. The range is the page range the
     /// labels apply to. Offset can be used to shift the numbering up or down.
     /// </summary>
     public static void addPageLabels(Pdf pdf, PageLabelStyle style, string prefix, int offset, List<int> range, bool progress)
@@ -2634,7 +2616,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removePageLabels(pdf) removes the page labels from the document.
+    /// Removes the page labels from the document.
     /// </summary>
     public static void removePageLabels(Pdf pdf)
     {
@@ -2644,7 +2626,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getPageLabelStringForPage(pdf, page number) calculates the full label
+    /// Calculates the full label
     /// string for a given page, and returns it.
     /// </summary>
     public static string getPageLabelStringForPage(Pdf pdf, int pagenumber)
@@ -2656,7 +2638,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call startGetPageLabels to find out how many
+    /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
@@ -2683,7 +2665,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call startGetPageLabels to find out how many
+    /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
@@ -2710,7 +2692,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call startGetPageLabels to find out how many
+    /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
@@ -2737,7 +2719,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call startGetPageLabels to find out how many
+    /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
@@ -2764,7 +2746,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call startGetPageLabels to find out how many
+    /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
@@ -2791,7 +2773,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get page label data. Call startGetPageLabels to find out how many
+    /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
     ///
@@ -2822,7 +2804,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// attachFile(filename, pdf) attaches a file to the pdf. It is attached
+    /// Attaches a file to the pdf. It is attached
     /// at document level.
     /// </summary>
     public static void attachFile(string filename, Pdf pdf)
@@ -2833,7 +2815,7 @@ public class Cpdf
     }
 
     /// <summary> 
-    /// attachFileToPage(filename, pdf, pagenumber) attaches a file, given
+    /// Attaches a file, given
     /// its file name, pdf, and the page number to which it should be attached.
     /// </summary>
     public static void attachFileToPage(string filename, Pdf pdf, int pagenumber)
@@ -2844,7 +2826,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// attachFileFromMemory(memory, filename, pdf) attaches from
+    /// Attaches data from
     /// memory, just like attachFile.
     /// </summary>
     public static void attachFileFromMemory(byte[] data, string name, Pdf pdf)
@@ -2855,8 +2837,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// attachFileToPageFromMemory(memory, filename, pdf, pagenumber)
-    /// attaches from memory, just like attachFileToPage.
+    /// Attaches to a page from memory, just like attachFileToPage.
     /// </summary>
     public static void attachFileToPageFromMemory(byte[] data, string name, Pdf pdf, int pagenumber)
     {
@@ -2866,7 +2847,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Remove all page- and document-level attachments from a document.
+    /// Removes all page- and document-level attachments from a document.
     /// </summary>
     public static void removeAttachedFiles(Pdf pdf)
     {
@@ -2876,7 +2857,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// List information about attachments. Call startGetAttachments(pdf)
+    /// Lists information about attachments. Call startGetAttachments(pdf)
     /// first, then numberGetAttachments to find out how many there are. Then
     /// getAttachmentName etc. to return each one 0...(n - 1). Finally, call
     /// endGetAttachments to clean up.
@@ -2889,7 +2870,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// List information about attachments. Call startGetAttachments(pdf)
+    /// Lists information about attachments. Call startGetAttachments(pdf)
     /// first, then numberGetAttachments to find out how many there are. Then
     /// getAttachmentName etc. to return each one 0...(n - 1). Finally, call
     /// endGetAttachments to clean up.
@@ -2903,7 +2884,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get the name of an attachment.
+    /// Gets the name of an attachment.
     /// </summary>
     public static string getAttachmentName(int n)
     {
@@ -2914,7 +2895,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get the page number. 0 = document level.
+    /// Gets the page number. 0 = document level.
     /// </summary>
     public static int getAttachmentPage(int n)
     {
@@ -2925,7 +2906,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get the attachment data itself.
+    /// Gets the attachment data itself.
     /// </summary>
     public static byte[] getAttachmentData(int serial)
     {
@@ -2941,7 +2922,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Clean up after getting attachments.
+    /// Cleans up after getting attachments.
     /// </summary>
     public static void endGetAttachments()
     {
@@ -2956,7 +2937,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -2973,7 +2954,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -2990,7 +2971,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -3007,7 +2988,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -3024,7 +3005,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -3041,7 +3022,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -3058,7 +3039,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -3075,7 +3056,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Get image data, including resolution at all points of use. Call
+    /// Gets image data, including resolution at all points of use. Call
     /// startGetImageResolution(pdf, min_required_resolution) will begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
@@ -3096,7 +3077,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3110,7 +3091,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3125,7 +3106,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3140,7 +3121,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3155,7 +3136,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3170,7 +3151,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3185,7 +3166,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieving font information. First, call startGetFontInfo(pdf). Now
+    /// Retrieves font information. First, call startGetFontInfo(pdf). Now
     /// call numberFonts to return the number of fonts. For each font, call
     /// one or more of getFontPage, getFontName, getFontType, and
     /// getFontEncoding giving a serial number 0..n - 1 to
@@ -3199,7 +3180,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeFonts(pdf) removes all font data from a file.
+    /// Removes all font data from a file.
     /// </summary>
     public static void removeFonts(Pdf pdf)
     {
@@ -3209,7 +3190,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// copyFont(from, to, range, pagenumber, fontname) copies the given font
+    /// Copies the given font
     /// from the given page in the 'from' PDF to every page in the 'to' PDF. The
     /// new font is stored under its font name.
     /// </summary>
@@ -3229,7 +3210,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// outputJSON(filename, parse_content, no_stream_data, pdf) outputs a PDF
+    /// Outputs a PDF
     /// in JSON format to the given filename. If parse_content is true, page content
     /// is parsed. If no_stream_data is true, all stream data is suppressed entirely.
     /// </summary>
@@ -3241,7 +3222,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// outputJSONMemory(parse_content, no_stream_data, pdf) is like
+    /// Like
     /// outputJSON, but it writes to a byte array in memory.
     /// </summary>
     public static byte[] outputJSONMemory(Pdf pdf, bool parse_content, bool no_stream_data, bool decompress_streams)
@@ -3258,7 +3239,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Load a PDF from a JSON file given its filename.
+    /// Loads a PDF from a JSON file given its filename.
     /// </summary>
     public static Pdf fromJSON(string filename)
     {
@@ -3269,7 +3250,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Load a PDF from a JSON file in memory
+    /// Loads a PDF from a JSON file in memory
     /// </summary>
     public static Pdf fromJSONMemory(byte[] data)
     {
@@ -3285,7 +3266,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Begin retrieving optional content group names. The serial number 0..n - 1
+    /// Begins retrieving optional content group names. The serial number 0..n - 1
     /// is returned.
     /// </summary>
     public static int startGetOCGList(Pdf pdf)
@@ -3297,7 +3278,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Retrieve an OCG name, given its serial number 0..n - 1.
+    /// Retrieves an OCG name, given its serial number 0..n - 1.
     /// </summary>
     public static string OCGListEntry(int n)
     {
@@ -3308,7 +3289,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// End retrieval of optional content group names.
+    /// Ends retrieval of optional content group names.
     /// </summary>
     public static void endGetOCGList()
     {
@@ -3318,7 +3299,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// OCGRename(pdf, from, to) will rename an optional content group.
+    /// Renames an optional content group.
     /// </summary>
     public static void OCGRename(Pdf pdf, string name_from, string name_to)
     {
@@ -3328,7 +3309,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Ensure that every optional content group appears in the OCG order list.
+    /// Ensures that every optional content group appears in the OCG order list.
     /// </summary>
     public static void OCGOrderAll(Pdf pdf)
     {
@@ -3338,7 +3319,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Coalesce optional content groups. For example, if we merge or stamp two
+    /// Coalesces optional content groups. For example, if we merge or stamp two
     /// files both with an OCG called "Layer 1", we will have two different optional
     /// content groups. This function will merge the two into a single optional
     /// content group.
@@ -3352,12 +3333,12 @@ public class Cpdf
 
 
     /// <summary>CHAPTER 17. Creating New PDFs</summary>
-    public static void dummych17()
+    private void dummych17()
     {
     }
 
     /// <summary>
-    /// blankDocument(width, height, num_pages) creates a blank document with
+    /// Creates a blank document with
     /// pages of the given width (in points), height (in points), and number of
     /// pages.
     /// </summary>
@@ -3370,7 +3351,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// blankDocumentPaper(papersize, num_pages) makes a blank document given
+    /// Makes a blank document given
     /// a page size and number of pages.
     /// </summary>
     public static Pdf blankDocumentPaper(Papersize papersize, int pages)
@@ -3382,7 +3363,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// textToPDF(w, h, font, fontsize, filename) typesets a UTF8 text file
+    /// Typesets a UTF8 text file
     /// ragged right on a page of size w * h in points in the given font and font
     /// size.
     /// </summary>
@@ -3395,7 +3376,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// textToPDF(papersize font, fontsize, filename) typesets a UTF8 text file
+    /// Typesets a UTF8 text file
     /// ragged right on a page of the given size in the given font and font size.
     /// </summary>
     public static Pdf textToPDFPaper(Papersize papersize, Font font, double fontsize, string filename)
@@ -3408,12 +3389,12 @@ public class Cpdf
 
 
     /// <summary>CHAPTER 18. Miscellaneous</summary>
-    public static void dummych18()
+    private void dummych18()
     {
     }
  
     /// <summary>
-    /// draft(pdf, range, boxes) removes images on the given pages, replacing
+    /// Removes images on the given pages, replacing
     /// them with crossed boxes if 'boxes' is true.
     /// </summary>
     public static void draft(Pdf pdf, List<int> range, bool boxes)
@@ -3427,7 +3408,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeAllText(pdf, range) removes all text from the given pages in a
+    /// Removes all text from the given pages in a
     /// given document.
     /// </summary>
     public static void removeAllText(Pdf pdf, List<int> range)
@@ -3441,7 +3422,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// blackText(pdf, range) blackens all text on the given pages.
+    /// Blackens all text on the given pages.
     /// </summary>
     public static void blackText(Pdf pdf, List<int> range)
     {
@@ -3454,7 +3435,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// blackLines(pdf, range) blackens all lines on the given pages.
+    /// Blackens all lines on the given pages.
     /// </summary>
     public static void blackLines(Pdf pdf, List<int> range)
     {
@@ -3467,7 +3448,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// blackFills(pdf, range) blackens all fills on the given pages.
+    /// Blackens all fills on the given pages.
     /// </summary>
     public static void blackFills(Pdf pdf, List<int> range)
     {
@@ -3480,7 +3461,7 @@ public class Cpdf
     }
 
     /// <summary> 
-    /// thinLines(pdf, range, min_thickness) thickens every line less than
+    /// Thickens every line less than
     /// min_thickness to min_thickness. Thickness given in points.
     /// </summary>
     public static void thinLines(Pdf pdf, List<int> range, double min_thickness)
@@ -3494,7 +3475,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// copyId(from, to) copies the /ID from one document to another.
+    /// Copies the /ID from one document to another.
     /// </summary>
     public static void copyId(Pdf pdf_from, Pdf pdf_to)
     {
@@ -3504,7 +3485,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeId(pdf) removes a document's /ID.
+    /// Removes a document's /ID.
     /// </summary>
     public static void removeId(Pdf pdf)
     {
@@ -3514,7 +3495,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setVersion(pdf, version) sets the minor version number of a document.
+    /// Sets the minor version number of a document.
     /// </summary>
     public static void setVersion(Pdf pdf, int version)
     {
@@ -3524,7 +3505,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// setFullVersion(pdf, major_version, minor_version) sets the full version
+    /// Sets the full version
     /// number of a document.
     /// </summary>
     public static void setFullVersion(Pdf pdf, int major, int minor)
@@ -3535,7 +3516,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeDictEntry(pdf, key) removes any dictionary entry with the given
+    /// Removes any dictionary entry with the given
     /// key anywhere in the document.
     /// </summary>
     public static void removeDictEntry(Pdf pdf, string key)
@@ -3546,7 +3527,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeDictEntrySearch(pdf, key, seachterm) removes any dictionary entry
+    /// Removes any dictionary entry
     /// with the given key whose value matches the given search term.
     /// </summary>
     public static void removeDictEntrySearch(Pdf pdf, string key, string searchterm)
@@ -3557,7 +3538,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// replaceDictEntry(pdf, key, newvalue) replaces the value associated with
+    /// Replaces the value associated with
     /// the given key.
     /// </summary>
     public static void replaceDictEntry(Pdf pdf, string key, string newvalue)
@@ -3568,7 +3549,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// replaceDictEntry(pdf, key, newvalue, searchterm) replaces the value
+    /// Replaces the value
     /// associated with the given key if the existing value matches the search term.
     /// </summary>
     public static void replaceDictEntrySearch(Pdf pdf, string key, string newvalue, string searchterm)
@@ -3579,7 +3560,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// removeClipping(pdf, range) removes all clipping from pages in the
+    /// Removes all clipping from pages in the
     /// given range.
     /// </summary>
     public static void removeClipping(Pdf pdf, List<int> range)
@@ -3593,7 +3574,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// getDictEntries(pdf, key, length) returns a JSON array containing any
+    /// Returns a JSON array containing any
     /// and all values associated with the given key, and fills in its length.
     /// </summary>
     public static byte[] getDictEntries(Pdf pdf, string key)
