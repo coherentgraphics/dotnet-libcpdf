@@ -1,7 +1,7 @@
 (* Convert .NET XML Comments file to plain text. *)
 open Soup
 
-let soup = read_file "bin/Debug/net6.0/osx-arm64/dotnet-libcpdf.xml" |> parse
+let soup = read_file "bin/Debug/net5.0/dotnet-libcpdf.xml" |> parse
 
 let body_contents = soup $$ "member"
 
