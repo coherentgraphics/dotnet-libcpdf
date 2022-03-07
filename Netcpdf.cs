@@ -984,20 +984,33 @@ public class Cpdf
     }
 
     /// <summary>Positions on the page. Used for scaling about a point, and adding text.
-    /// A position is an anchor and zero or one or two parameters.
-    /// PosCentre: Two parameters, x and y;
-    /// PosLeft: Two parameters, x and y;
-    /// PosRight: Two parameters, x and y;
-    /// Top: One parameter -- distance from top;
-    /// TopLeft: One parameter -- distance from top left;
-    /// TopRight: One parameter -- distance from top right;
-    /// Left: One parameter -- distance from left middle;
-    /// BottomLeft: One parameter -- distance from bottom left;
-    /// Bottom: One parameter -- distance from bottom;
-    /// BottomRight: One parameter -- distance from bottom right;
-    /// Right: One parameter -- distance from right;
-    /// Diagonal: Zero parameters;
-    /// ReverseDiagonal: Zero parameters.</summary>
+    /// A position is an anchor and zero or one or two parameters. Constructors are provided.
+    /// <para>&#160;</para>
+    /// PosCentre: Two parameters, x and y
+    /// <para>&#160;</para>
+    /// PosLeft: Two parameters, x and y
+    /// <para>&#160;</para>
+    /// PosRight: Two parameters, x and y
+    /// <para>&#160;</para>
+    /// Top: One parameter - distance from top
+    /// <para>&#160;</para>
+    /// TopLeft: One parameter - distance from top left
+    /// <para>&#160;</para>
+    /// TopRight: One parameter - distance from top right
+    /// <para>&#160;</para>
+    /// Left: One parameter - distance from left middle
+    /// <para>&#160;</para>
+    /// BottomLeft: One parameter - distance from bottom left
+    /// <para>&#160;</para>
+    /// Bottom: One parameter - distance from bottom
+    /// <para>&#160;</para>
+    /// BottomRight: One parameter - distance from bottom right
+    /// <para>&#160;</para>
+    /// Right: One parameter - distance from right
+    /// <para>&#160;</para>
+    /// Diagonal: Zero parameters
+    /// <para>&#160;</para>
+    /// ReverseDiagonal: Zero parameters</summary>
     public struct Position
     {
         ///<summary>Position anchor</summary>
@@ -2641,20 +2654,20 @@ public class Cpdf
     /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
-    ///
+    /// <para>&#160;</para>
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
     /// one:
-    ///
-    /// labelstyle = LowercaseRoman
-    /// labelprefix = ""
-    /// startpage = 1
-    /// startvalue = 1
-    ///
-    /// labelstyle = DecimalArabic
-    /// labelprefix = ""
-    /// startpage = 6
-    /// startvalue = 1
+    /// <para>&#160;</para>
+    /// labelstyle = LowercaseRoman<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 1<br/>
+    /// startvalue = 1<br/>
+    /// <para>&#160;</para>
+    /// labelstyle = DecimalArabic<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 6<br/>
+    /// startvalue = 1<br/>
     /// </summary>
     public static int startGetPageLabels(Pdf pdf)
     {
@@ -2668,20 +2681,20 @@ public class Cpdf
     /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
-    ///
+    /// <para>&#160;</para>
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
     /// one:
-    ///
-    /// labelstyle = LowercaseRoman
-    /// labelprefix = ""
-    /// startpage = 1
-    /// startvalue = 1
-    ///
-    /// labelstyle = DecimalArabic
-    /// labelprefix = ""
-    /// startpage = 6
-    /// startvalue = 1
+    /// <para>&#160;</para>
+    /// labelstyle = LowercaseRoman<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 1<br/>
+    /// startvalue = 1<br/>
+    /// <para>&#160;</para>
+    /// labelstyle = DecimalArabic<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 6<br/>
+    /// startvalue = 1<br/>
     /// </summary>
     public static int getPageLabelStyle(int n)
     {
@@ -2695,20 +2708,20 @@ public class Cpdf
     /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
-    ///
+    /// <para>&#160;</para>
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
     /// one:
-    ///
-    /// labelstyle = LowercaseRoman
-    /// labelprefix = ""
-    /// startpage = 1
-    /// startvalue = 1
-    ///
-    /// labelstyle = DecimalArabic
-    /// labelprefix = ""
-    /// startpage = 6
-    /// startvalue = 1
+    /// <para>&#160;</para>
+    /// labelstyle = LowercaseRoman<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 1<br/>
+    /// startvalue = 1<br/>
+    /// <para>&#160;</para>
+    /// labelstyle = DecimalArabic<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 6<br/>
+    /// startvalue = 1<br/>
     /// </summary>
     public static string getPageLabelPrefix(int n)
     {
@@ -2722,20 +2735,20 @@ public class Cpdf
     /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
-    ///
+    /// <para>&#160;</para>
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
     /// one:
-    ///
-    /// labelstyle = LowercaseRoman
-    /// labelprefix = ""
-    /// startpage = 1
-    /// startvalue = 1
-    ///
-    /// labelstyle = DecimalArabic
-    /// labelprefix = ""
-    /// startpage = 6
-    /// startvalue = 1
+    /// <para>&#160;</para>
+    /// labelstyle = LowercaseRoman<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 1<br/>
+    /// startvalue = 1<br/>
+    /// <para>&#160;</para>
+    /// labelstyle = DecimalArabic<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 6<br/>
+    /// startvalue = 1<br/>
     /// </summary>
     public static int getPageLabelOffset(int n)
     {
@@ -2749,20 +2762,20 @@ public class Cpdf
     /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
-    ///
+    /// <para>&#160;</para>
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
     /// one:
-    ///
-    /// labelstyle = LowercaseRoman
-    /// labelprefix = ""
-    /// startpage = 1
-    /// startvalue = 1
-    ///
-    /// labelstyle = DecimalArabic
-    /// labelprefix = ""
-    /// startpage = 6
-    /// startvalue = 1
+    /// <para>&#160;</para>
+    /// labelstyle = LowercaseRoman<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 1<br/>
+    /// startvalue = 1<br/>
+    /// <para>&#160;</para>
+    /// labelstyle = DecimalArabic<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 6<br/>
+    /// startvalue = 1<br/>
     /// </summary>
     public static int getPageLabelRange(int n)
     {
@@ -2776,20 +2789,20 @@ public class Cpdf
     /// Gets page label data. Call startGetPageLabels to find out how many
     /// there are, then use these serial numbers to get the style, prefix, offset
     /// and start value (note not a range). Call endGetPageLabels to clean up.
-    ///
+    /// <para>&#160;</para>
     /// For example, a document might have five pages of introduction with roman
     /// numerals, followed by the rest of the pages in decimal arabic, numbered from
     /// one:
-    ///
-    /// labelstyle = LowercaseRoman
-    /// labelprefix = ""
-    /// startpage = 1
-    /// startvalue = 1
-    ///
-    /// labelstyle = DecimalArabic
-    /// labelprefix = ""
-    /// startpage = 6
-    /// startvalue = 1
+    /// <para>&#160;</para>
+    /// labelstyle = LowercaseRoman<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 1<br/>
+    /// startvalue = 1<br/>
+    /// <para>&#160;</para>
+    /// labelstyle = DecimalArabic<br/>
+    /// labelprefix = ""<br/>
+    /// startpage = 6<br/>
+    /// startvalue = 1<br/>
     /// </summary>
     public static void endGetPageLabels()
     {
