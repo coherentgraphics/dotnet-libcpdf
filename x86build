@@ -1,2 +1,0 @@
-dotnet build --arch x64
-cp ../cpdflib-source/libcpdf.so bin/Debug/net5.0/osx-x64/

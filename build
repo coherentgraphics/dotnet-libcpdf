@@ -1,2 +1,2 @@
-dotnet build --arch arm64
-cp ../cpdflib-source/libcpdf.so bin/Debug/net5.0/osx-arm64/
+dotnet build
+cp ../cpdflib-source/libcpdf.so bin/Debug/net5.0/
