@@ -1,4 +1,5 @@
 #!/bin/bash
+./splitter | cat -s > foo
 csplit -k -f splits/c foo '/CHAPTER/' {18}
 mv splits/c00 splits/c00.tex
 mv splits/c01 splits/c01.tex
