@@ -1,3 +1,2 @@
 #For our case, build and publish produce exactly the same thing
 dotnet build
-cp ../cpdflib-source/libcpdf.so bin/Debug/net5.0/
