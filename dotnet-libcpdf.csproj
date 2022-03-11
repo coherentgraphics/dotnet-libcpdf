@@ -3,8 +3,25 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>dotnet_libcpdf</RootNamespace>
+    <PackageID>CoherentPDF</PackageID>
+    <Version>2.5.1</Version>
+    <Authors>Coherent Graphics Ltd</Authors>
+    <Company>Coherent Graphics Ltd</Company>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="README.md"/>
+  </ItemGroup>
+  <PropertyGroup>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+     <None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt"/>
+    </ItemGroup>
 </Project>

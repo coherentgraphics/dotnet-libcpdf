@@ -1,6 +1,10 @@
+This license applies only to the contents of this Nuget package. The main cpdf
+DLL cpdf.dll, libcpdf.dll, libcpdf.so, libcpdf.dylib etc. is licensed
+separately. See the README.md file for details.
+
 BSD 3-Clause License
 
-Copyright (c) 2021, coherentgraphics
+Copyright (c) 2022, coherentgraphics
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
