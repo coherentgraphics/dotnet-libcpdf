@@ -3,7 +3,8 @@
 CoherentPDF is a .NET interface to the cpdf pdf tools. More information,
 including commercial licenses can be found at <https://www.coherentpdf.com/>
 
-The non-commercial home of this software is <http://community.coherentpdf.com/>
+The sofware is free for non-commercial use. The non-commercial home of this
+software is <http://community.coherentpdf.com/>
 
 
 Functionality
