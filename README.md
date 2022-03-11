@@ -36,15 +36,12 @@ use requires a license. The DLL can be obtained here for all platforms here:
 Before using the library, you must make sure your project or build environment
 has access to the cpdf DLL, which is not part of the .NET assembly obtained
 from NuGet. You can add it to a Visual Studio project as a file, set to
-copy-to-output-folder. Or, you can install it in a standard location.
+copy-to-output-folder. Or, you can install it in a standard location, such as
+the Windows system folder.
 
-The DLL must be named as follows, for .NET to be able to find it:
+***The DLL libcpdf.dll provided in this folder must be renamed to cpdf.dll, for
+.NET to be able to find it.***
 
-Windows: cpdf.dll
-MacOS: libcpdf.dylib
-Linux: libcpdf.so
-
-So you should rename the DLL you download from the URL above before use.
 
 Documentation
 -------------

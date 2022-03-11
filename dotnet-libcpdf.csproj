@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>dotnet_libcpdf</RootNamespace>
     <PackageID>CoherentPDF</PackageID>
-    <Version>2.5.1</Version>
+    <Version>2.5.2</Version>
     <Authors>Coherent Graphics Ltd</Authors>
     <Company>Coherent Graphics Ltd</Company>
   </PropertyGroup>
