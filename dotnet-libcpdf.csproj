@@ -4,9 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>dotnet_libcpdf</RootNamespace>
     <PackageID>CoherentPDF</PackageID>
-    <Version>2.5.2</Version>
+    <Version>2.5.3</Version>
     <Authors>Coherent Graphics Ltd</Authors>
     <Company>Coherent Graphics Ltd</Company>
+    <PackageDescription>The Coherent PDF .NET API gives you a wide range of professional, robust tools to modify existing PDF files. For example, merging and splitting, extracting and modifying metadata, imposing, encryption, scaling and adding text.</PackageDescription>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
