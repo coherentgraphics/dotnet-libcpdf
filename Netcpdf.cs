@@ -663,7 +663,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Returns true if a documented is encrypted, false
+    /// Returns true if a document is encrypted, false
     /// otherwise.
     /// </summary>
     public static bool isEncrypted(Pdf pdf)
@@ -852,7 +852,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Returns a new document which just those pages
+    /// Returns a new document with just those pages
     /// in the page range.
     /// </summary>
     public static Pdf selectPages(Pdf pdf, List<int> r)
@@ -2951,7 +2951,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -2968,7 +2968,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -2985,7 +2985,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -3002,7 +3002,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -3019,7 +3019,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -3036,7 +3036,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -3053,7 +3053,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -3070,7 +3070,7 @@ public class Cpdf
 
     /// <summary>
     /// Gets image data, including resolution at all points of use. Call
-    /// startGetImageResolution(pdf, min_required_resolution) will begin the
+    /// startGetImageResolution(pdf, min_required_resolution) to begin the
     /// process of obtaining data on all image uses below min_required_resolution,
     /// returning the total number. So, to return all image uses, specify a very
     /// high min_required_resolution. Then, call the other functions giving a
@@ -3225,7 +3225,8 @@ public class Cpdf
     /// <summary>
     /// Outputs a PDF
     /// in JSON format to the given filename. If parse_content is true, page content
-    /// is parsed. If no_stream_data is true, all stream data is suppressed entirely.
+    /// is parsed. If no_stream_data is true, all stream data is suppressed entirely. If decompress_streams
+    /// is true, streams are decompressed.
     /// </summary>
     public static void outputJSON(string filename, bool parse_content, bool no_stream_data, bool decompress_streams, Pdf pdf)
     {
