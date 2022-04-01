@@ -1712,7 +1712,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Imposes a document two up. twoUpStack does so by doubling the
+    /// Imposes a document two up. twoUp does so by shrinking the
     /// page size, to fit two pages on one.
     /// </summary>
     static public void twoUp(Pdf pdf)
@@ -1843,7 +1843,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Returns the minor version number of a document.
+    /// Returns the major version number of a document.
     /// </summary>
     public static int getMajorVersion(Pdf pdf)
     {
@@ -2577,7 +2577,7 @@ public class Cpdf
     }
 
     /// <summary>
-    /// Builds fresh metadata as best it can from
+    /// Builds fresh XMP metadata as best it can from
     /// existing metadata in the document.
     /// </summary>
     public static void createMetadata(Pdf pdf)
