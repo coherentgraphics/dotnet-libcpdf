@@ -3,8 +3,8 @@
 CoherentPDF is a .NET interface to the cpdf pdf tools. More information,
 including commercial licenses can be found at <https://www.coherentpdf.com/>
 
-coherentpdf.js is distributed under the AGPL - see LICENSE.md. If you are unable
-to abide by the terms of the AGPL, you will need a commercial license.
+It is distributed under the AGPL - see LICENSE.md. If you are unable to abide
+by the terms of the AGPL, you will need a commercial license.
 
 For commercial licenses, email
 [contact@coherentgraphics.co.uk](mailto:contact@coherentgraphics.co.uk) or
